@@ -17,6 +17,7 @@ const Auth = () => {
         e.preventDefault();
 
         try{
+            // 로그인했는지 정보 가져오기
             const auth = getAuth();
             if(createNewAccount){
                 // createNewAccount
@@ -42,6 +43,8 @@ const Auth = () => {
 
         const auth = getAuth();
         let provider;
+
+        // OAUTH 인증
         if(name === 'google'){
             provider = new GoogleAuthProvider();
         } else if(name === 'github'){
