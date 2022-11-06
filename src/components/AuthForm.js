@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
+const inputStyles = {};
 
 const AUthForm = () => {
     const [email, setEmail] = useState('');
@@ -41,12 +42,12 @@ const AUthForm = () => {
 
     return(
         <>
-            <form onSubmit={onSubmit}>
-                <input type="text" placeholder='Email' name="email" required value={email} onChange={onChange} />
-                <input type="password" placeholder='Password' name="password" required value={password} onChange={onChange} />
-                <input type="submit" value={createNewAccount ? 'create' : 'login'} />
+            <form onSubmit={onSubmit} className='container'>
+                <input type="text" placeholder='Email' name="email" required value={email} onChange={onChange} className='authInput' />
+                <input type="password" placeholder='Password' name="password" required value={password} onChange={onChange} className='authInput' />
+                <input type="submit" value={createNewAccount ? 'create' : 'login'} className='authInput authSubmit' />
             </form>
-            <button onClick={onToggleSign}>{createNewAccount ? 'sign in' : 'sign up'}</button>  
+            <span onClick={onToggleSign} className='authSwitch' >{createNewAccount ? 'sign in' : 'sign up'}</span>  
         </>
     );
 }

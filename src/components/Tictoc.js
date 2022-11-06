@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
-import { db } from 'fbase';
 import { deleteObject, ref } from "firebase/storage";
-import { storageService } from 'fbase';
+import { storageService, db } from 'fbase';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+
 
 const Tictoc = ({ tictoc, isOwner }) => {
     const [editing, setEditing] = useState(false);
@@ -29,7 +31,8 @@ const Tictoc = ({ tictoc, isOwner }) => {
     }
 
     // db에 tictoc이라는 coollection에 아이디가 일치하는거 업데이트
-    const onSubmitNewText = async() => {
+    const onSubmitNewText = async(event) => {
+        event.preventDefualt();
         await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
             text : newText
         } );
@@ -38,29 +41,58 @@ const Tictoc = ({ tictoc, isOwner }) => {
     }
 
     return(
-        <div>
+        // <div className="nweet">
+        //     {editing ? (
+        //         <>
+        //             {isOwner && 
+        //                 <>
+        //                     <input type="text" value={newText} onChange={onChangeNewText}/>
+        //                     <button onClick={onSubmitNewText}>chnage</button>
+        //                     <button onClick={toggleEditing}>cancel</button>
+        //                 </>
+        //             }
+        //         </>
+        //     ) : (
+        //         <>
+        //             <h4 key={tictoc.id}>{tictoc.text}</h4>
+        //             {tictoc.attachmentUrl && <img src={tictoc.attachmentUrl} style={{width:"50px", height:"50px"}} />}
+        //             {isOwner && 
+        //                 <>
+        //                     <button onClick={toggleEditing}>EditButton</button>
+        //                     <button onClick={onDelete}>DeleteButton</button>
+        //                 </>
+        //             }
+        //         </>
+        //     )}
+        // </div>
+
+        <div className="nweet">
             {editing ? (
                 <>
-                    {isOwner && 
-                        <>
-                            <input type="text" value={newText} onChange={onChangeNewText}/>
-                            <button onClick={onSubmitNewText}>chnage</button>
-                            <button onClick={toggleEditing}>cancel</button>
-                        </>
-                    }
+                    <form onSubmit={onSubmitNewText} className="container nweetEdit">
+                        <input type="text" className="formInput" placeholder="edit your twit" value={newText} onChange={onChangeNewText} required />
+                        <input type="submit" value="Update tweet" className="formBtn" />
+                    </form>
+                    <button onClick={toggleEditing} className='formBtn cancelBtn'>Cancel</button>
                 </>
             ) : (
                 <>
-                    <h4 key={tictoc.id}>{tictoc.text}</h4>
-                    {tictoc.attachmentUrl && <img src={tictoc.attachmentUrl} style={{width:"50px", height:"50px"}} />}
-                    {isOwner && 
-                        <>
-                            <button onClick={toggleEditing}>EditButton</button>
-                            <button onClick={onDelete}>DeleteButton</button>
-                        </>
-                    }
+                    <h4>{tictoc.text}</h4>
+                    {tictoc.attachmentUrl && <img src={tictoc.attachmentUrl} />}
+                    {isOwner && (
+                        <div className="nweet__actions">
+                            <button onClick={onDelete}>
+                                <FontAwesomeIcon icon={faTrash} />
+                            </button>
+
+                            <button onClick={toggleEditing}>
+                                <FontAwesomeIcon icon={faPencilAlt} />
+                            </button>
+                        </div>
+                    )}
                 </>
-            )}
+            ) 
+            }
         </div>
     );
 }

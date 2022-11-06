@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from 'fbase';
-import { collection, addDoc, serverTimestamp, query, getDocs, orderBy, onSnapshot, doc } from "firebase/firestore"; 
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore"; 
 import Tictoc from 'components/Tictoc';
 import TwitFactory from 'components/TwitFactory';
 
@@ -27,12 +27,15 @@ const Home = ({ userObj }) => {
 
     return(
         <>
-            <h1>Home</h1>
-            <TwitFactory userObj={userObj}/>
+            <div className="container">
+                <TwitFactory userObj={userObj}/>
+                <div style={{ marginTop : 30 }}>
+                    {messages.map((element) => {
+                        return <Tictoc key={element.id} tictoc={element} isOwner={element.userId === userObj.uid}/>
+                    })}
+                </div>
+            </div>
 
-            {messages.map((element) => {
-                return <Tictoc key={element.id} tictoc={element} isOwner={element.userId === userObj.uid}/>
-            })}
         </>
     );
 }

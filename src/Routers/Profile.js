@@ -43,6 +43,7 @@ const Profile = ({ userObj, refreshUserObj }) => {
         setNewDisplayName(value);
     }
         
+    // React Hook useEffect has missing dependencies 경고는 useEffect 안에 state를 넣어줘야 되는데 그냥 쓰고싶을땐 ??
     useEffect(() => {
         getMyTwits();
         localLoginProfile();
@@ -56,15 +57,13 @@ const Profile = ({ userObj, refreshUserObj }) => {
     }
 
     return(
-        <>
-
-            <h1>Profile</h1>
-            <form onSubmit={onDisplayNameClick}>
-                <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChangeDisplayName} />
-                <button>update profile</button>
+        <div className='container'>
+            <form onSubmit={onDisplayNameClick} className='profileForm' >
+                <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChangeDisplayName} className='formInput' />
+                <button className='formBtn' style={{ marginTop:10 }} >update profile</button>
             </form>
-            <button onClick={onLogout}>logout</button>
-        </>
+            <button onClick={onLogout} className='formBtn cancelBtn logOut' >logout</button>
+        </div>
     );
 }
 
