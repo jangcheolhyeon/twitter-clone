@@ -29,7 +29,8 @@ const Profile = ({ userObj, refreshUserObj }) => {
         });
     };
 
-    const onDisplayNameClick = async() => {
+    const onDisplayNameClick = async(event) => {
+        event.preventDefault();
         //다르면 업데이트
         if(newDisplayName !== userObj.displayName){
             await updateProfile(authService.currentUser, {displayName: newDisplayName});
@@ -58,10 +59,10 @@ const Profile = ({ userObj, refreshUserObj }) => {
         <>
 
             <h1>Profile</h1>
-            <div>
+            <form onSubmit={onDisplayNameClick}>
                 <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChangeDisplayName} />
-                <input type="button" value="Update profile" onClick={onDisplayNameClick}/>
-            </div>
+                <button>update profile</button>
+            </form>
             <button onClick={onLogout}>logout</button>
         </>
     );
