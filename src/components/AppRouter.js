@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Auth from 'Routers/Auth';
 import Home from 'Routers/Home';
 import Profile from 'Routers/Profile';
