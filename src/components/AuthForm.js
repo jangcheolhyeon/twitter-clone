@@ -24,11 +24,11 @@ const AUthForm = () => {
             if(createNewAccount){
                 // createNewAccount
                 const data = await createUserWithEmailAndPassword(auth, email, password);
-                console.log(data);
+                // console.log(data);
             } else {
                 // login
                 const data = await signInWithEmailAndPassword(auth, email, password);
-                console.log(data);
+                // console.log(data);
             }
 
         } catch(error){

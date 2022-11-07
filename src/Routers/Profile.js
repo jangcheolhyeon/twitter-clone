@@ -24,9 +24,9 @@ const Profile = ({ userObj, refreshUserObj }) => {
         
         // getDocs()메서드로 쿼리 결과 값 가져오기
         const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id, " = " , doc.data());
-        });
+        // querySnapshot.forEach((doc) => {
+            // console.log(doc.id, " = " , doc.data());
+        // });
     };
 
     const onDisplayNameClick = async(event) => {

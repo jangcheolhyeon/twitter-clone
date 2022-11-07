@@ -20,7 +20,7 @@ const Home = ({ userObj }) => {
                     ...doc.data(),
                 }
             })
-
+            
             setMessages(newMessages);
         })
     }, []);

@@ -11,7 +11,7 @@ const Tictoc = ({ tictoc, isOwner }) => {
     const [newText, setNewText] = useState(tictoc.text);
 
     const onDelete = async() => {
-        console.log('delete');
+        // console.log('delete');
         // db에 글 아이디와 일치하는거 지우기
         await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
 

@@ -35,7 +35,7 @@ const AppRouter = () => {
         setUserObj(authService.currentUser);
     }
 
-    console.log('AppRouter의 userObj = ', userObj);
+    // console.log('AppRouter의 userObj = ', userObj);
 
     return(
         <>
