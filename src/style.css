@@ -170,7 +170,7 @@ form {
 }
 
 .nweet {
-  margin-bottom: 20px;
+  margin-bottom: 60px;
   background-color: white;
   width: 100%;
   max-width: 320px;
@@ -284,4 +284,88 @@ form {
     left:50%;
     font-size:100px;
     transform: translate(-50%, -50%);
+}
+
+.profile_image{
+  width:100px;
+  height:100px;
+  border:1px solid white;
+  margin : 0 auto;
+}
+
+.profile_image > img {
+  width:100px;
+  height:100px;
+}
+
+.upload_btn {
+  width:100px;
+  margin: 0 auto;
+  margin-bottom:50px;
+  cursor:pointer;
+}
+
+.reply_nweet{
+  margin-left:100px;
+}
+
+.reply_container{
+  margin-top:30px;
+}
+
+.like_count_number{
+  display:inline;
+  margin:0 15px;
+}
+
+.reply_btns_container > button{
+  margin: 0 5px;
+  cursor:pointer;
+}
+
+.deletedText{
+  color:red;
+  text-decoration:line-through;
+}
+
+.link_container{
+  margin-top: 20px;
+  display:flex;
+  justify-content: flex-end;
+  align-items:center;
+}
+
+.link_container > button {
+  margin: 5px 10px;
+}
+
+.retwit_text_container{
+  height:100%;
+  display:flex;
+  justify-content: center;
+}
+
+.close_retwit_container{
+  display:flex;
+  justify-content:flex-end;
+  padding:10px;
+}
+
+.retwit_container{
+  border:1px solid white;
+  height:100px;
+  margin:10px 0 30px 0;
+  font-weight:bold;
+  display:flex;
+  flex-direction: column;
+}
+
+.close_retwit_btn{
+  cursor:pointer;
+}
+
+.retwit_header{
+  text-align:center;
+  font-weight:bold;
+  font-size:32px;
 }

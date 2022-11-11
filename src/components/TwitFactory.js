@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { db, storageService } from 'fbase';
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
@@ -6,10 +6,9 @@ import { collection, addDoc } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const TwitFactory = ({ userObj }) => {
+const TwitFactory = ({ userObj, retwitContent, setRetwitContent }) => {
     const [message, setMessage] = useState('');
     const [attachment, setAttachment] = useState('');
-
 
     const onChange = (e) => {
         setMessage(e.target.value);
@@ -39,9 +38,16 @@ const TwitFactory = ({ userObj }) => {
         // firebase에 올릴 정보들(글, 사진)
         const twitObj = {
             text : message,
-            createdAt : Date.now(),
+            createdAt : Number(Date.now()),
             userId : userObj.uid,
-            attachmentUrl
+            userImage : userObj.photoURL,
+            attachmentUrl,
+            bundle : Number(Date.now()),
+            like_users: [],
+            parent : true,
+            reply_cnt : 0,
+            isDeleted : false,
+            retwitContent,
         }
 
         // db에 tictoc이라는 컬렉션에 추가 twitObj 객체 추가
@@ -49,6 +55,7 @@ const TwitFactory = ({ userObj }) => {
 
         setMessage('');
         setAttachment('');
+        setRetwitContent('');
     }
 
     const onFileChange = (e) => {
@@ -68,30 +75,32 @@ const TwitFactory = ({ userObj }) => {
     }
 
     return(
-        <form onSubmit={onSubmit} className="factoryForm">
-            <div className="factoryInput__container">
-                <input type="text" className="factoryInput__input" placeholder='whats your mind' value={message} onChange={onChange} />
-                <input type="submit" value="&rarr;" className="factoryInput__arrow" />
-            </div>
-
-            <label htmlFor="attach-file" className="factoryInput__label">
-                <span>Add photo</span>
-                <FontAwesomeIcon icon={faPlus} />
-            </label>
-            <input type="file" id="attach-file" accept='image/*' onChange={onFileChange} style={{ opacity : 0 }} />
-
-            {attachment && (
-                <div className="factoryForm__attachment">
-                    <img src={attachment} style={{ backgroundImage : attachment }} />
-
-                    <div className="factoryForm__clear" onClick={onClearImage}>
-                        <span>Remove</span>
-                        <FontAwesomeIcon icon={faTimes} />
-                    </div>
+        <>
+            <img src={userObj.photoURL} style={{width:"50px", height:"50px"}} />
+            <form onSubmit={onSubmit} className="factoryForm">
+                <div className="factoryInput__container">
+                    <input type="text" className="factoryInput__input" placeholder='whats your mind' value={message} onChange={onChange} />
+                    <input type="submit" value="&rarr;" className="factoryInput__arrow" />
                 </div>
-            )}
 
-        </form>
+                <label htmlFor="attach-file" className="factoryInput__label">
+                    <span>Add photo</span>
+                    <FontAwesomeIcon icon={faPlus} />
+                </label>
+                <input type="file" id="attach-file" accept='image/*' onChange={onFileChange} style={{ opacity : 0 }} />
+
+                {attachment && (
+                    <div className="factoryForm__attachment">
+                        <img src={attachment} style={{ backgroundImage : attachment }} />
+
+                        <div className="factoryForm__clear" onClick={onClearImage}>
+                            <span>Remove</span>
+                            <FontAwesomeIcon icon={faTimes} />
+                        </div>
+                    </div>
+                )}
+            </form>
+        </>
     );
 }
 
