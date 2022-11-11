@@ -86,7 +86,12 @@ const Profile = ({ userObj, refreshUserObj }) => {
         attachmentUrl = await getDownloadURL(response.ref);
         console.log("attachmentUrl = " + attachmentUrl);
 
-        await updateProfile(authService.currentUser, {photoURL: attachmentUrl});
+        // await updateProfile(authService.currentUser, {photoURL: attachmentUrl});
+
+        if(userAttachment !== userObj.userImage){
+            await updateProfile(authService.currentUser, {photoURL: attachmentUrl});
+            refreshUserObj();
+        }
     }
 
 
