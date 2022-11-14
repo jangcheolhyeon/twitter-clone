@@ -23,7 +23,7 @@ const Auth = () => {
 
     return(
         <div className="authContainer"> 
-            <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="3x" style={{ marginBottom: 30 }} /> 
+            <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="3x" className="twitter_icon" /> 
             <AuthForm />      
             <div className="authBtns">
                 <button onClick={onSnsClick} name="google" className="authBtn">

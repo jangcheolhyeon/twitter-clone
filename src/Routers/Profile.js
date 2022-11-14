@@ -5,6 +5,8 @@ import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { authService, db, storageService } from 'fbase';
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 
 const Profile = ({ userObj, refreshUserObj }) => {
@@ -28,9 +30,7 @@ const Profile = ({ userObj, refreshUserObj }) => {
         
         // getDocs()메서드로 쿼리 결과 값 가져오기
         const querySnapshot = await getDocs(q);
-        // querySnapshot.forEach((doc) => {
-            // console.log(doc.id, " = " , doc.data());
-        // });
+
     };
 
     const onDisplayNameClick = async(event) => {
@@ -40,6 +40,7 @@ const Profile = ({ userObj, refreshUserObj }) => {
             await updateProfile(authService.currentUser, {displayName: newDisplayName});
             refreshUserObj();
         }
+        onUpdateUserImg();
     }
 
     const onChangeDisplayName = (event) => {
@@ -51,7 +52,6 @@ const Profile = ({ userObj, refreshUserObj }) => {
     useEffect(() => {
         getMyTwits();
         localLoginProfile();
-        console.log("userObj " , userObj)
 
         if(userObj.photoURL !== '' || userObj.photoURL !== null){
             setUserAttachment(userObj.photoURL);
@@ -84,9 +84,6 @@ const Profile = ({ userObj, refreshUserObj }) => {
         const attachmentRef = ref(storageService, `${userObj.uid}/${v4()}`);
         const response = await uploadString(attachmentRef, userAttachment, "data_url" );
         attachmentUrl = await getDownloadURL(response.ref);
-        console.log("attachmentUrl = " + attachmentUrl);
-
-        // await updateProfile(authService.currentUser, {photoURL: attachmentUrl});
 
         if(userAttachment !== userObj.userImage){
             await updateProfile(authService.currentUser, {photoURL: attachmentUrl});
@@ -100,15 +97,17 @@ const Profile = ({ userObj, refreshUserObj }) => {
             <div className="profile_image">
                 <img src={userAttachment} />
             </div>
-            {/* 라벨쓰기 */}
-            <input type="file" className="update_btn" accept='image/*' onChange={onUserAttachment} />
-            <button onClick={onUpdateUserImg}>update</button>
+            <label htmlFor="attach-file" className="factoryInput__label">
+                <span>Add photo</span>
+                <FontAwesomeIcon icon={faPlus} />
+            </label>
+            <input type="file" id="attach-file" accept='image/*' className='update_btn file_upload_input' onChange={onUserAttachment} />
 
             <form onSubmit={onDisplayNameClick} className='profileForm' >
                 <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChangeDisplayName} className='formInput' />
-                <button className='formBtn' style={{ marginTop:10 }} >update profile</button>
+                <button className='formBtn'>update profile</button>
             </form>
-            <button onClick={onLogout} className='formBtn cancelBtn logOut' >logout</button>
+            <button onClick={onLogout} className='formBtn cancelBtn logOut'>logout</button>
         </div>
     );
 }

@@ -12,7 +12,6 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParent, setRetwitContent }) =>
     const [newText, setNewText] = useState(tictoc.text);
 
     const onDelete = async() => {
-        // console.log('delete');
         // db에 글 아이디와 일치하는거 지우기
         if(tictoc.parent){
             deleteParent(tictoc.id);
@@ -49,15 +48,12 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParent, setRetwitContent }) =>
     return(
         <>
             <div className={tictoc.child ? ("nweet reply_nweet") : ("nweet")}>
-                    <img src={userObj.photoURL} style={{width:"50px", height:"50px", top:"-42px", left:"10px"}} />
+                    <img src={userObj.photoURL} className="user_photo_image" />
 
-                {tictoc.retwitContent === null || tictoc.retwitContent === '' ? (
-                    null
-                ) : (
+                {tictoc.retwitContent && 
                     <div className="retwit_container">
-                        <h1 className="">retwitText : {tictoc.retwitContent}</h1>
-                    </div>
-                )}
+                        <h1>retwitText : {tictoc.retwitContent}</h1>
+                    </div>}
 
 
                 {editing ? (
@@ -70,7 +66,6 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParent, setRetwitContent }) =>
                     </>
                 ) : (
                     <>
-                        {/* <h4>{tictoc.text}</h4> */}
                         {tictoc.child ? (
                             <h4>ㄴ{tictoc.text}</h4>
                         ) : (

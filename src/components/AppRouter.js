@@ -17,7 +17,6 @@ const AppRouter = () => {
         onAuthStateChanged(auth, (user) => {
             if(user){
                 setIsLoggedIn(true);
-                console.log(user);
                 setUserObj({
                     displayName : user.displayName,
                     uid : user.uid,
@@ -35,11 +34,8 @@ const AppRouter = () => {
 
     //db에 있는 데이터 refresh해서 state변동
     const refreshUserObj = () => {
-        // setUserObj(authService.currentUser);
         setUserObj(getAuth().currentUser);
     }
-
-    // console.log('AppRouter의 userObj = ', userObj);
 
     return(
         <>

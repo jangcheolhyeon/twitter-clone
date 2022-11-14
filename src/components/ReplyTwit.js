@@ -21,7 +21,6 @@ const ReplyTwit = ({ parentTwit, userObj, setRetwitContent }) => {
             return ;
         }
         setRetwitContent(parentTwit.text);
-        // console.log(parentTwit.text);
     }
 
     // 좋아요 누른 사람 명단에 포함되어 있으면 true 아니면 false
@@ -67,7 +66,7 @@ const ReplyTwit = ({ parentTwit, userObj, setRetwitContent }) => {
 
         const replyTwitObj = {
             text : replyText,
-            createdAt : Number(Date.now()),
+            createdAt : Date.now(),
             userId : userObj.uid,
             bundle : Number(`${parentTwit.bundle}`),
             attachmentUrl,
@@ -110,11 +109,12 @@ const ReplyTwit = ({ parentTwit, userObj, setRetwitContent }) => {
             return ;
         }
 
+
         if(likeState){
             // 라이크 o -> 라이크 x
 
             await updateDoc(doc(db, "tictoc", `${parentTwit.id}`), {
-                like_users : parentTwit.like_users.filter((element) => element !== parentTwit.userId),
+                like_users : parentTwit.like_users.filter((element) => element !== userObj.uid),
             })
 
             setLikeCount((prev) => {
@@ -124,7 +124,7 @@ const ReplyTwit = ({ parentTwit, userObj, setRetwitContent }) => {
         } else {
             // 라이크 x -> 라이크 o            
             await updateDoc(doc(db, "tictoc", `${parentTwit.id}`), {
-                like_users : [...parentTwit.like_users, parentTwit.userId],
+                like_users : [...parentTwit.like_users, userObj.uid],
             });
 
             setLikeCount((prev) => {
@@ -143,13 +143,13 @@ const ReplyTwit = ({ parentTwit, userObj, setRetwitContent }) => {
         <>
             {isReply ? (
                 <div className="reply_container">
-                    <input type="text" value={replyText} onChange={onChangeReplyText} style={{border:'1px solid black'}} />
+                    <input type="text" value={replyText} onChange={onChangeReplyText} className="reply_text" />
                     <input type="file" accept='image/*' onChange={onUpdateReply}/>
                     {attachment && (
                         <div className="factoryForm__attachment">
-                            <img src={attachment} style={{ backgroundImage : attachment, top:"49px", right:"40px" }} />
+                            <img src={attachment} style={{ backgroundImage : attachment}} />
 
-                            <div className="factoryForm__clear" onClick={onClearImage} style={{margin:"10px"}}>
+                            <div className="factoryForm__clear" onClick={onClearImage}>
                                 <span>Remove</span>
                             </div>
                         </div>
@@ -163,7 +163,7 @@ const ReplyTwit = ({ parentTwit, userObj, setRetwitContent }) => {
                     <button onClick={onRetwitBtn}>retwit</button>
                     <button onClick={onLikeBtn} >Like</button>
                     <h1 className="like_count_number">{likeCount}</h1>
-                    <div className="link_container">
+                    <div className="share_container">
                         <span>공유하기</span>
                         <FacebookShareButton url="https://www.facebook.com">
                             <FacebookIcon size={40} round={true} borderRadius={20}></FacebookIcon>

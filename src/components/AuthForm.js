@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
-const inputStyles = {};
-
 const AUthForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,16 +17,11 @@ const AUthForm = () => {
         e.preventDefault();
 
         try{
-            // 로그인했는지 정보 가져오기
             const auth = getAuth();
             if(createNewAccount){
-                // createNewAccount
-                const data = await createUserWithEmailAndPassword(auth, email, password);
-                // console.log(data);
+                await createUserWithEmailAndPassword(auth, email, password);
             } else {
-                // login
-                const data = await signInWithEmailAndPassword(auth, email, password);
-                // console.log(data);
+                await signInWithEmailAndPassword(auth, email, password);
             }
 
         } catch(error){

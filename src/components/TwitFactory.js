@@ -29,8 +29,6 @@ const TwitFactory = ({ userObj, retwitContent, setRetwitContent }) => {
             const attachmentRef = ref(storageService, `${userObj.uid}/${v4()}`);
             // 위에 만든 경로로 업로드 하기
             const response = await uploadString(attachmentRef, attachment, "data_url" );
-            // console.log("response REF, " + response.ref);
-            // console.log(await getDownloadURL(response.ref));
             // storage에 있는 파일 URL을 통해 이미지를 다운로드 하고 attchmentUrl에 넣음
             attachmentUrl = await getDownloadURL(response.ref);
         }
@@ -76,7 +74,7 @@ const TwitFactory = ({ userObj, retwitContent, setRetwitContent }) => {
 
     return(
         <>
-            <img src={userObj.photoURL} style={{width:"50px", height:"50px"}} />
+            <img src={userObj.photoURL} className='user_photo_image' />
             <form onSubmit={onSubmit} className="factoryForm">
                 <div className="factoryInput__container">
                     <input type="text" className="factoryInput__input" placeholder='whats your mind' value={message} onChange={onChange} />
@@ -87,7 +85,7 @@ const TwitFactory = ({ userObj, retwitContent, setRetwitContent }) => {
                     <span>Add photo</span>
                     <FontAwesomeIcon icon={faPlus} />
                 </label>
-                <input type="file" id="attach-file" accept='image/*' onChange={onFileChange} style={{ opacity : 0 }} />
+                <input type="file" id="attach-file" accept='image/*' onChange={onFileChange} className="file_upload_input" />
 
                 {attachment && (
                     <div className="factoryForm__attachment">

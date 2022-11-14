@@ -5,27 +5,21 @@ import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Navigation = ({ userObj }) => {
-    // console.log(userObj);
-    console.log(typeof userObj);
+    const iconColor = "#04AAFF";
+    const iconSize = "2x";
+
     return(
         <nav>
-            <ul style={{ display: "flex", justifyContent: "center", marginTop: 50 }}>
+            <ul className="nav_link_container">
                 <li>
-                    <Link to="/" style={{ marginRight: 10 }}>
-                        <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="2x" />
+                    <Link to="/" className="nav_link_home">
+                        <FontAwesomeIcon icon={faTwitter} color={iconColor} size={iconSize} />
                     </Link>
                 </li>
                 <li>
-                    <Link to="/profile"
-                        style={{
-                            marginLeft: 10,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            fontSize: 12,
-                        }}>
-                        <FontAwesomeIcon icon={faUser} color={"#04AAFF"} size="2x" />
-                        <span style={{ marginTop: 10 }}>
+                    <Link to="/profile" className="nav_link_profile">
+                        <FontAwesomeIcon icon={faUser} color={iconColor} size={iconSize} />
+                        <span>
                             {userObj.displayName
                             ? `${userObj.displayName}의 Profile`
                             : "Profile"}

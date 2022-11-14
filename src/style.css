@@ -82,6 +82,10 @@ form {
   flex-direction: column;
 }
 
+.profileForm > button{
+  margin-top: 10px;
+}
+
 .logOut {
   margin-top: 50px;
 }
@@ -148,12 +152,15 @@ form {
   height: 80px;
   width: 80px;
   border-radius: 40px;
+  top: 49px;
+  right: 40px;
 }
 
 .factoryForm__clear {
   color: #04aaff;
   cursor: pointer;
   text-align: center;
+  margin: 10px;
 }
 
 .factoryForm__clear span {
@@ -218,6 +225,10 @@ form {
   height: 100vh;
   justify-content: center;
   align-items: center;
+}
+
+.authContainer > .twitter_icon{
+  margin-bottom: 30px;
 }
 
 .authBtns {
@@ -313,6 +324,10 @@ form {
   margin-top:30px;
 }
 
+.reply_text{
+  border:1px solid black;
+}
+
 .like_count_number{
   display:inline;
   margin:0 15px;
@@ -328,14 +343,14 @@ form {
   text-decoration:line-through;
 }
 
-.link_container{
+.share_container{
   margin-top: 20px;
   display:flex;
   justify-content: flex-end;
   align-items:center;
 }
 
-.link_container > button {
+.share_container > button {
   margin: 5px 10px;
 }
 
@@ -368,4 +383,49 @@ form {
   text-align:center;
   font-weight:bold;
   font-size:32px;
+}
+
+.nav_link_container{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.nav_link_home{
+  margin-right: 10px;
+}
+
+.nav_link_profile{
+  margin-left:10px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+}
+
+.nav_link_profile > span{
+  margin-top:10px;
+}
+
+.nweet > .user_photo_image {
+  top: -42px;
+  left: 10px;
+}
+
+.user_photo_image{
+  width: 50px;
+  height: 50px;
+}
+
+.tictoc_container{
+  margin-top:30px;
+}
+
+.container > label {
+  margin-top:10px;
+  text-align:center;
+}
+
+.file_upload_input{
+  opacity: 0;
 }
