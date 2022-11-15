@@ -17,6 +17,8 @@ const ReplyTweet = ({ parentTweet, userObj, setRetweetContent, setRetweetState, 
     const [likeCount, setLikeCount] = useState(0);
     const [commentList, setCommnetList] = useState([]);
     const [isShareClicked, setIsShareClicked] = useState(false);
+    const [enrollDate, setEnrollDate] = useState();
+    const [enrollTime, setEnrollTime] = useState();
 
     useEffect(() => {
         const q = query(collection(db, "tictoc"));
@@ -29,6 +31,13 @@ const ReplyTweet = ({ parentTweet, userObj, setRetweetContent, setRetweetState, 
             })
             setCommnetList(comments);
         })
+
+        const time = new Date(parentTweet.createdAt);
+        setEnrollDate((time.getMonth()+1) + "." + (time.getDate()));
+
+        const hours = time.getHours() < 10 ? `0${time.getHours()}` : `${time.getHours()}`;
+        const seconds = time.getSeconds() < 10 ? `0${time.getSeconds()}` : `${time.getSeconds()}`;
+        setEnrollTime(hours + ":" + seconds);
     }, []);
 
 
@@ -86,6 +95,7 @@ const ReplyTweet = ({ parentTweet, userObj, setRetweetContent, setRetweetState, 
         const replyTweetObj = {
             text : replyText,
             createdAt : Date.now(),
+            // createdAt : new Date(),
             userId : userObj.uid,
             bundle : Number(`${parentTweet.bundle}`),
             attachmentUrl,
@@ -97,7 +107,6 @@ const ReplyTweet = ({ parentTweet, userObj, setRetweetContent, setRetweetState, 
 
         await addDoc(collection(db, 'tictoc'), replyTweetObj);
         setReplyText('');
-
     }
 
 
@@ -159,19 +168,10 @@ const ReplyTweet = ({ parentTweet, userObj, setRetweetContent, setRetweetState, 
     }
 
     const handleShareStateChange = () => {
-        setIsShareClicked((prev) => !prev)
-        console.log(isShareClicked);
+        setIsShareClicked((prev) => !prev);
     }
 
 
-    const dateTime = new Date(parentTweet.createdAt); 
-    const month = ("0" + (dateTime.getMonth() + 1)).slice(-2);
-    const day = ("0" + dateTime.getDate()).slice(-2);
-    const hours = dateTime.getHours();
-    const minutes = dateTime.getMinutes();
-
-    const date = month + "." + day;
-    const time = hours + ":" + minutes;
 
     return(
         <>
@@ -194,7 +194,8 @@ const ReplyTweet = ({ parentTweet, userObj, setRetweetContent, setRetweetState, 
             ) : (
                 <>
                     <div className="write_date">
-                        <span>{time} {date}</span>
+                        <span className="enroll_time">{enrollTime}</span>
+                        <span>{enrollDate}</span>
                     </div>
                     <div className="action_container">
                         {parentTweet.parent && <div className="action_comment_container">

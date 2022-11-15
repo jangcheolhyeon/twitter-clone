@@ -40,20 +40,13 @@ const TweetFactory = ({ userObj, RetweetContent, setRetweetContent, retweetState
             Date.now()
         );
 
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = ('0' + (today.getMonth() + 1)).slice(-2);
-        const day = ('0' + today.getDate()).slice(-2);
-
         
         const tweetObj = {
             text : message,
-            // createdAt : Date.now(),
-            createdAt : today,
+            createdAt : Date.now(),
             userId : userObj.uid,
             userImage : userObj.photoURL,
             attachmentUrl,
-            // bundle : Date.now(),
             bundle:retweetBundle,
             like_users: [],
             parent : true,
