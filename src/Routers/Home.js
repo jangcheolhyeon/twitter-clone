@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { db } from 'fbase';
-import { collection, query, orderBy, onSnapshot, updateDoc, doc, deleteDoc } from "firebase/firestore"; 
+import { collection, query, orderBy, onSnapshot, updateDoc, doc } from "firebase/firestore"; 
 import Tictoc from 'components/Tictoc';
-import TwitFactory from 'components/TwitFactory';
-import Retwit from 'components/Retwit';
+import TweetFactory from 'components/TweetFactory';
+import Retweet from 'components/Retweet';
 
 
 const Home = ({ userObj }) => {
     const [messages, setMessages] = useState([]);
-    const [retwitContent, setRetwitContent] = useState('');
+    const [RetweetContent, setRetweetContent] = useState('');
+    const [reTweetState, setRetweetState] = useState(false);
+    const [parentBundle, setParentBundle] = useState();
 
 
     useEffect(() => {
@@ -28,7 +30,7 @@ const Home = ({ userObj }) => {
     }, []);
 
     // 부모 댓글이면 삭제하는것이 아니라 text를 deleted Text로 변경
-    const deleteParent = async(id) => {
+    const deleteParentTweet = async(id) => {
         await updateDoc(doc(db, "tictoc", id), {
             text : 'deleted Text',
             isDeleted : true,
@@ -38,15 +40,15 @@ const Home = ({ userObj }) => {
     return(
         <>
             <div className="container">
-                {/* {retwitContent && <Retwit retwitContent={retwitContent} setRetwitContent={setRetwitContent} />} */}
-                {retwitContent === null || retwitContent === "" ? (null) : (
-                    <Retwit retwitContent={retwitContent} setRetwitContent={setRetwitContent} />
+                {RetweetContent === null || RetweetContent === "" ? (null) : (
+                    <Retweet RetweetContent={RetweetContent} setRetweetContent={setRetweetContent} />
                 ) }
-                <TwitFactory userObj={userObj} retwitContent={retwitContent} setRetwitContent={setRetwitContent} />
-                <div className='.tictoc_container'>
+                <TweetFactory userObj={userObj} RetweetContent={RetweetContent} setRetweetContent={setRetweetContent} setRetweetState={setRetweetState} retweetState={reTweetState} parentBundle={parentBundle} />
+                <div className='tictoc_container'>
                     {messages.map((element) => {
-                        return <Tictoc key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} deleteParent={deleteParent} setRetwitContent={setRetwitContent} />
+                        return <Tictoc key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} deleteParentTweet={deleteParentTweet} setRetweetContent={setRetweetContent} setRetweetState={setRetweetState} setParentBundle={setParentBundle}/>
                     })}
+
                 </div>
             </div>
 

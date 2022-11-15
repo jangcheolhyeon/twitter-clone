@@ -6,7 +6,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const TwitFactory = ({ userObj, retwitContent, setRetwitContent }) => {
+const TweetFactory = ({ userObj, RetweetContent, setRetweetContent, retweetState, parentBundle }) => {
     const [message, setMessage] = useState('');
     const [attachment, setAttachment] = useState('');
 
@@ -34,26 +34,40 @@ const TwitFactory = ({ userObj, retwitContent, setRetwitContent }) => {
         }
 
         // firebase에 올릴 정보들(글, 사진)
-        const twitObj = {
+        const retweetBundle = retweetState ? (
+            parentBundle
+        ) : (
+            Date.now()
+        );
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = ('0' + (today.getMonth() + 1)).slice(-2);
+        const day = ('0' + today.getDate()).slice(-2);
+
+        
+        const tweetObj = {
             text : message,
-            createdAt : Number(Date.now()),
+            // createdAt : Date.now(),
+            createdAt : today,
             userId : userObj.uid,
             userImage : userObj.photoURL,
             attachmentUrl,
-            bundle : Number(Date.now()),
+            // bundle : Date.now(),
+            bundle:retweetBundle,
             like_users: [],
             parent : true,
             reply_cnt : 0,
             isDeleted : false,
-            retwitContent,
+            RetweetContent,
         }
 
         // db에 tictoc이라는 컬렉션에 추가 twitObj 객체 추가
-        await addDoc(collection(db, 'tictoc'), twitObj);
+        await addDoc(collection(db, 'tictoc'), tweetObj);
 
         setMessage('');
         setAttachment('');
-        setRetwitContent('');
+        setRetweetContent('');
     }
 
     const onFileChange = (e) => {
@@ -71,6 +85,7 @@ const TwitFactory = ({ userObj, retwitContent, setRetwitContent }) => {
     const onClearImage = () => {
         setAttachment('');
     }
+
 
     return(
         <>
@@ -102,4 +117,4 @@ const TwitFactory = ({ userObj, retwitContent, setRetwitContent }) => {
     );
 }
 
-export default TwitFactory;
+export default TweetFactory;

@@ -3,19 +3,19 @@ import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from "firebase/storage";
 import { storageService, db } from 'fbase';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
-import ReplyTwit from "components/ReplyTwit";
+import { faTrash, faPencilAlt, faRightLong } from "@fortawesome/free-solid-svg-icons";
+
+import ReplyTweet from "components/ReplyTweet";
 
 
-const Tictoc = ({ tictoc, isOwner, userObj, deleteParent, setRetwitContent }) => {
+const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent, setRetweetState, setParentBundle }) => {
     const [editing, setEditing] = useState(false);
     const [newText, setNewText] = useState(tictoc.text);
 
-    const onDelete = async() => {
+    const onDeleteTweet = async() => {
         // db에 글 아이디와 일치하는거 지우기
-        if(tictoc.parent){
-            deleteParent(tictoc.id);
-            // await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
+        if(tictoc.parent && tictoc.RetweetContent === ''){
+            deleteParentTweet(tictoc.id);
             await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
         } else{
             await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
@@ -34,7 +34,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParent, setRetwitContent }) =>
     }
 
     // db에 tictoc이라는 coollection에 아이디가 일치하는거 업데이트
-    const onSubmitNewText = async(event) => {
+    const onUpdateTweetText = async(event) => {
         event.preventDefault();
 
         await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
@@ -44,37 +44,44 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParent, setRetwitContent }) =>
         toggleEditing();
     }
     
-
     return(
         <>
             <div className={tictoc.child ? ("nweet reply_nweet") : ("nweet")}>
                     <img src={userObj.photoURL} className="user_photo_image" />
 
-                {tictoc.retwitContent && 
-                    <div className="retwit_container">
-                        <h1>retwitText : {tictoc.retwitContent}</h1>
+                {tictoc.RetweetContent && 
+                    <div className="retweet_container">
+                        <h1>retweetText : {tictoc.RetweetContent}</h1>
                     </div>}
 
 
                 {editing ? (
                     <>
-                        <form onSubmit={onSubmitNewText} className="container nweetEdit">
-                            <input type="text" className="formInput" placeholder="edit your twit" value={newText} onChange={onChangeNewText} required />
+                        <form onSubmit={onUpdateTweetText} className="container nweetEdit">
+                            <input type="text" className="formInput" placeholder="edit your tweet" value={newText} onChange={onChangeNewText} required />
                             <input type="submit" value="Update tweet" className="formBtn" />
                         </form>
                         <button onClick={toggleEditing} className='formBtn cancelBtn'>Cancel</button>
                     </>
                 ) : (
                     <>
-                        {tictoc.child ? (
-                            <h4>ㄴ{tictoc.text}</h4>
+                        {tictoc.child ? 
+                        (
+                            <>
+                                <div className="tweet_text">
+                                    <FontAwesomeIcon icon={faRightLong} className="child_icon"/>
+                                    <h4>{tictoc.text}</h4>
+                                </div>
+                            </>
                         ) : (
-                            <h4 className={tictoc.isDeleted ? "deletedText" : ''}>{tictoc.text}</h4>
+                            <div className={tictoc.isDeleted ? "deletedText tweet_text" : 'tweet_text'}>
+                                <h4>{tictoc.text}</h4>
+                            </div>
                         )}
                         {tictoc.attachmentUrl && <img src={tictoc.attachmentUrl} />}
                         {isOwner && (
                             <div className="nweet__actions">
-                                <button onClick={onDelete}>
+                                <button onClick={onDeleteTweet}>
                                     <FontAwesomeIcon icon={faTrash} />
                                 </button>
 
@@ -83,7 +90,8 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParent, setRetwitContent }) =>
                                 </button>
                             </div>
                         )}
-                        <ReplyTwit parentTwit={tictoc} userObj={userObj} setRetwitContent={setRetwitContent}  />                    
+
+                        <ReplyTweet parentTweet={tictoc} userObj={userObj} setRetweetContent={setRetweetContent} setRetweetState={setRetweetState} setParentBundle={setParentBundle} />                    
                     </>
                     ) 
                 }

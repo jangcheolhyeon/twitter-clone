@@ -20,7 +20,7 @@ const Profile = ({ userObj, refreshUserObj }) => {
         navi('/');
     }
 
-    const getMyTwits = async () => {
+    const getMyTweets = async () => {
         // db에 컬렉션이 tictoc에 userId가 userObj.uid와 일치하면 createdAt 내림차순으로 쿼리 가져오기
         const q = query(
             collection(db, "tictoc"),
@@ -29,7 +29,7 @@ const Profile = ({ userObj, refreshUserObj }) => {
         );
         
         // getDocs()메서드로 쿼리 결과 값 가져오기
-        const querySnapshot = await getDocs(q);
+        await getDocs(q);
 
     };
 
@@ -50,8 +50,8 @@ const Profile = ({ userObj, refreshUserObj }) => {
         
     // React Hook useEffect has missing dependencies 경고는 useEffect 안에 state를 넣어줘야 되는데 그냥 쓰고싶을땐 ??
     useEffect(() => {
-        getMyTwits();
-        localLoginProfile();
+        getMyTweets();
+        createAccountUser();
 
         if(userObj.photoURL !== '' || userObj.photoURL !== null){
             setUserAttachment(userObj.photoURL);
@@ -60,7 +60,7 @@ const Profile = ({ userObj, refreshUserObj }) => {
     }, []);
 
     // OAuth대신 로그인 하면 displayName이 안나옴. 그래서 email의 @기준으로 앞 부분을 displayNAme으로 설정
-    function localLoginProfile(){   
+    const createAccountUser = () => {
         if(userObj.displayName === null){
             userObj.displayName = userObj.email.split('@')[0];
         }
