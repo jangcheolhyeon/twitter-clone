@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter, faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons";
 
 
-const Auth = () => {
+const Auth = ({ userObj }) => {
         const onSnsClick = async (event) => {
         const {target : { name }} = event;
 
@@ -24,7 +24,7 @@ const Auth = () => {
     return(
         <div className="authContainer"> 
             <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="3x" className="tweetter_icon" /> 
-            <AuthForm />      
+            <AuthForm userObj={userObj}/>      
             <div className="authBtns">
                 <button onClick={onSnsClick} name="google" className="authBtn">
                     Continue with Google <FontAwesomeIcon icon={faGoogle} />

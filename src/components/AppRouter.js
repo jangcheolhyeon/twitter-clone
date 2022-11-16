@@ -5,11 +5,16 @@ import Auth from 'Routers/Auth';
 import Home from 'Routers/Home';
 import Profile from 'Routers/Profile';
 import Navigation from 'components/Navigation';
+import { collection, onSnapshot, query } from 'firebase/firestore';
+import { db } from 'fbase';
+
+
 
 const AppRouter = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(getAuth().currentUser);
     const [userObj, setUserObj] = useState(null);
     const [init, setInit] = useState(false);
+    const [usersProfile, setUsersProfile] = useState([]);
 
     useEffect(() => {
         const auth = getAuth();
@@ -29,7 +34,20 @@ const AppRouter = () => {
                 setInit(true);
             }
         })
-    }, [])
+
+        const q = query(collection(db, 'usersInfo'));
+        onSnapshot(q, (snapshot) => {
+            const newUsersInfo = snapshot.docs.map((doc) => {
+                return {
+                    id : doc.id,
+                    ...doc.data(),
+                }
+            });
+
+            setUsersProfile(newUsersInfo);
+        })
+
+    }, []);
 
 
     //db에 있는 데이터 refresh해서 state변동
@@ -42,17 +60,17 @@ const AppRouter = () => {
             <Router>
                 {init ? (
                     <>
-                        {isLoggedIn && <Navigation userObj={userObj}/>}
-                    <Routes>
-                        {isLoggedIn ? (
-                            <>
-                                <Route path='/' element={<Home userObj={userObj} />} />
-                                <Route path='/profile' element={<Profile refreshUserObj={refreshUserObj} userObj={userObj} />} />
-                            </>
-                        ) : (
-                            <Route path='/' element={<Auth />} />
-                        )}
-                    </Routes>
+                    {isLoggedIn && <Navigation userObj={userObj}/>}
+                        <Routes>
+                            {isLoggedIn ? (
+                                <>
+                                    <Route path='/' element={<Home userObj={userObj} />} />
+                                    <Route path='/profile' element={<Profile refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile}/>} />
+                                </>
+                            ) : (
+                                <Route path='/' element={<Auth userObj={userObj} />} />
+                            )}
+                        </Routes>
                     </>
                 ) : (
                     <span className='loading_page'>LOADING...</span>

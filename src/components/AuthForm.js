@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { UNSAFE_enhanceManualRouteObjects } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "fbase";
 
-const AUthForm = () => {
+const AuthForm = ({ userObj }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [createNewAccount, setCreateNewAccount] = useState(true);
@@ -20,8 +23,19 @@ const AUthForm = () => {
             const auth = getAuth();
             if(createNewAccount){
                 await createUserWithEmailAndPassword(auth, email, password);
+                await addDoc(collection(db, 'usersInfo'), {
+                    userId : userObj.uid,
+                    userImage : userObj.photoURL,
+                    displayName : userObj.displayName,
+                })
+
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
+                await addDoc(collection(db, 'usersInfo'), {
+                    userId : userObj.uid,
+                    userImage : userObj.photoURL,
+                    displayName : userObj.displayName,
+                })
             }
 
         } catch(error){
@@ -45,4 +59,4 @@ const AUthForm = () => {
     );
 }
 
-export default AUthForm;
+export default AuthForm;
