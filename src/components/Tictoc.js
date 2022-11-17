@@ -1,19 +1,25 @@
-import React, { useState } from "react";
-import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from "react";
+import { doc, deleteDoc, updateDoc, query, collection, onSnapshot } from 'firebase/firestore';
 import { deleteObject, ref } from "firebase/storage";
 import { storageService, db } from 'fbase';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt, faRightLong } from "@fortawesome/free-solid-svg-icons";
-
+import { faEllipsis, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faRetweet, faCommentDots, faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import ReplyTweet from "components/ReplyTweet";
 
 
-const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent, setRetweetState, setParentBundle }) => {
-    const [editing, setEditing] = useState(false);
+const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent, setRetweetState, setParentBundle, usersProfile, setToastState }) => {
     const [newText, setNewText] = useState(tictoc.text);
+    const [userName, setUserName] = useState();
+    const [userPhoto, setUserPhoto] = useState(); 
+    const [commentList, setCommnetList] = useState([]);
+    const [likeState, setLikeState] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
+    const [hover, setHover] = useState();
+    const [enrollDate, setEnrollDate] = useState();
 
     const onDeleteTweet = async() => {
-        // db에 글 아이디와 일치하는거 지우기
         if(tictoc.parent && tictoc.RetweetContent === ''){
             deleteParentTweet(tictoc.id);
             await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
@@ -23,17 +29,10 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent
         }
     }
 
-
-    //토글을 통해서 input태그가 생겼다 없어졌다.
-    const toggleEditing = async() => {
-        setEditing((prev) => !prev);
-    }
-
     const onChangeNewText = (e) => {
         setNewText(e.target.value);
     }
 
-    // db에 tictoc이라는 coollection에 아이디가 일치하는거 업데이트
     const onUpdateTweetText = async(event) => {
         event.preventDefault();
 
@@ -41,61 +40,136 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent
             text : newText
         } );
         
-        toggleEditing();
+        
     }
+    
+    useEffect(() => {
+        usersProfile.map(element => {
+            if(element.userId === tictoc.userId){
+                setUserName(element.displayName);
+                setUserPhoto(element.userImage);
+            } 
+        });
+
+        const q = query(collection(db, "tictoc"));
+        onSnapshot(q, (snapshot) => {
+            const comments = snapshot.docs.map((doc) => {
+                return {
+                    id : doc.id,
+                    ...doc.data(),
+                }
+            })
+            setCommnetList(comments);
+        })
+
+        setLikeState(likeStateInit());
+        setLikeCount(tictoc.like_users.length);
+        
+
+        const time = new Date(tictoc.createdAt);
+        setEnrollDate((time.getMonth()+1) + "." + (time.getDate()));
+    }, []);
+    console.log('tictoc', tictoc);
+    console.log('usersProfile', usersProfile);
+
+    const likeStateInit = () => {
+        if(tictoc.like_users.includes(tictoc.userId)){
+            return true;
+        }
+        return false;
+    }
+
+
+    const onClickLike = async() => {
+        if(tictoc.isDeleted) {
+            return ;
+        }
+
+        if(likeState){
+            await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
+                like_users : tictoc.like_users.filter((element) => element !== userObj.uid),
+            })
+
+            setLikeCount((prev) => {
+                return prev - 1;
+            })
+
+        } else {
+            await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
+                like_users : [...tictoc.like_users, userObj.uid],
+            });
+
+            setLikeCount((prev) => {
+                return prev + 1;
+            })
+
+            setToastState(true);
+        }
+        setLikeState((prev) => !prev);
+    }
+
     
     return(
         <>
-            <div className={tictoc.child ? ("nweet reply_nweet") : ("nweet")}>
-                    <img src={userObj.photoURL} className="user_photo_image" />
+            <div className="tweet">
+                <div className="tweet_user_photo_container">
+                    <img src={userPhoto} className="user_photo_image" />
+                </div>
 
-                {tictoc.RetweetContent && 
-                    <div className="retweet_container">
-                        <h1>retweetText : {tictoc.RetweetContent}</h1>
+                <div className="tweet_content">
+                    {isOwner && <div className="close_tweet">
+                        <FontAwesomeIcon icon={faXmark} />
                     </div>}
 
+                    <div className="tweet_userInfo_container">
+                        <span className="user_name">{userName}</span>
+                        <span className="enroll_date">{enrollDate}</span>
+                        <FontAwesomeIcon icon={faEllipsis} className='three-dots-icon' />
+                    </div>
 
-                {editing ? (
-                    <>
-                        <form onSubmit={onUpdateTweetText} className="container nweetEdit">
-                            <input type="text" className="formInput" placeholder="edit your tweet" value={newText} onChange={onChangeNewText} required />
-                            <input type="submit" value="Update tweet" className="formBtn" />
-                        </form>
-                        <button onClick={toggleEditing} className='formBtn cancelBtn'>Cancel</button>
-                    </>
-                ) : (
-                    <>
-                        {tictoc.child ? 
-                        (
-                            <>
-                                <div className="tweet_text">
-                                    <FontAwesomeIcon icon={faRightLong} className="child_icon"/>
-                                    <h4>{tictoc.text}</h4>
-                                </div>
-                            </>
-                        ) : (
-                            <div className={tictoc.isDeleted ? "deletedText tweet_text" : 'tweet_text'}>
-                                <h4>{tictoc.text}</h4>
-                            </div>
-                        )}
-                        {tictoc.attachmentUrl && <img src={tictoc.attachmentUrl} />}
-                        {isOwner && (
-                            <div className="nweet__actions">
-                                <button onClick={onDeleteTweet}>
-                                    <FontAwesomeIcon icon={faTrash} />
-                                </button>
+                    <div className="user_tweet_content">
+                        <span>{tictoc.text}</span>
+                    </div>
 
-                                <button onClick={toggleEditing}>
-                                    <FontAwesomeIcon icon={faPencilAlt} />
-                                </button>
-                            </div>
-                        )}
+                    {tictoc.attachmentUrl && 
+                        <div className="user_tweet_image_container">
+                            <img src={tictoc.attachmentUrl} />
+                        </div>
+                    }
 
-                        <ReplyTweet parentTweet={tictoc} userObj={userObj} setRetweetContent={setRetweetContent} setRetweetState={setRetweetState} setParentBundle={setParentBundle} />                    
-                    </>
-                    ) 
-                }
+                    <div className="action_container">
+                        <div className="action_comment_container">
+                            <FontAwesomeIcon icon={faCommentDots} className="icons" />
+                            <span>{commentList.filter(element => element.child && element.bundle === tictoc.bundle).length}</span>
+                        </div>
+                        
+                        <div className="action_retweet_container">
+                            <FontAwesomeIcon icon={faRetweet} className="icons" />
+                            <span>{commentList.filter(element => element.RetweetContent === tictoc.text && element.bundle === tictoc.bundle).length}</span>
+                        </div>
 
+                        <div className="action_like_container">
+                            {likeState ? (
+                                <>
+                                    <FontAwesomeIcon icon={faHeart} className="icons hearted" onClick={onClickLike} />
+                                    <span className="hearted">{likeCount}</span>
+                                </>
+                            ) : (
+                                <>
+                                    <FontAwesomeIcon icon={faHeart} className="icons" onClick={onClickLike} />
+                                    <span>{likeCount}</span>
+                                </>
+                            )}
+                            {/* <FontAwesomeIcon icon={faHeart} className="icons hearted" />
+                            <span>0</span> */}
+
+                        </div>
+
+                        <div className="action_share_container">
+                            <FontAwesomeIcon icon={faArrowUpFromBracket} className="icons share_icon" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );

@@ -82,13 +82,13 @@ const TweetFactory = ({ userObj, RetweetContent, setRetweetContent, retweetState
 
     return(
         <>
-            <form className="factoryForm">
+            <form className="factoryForm" onSubmit={onSubmit}>
                 <div className="user_image_container">
                     <img src={userObj.photoURL} />
                 </div>
 
                 <div className="tweet_input_container">
-                    <input type="text" placeholder="what's happening?" className="factoryInput__input" />
+                    <input type="text" placeholder="what's happening?" value={message} onChange={onChange} className="factoryInput__input" />
 
                     {attachment && (
                         <div className="factoryForm__attachment">
@@ -107,13 +107,10 @@ const TweetFactory = ({ userObj, RetweetContent, setRetweetContent, retweetState
                         <input type="file" id="attach-file" accept='image/*' onChange={onFileChange} className="file_upload_input" />
 
                         <div className="factory_input_tweet">
-                            <span>Tweet</span>
+                            <button>Tweet</button>
                         </div>
                     </div>
                 </div>
-
-                
-                
             </form>
         </>
     );
