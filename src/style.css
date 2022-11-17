@@ -215,6 +215,10 @@ img{
   font-size:20px;
 }
 
+.factoryInput__input:focus{
+  outline:none;
+}
+
 .tweet_input_container > .tweet_footer{
   border-top: 0.1px solid gray;
   padding-top:20px;
@@ -227,6 +231,8 @@ img{
 .tweet_input_container > .tweet_footer > .factoryInput__label > .input_image_icon{
   width:20px;
   height:20px;
+  color:#04AAFF;
+  cursor: pointer;
 }
 
 .tweet_input_container > .tweet_footer > .file_upload_input{
@@ -244,7 +250,37 @@ img{
   padding:0 10px;
   height:32px;
   cursor:pointer;
+  display:flex;
+  align-items: center;
 }
+
+.factoryForm > .tweet_input_container > .factoryForm__attachment{
+  width:100%;
+  height:auto;
+}
+
+.factoryForm > .tweet_input_container > .factoryForm__attachment > img{
+  width:100%;
+  height:auto;
+  border-radius: 10px;
+}
+
+.factoryForm__attachment{
+  position:relative;
+}
+
+.factoryForm__clear > svg{
+  position: absolute;
+  color:white;
+  padding:3px;
+  width:16px;
+  height:16px;
+  border-radius: 20px;
+  background-color:black;
+  top:5px;
+  left:5px;
+}
+
 
 /* recommend(right side) css */
 

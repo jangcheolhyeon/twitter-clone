@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 import { collection, addDoc } from "firebase/firestore"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faImage } from "@fortawesome/free-solid-svg-icons";
 
 const TweetFactory = ({ userObj, RetweetContent, setRetweetContent, retweetState, parentBundle }) => {
     const [message, setMessage] = useState('');
@@ -82,29 +82,38 @@ const TweetFactory = ({ userObj, RetweetContent, setRetweetContent, retweetState
 
     return(
         <>
-            <img src={userObj.photoURL} className='user_photo_image' />
-            <form onSubmit={onSubmit} className="factoryForm">
-                <div className="factoryInput__container">
-                    <input type="text" className="factoryInput__input" placeholder='whats your mind' value={message} onChange={onChange} />
-                    <input type="submit" value="&rarr;" className="factoryInput__arrow" />
+            <form className="factoryForm">
+                <div className="user_image_container">
+                    <img src={userObj.photoURL} />
                 </div>
 
-                <label htmlFor="attach-file" className="factoryInput__label">
-                    <span>Add photo</span>
-                    <FontAwesomeIcon icon={faPlus} />
-                </label>
-                <input type="file" id="attach-file" accept='image/*' onChange={onFileChange} className="file_upload_input" />
+                <div className="tweet_input_container">
+                    <input type="text" placeholder="what's happening?" className="factoryInput__input" />
 
-                {attachment && (
-                    <div className="factoryForm__attachment">
-                        <img src={attachment} style={{ backgroundImage : attachment }} />
+                    {attachment && (
+                        <div className="factoryForm__attachment">
+                            <img src={attachment} style={{ backgroundImage : attachment }} />
 
-                        <div className="factoryForm__clear" onClick={onClearImage}>
-                            <span>Remove</span>
-                            <FontAwesomeIcon icon={faTimes} />
+                            <div className="factoryForm__clear" onClick={onClearImage}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="tweet_footer">
+                        <label htmlFor="attach-file" className="factoryInput__label">
+                            <FontAwesomeIcon icon={faImage} className="input_image_icon" />
+                        </label>
+                        <input type="file" id="attach-file" accept='image/*' onChange={onFileChange} className="file_upload_input" />
+
+                        <div className="factory_input_tweet">
+                            <span>Tweet</span>
                         </div>
                     </div>
-                )}
+                </div>
+
+                
+                
             </form>
         </>
     );
