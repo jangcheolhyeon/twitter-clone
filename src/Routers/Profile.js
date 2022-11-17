@@ -1,7 +1,7 @@
 import { getAuth, signOut, updateProfile } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, where, orderBy, updateDoc, doc } from "firebase/firestore";
 import { authService, db, storageService } from 'fbase';
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 
-const Profile = ({ userObj, refreshUserObj }) => {
+const Profile = ({ userObj, refreshUserObj, usersProfile }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const [userAttachment, setUserAttachment] = useState(userObj.photoURL);
     const auth = getAuth();
@@ -36,17 +36,18 @@ const Profile = ({ userObj, refreshUserObj }) => {
     const onDisplayNameClick = async(event) => {
         event.preventDefault();
         //다르면 업데이트
+        onUpdateUserImg();
         if(newDisplayName !== userObj.displayName){
             await updateProfile(authService.currentUser, {displayName: newDisplayName});
             refreshUserObj();
         }
-        onUpdateUserImg();
     }
 
     const onChangeDisplayName = (event) => {
         const {target : {value}} = event;
         setNewDisplayName(value);
     }
+
         
     // React Hook useEffect has missing dependencies 경고는 useEffect 안에 state를 넣어줘야 되는데 그냥 쓰고싶을땐 ??
     useEffect(() => {
@@ -87,6 +88,9 @@ const Profile = ({ userObj, refreshUserObj }) => {
 
         if(userAttachment !== userObj.userImage){
             await updateProfile(authService.currentUser, {photoURL: attachmentUrl});
+            await updateDoc(doc(db, 'usersInfo', `${usersProfile.filter(element => element.userId === userObj.uid)[0].id}`), {
+                userImage : attachmentUrl,
+            });
             refreshUserObj();
         }
     }

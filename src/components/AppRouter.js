@@ -7,7 +7,9 @@ import Profile from 'Routers/Profile';
 import Navigation from 'components/Navigation';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from 'fbase';
-
+import TopNavi from 'components/TopNavi';
+import SideRecommend from 'components/SideRecommend';
+import Details from 'Routers/Details';
 
 
 const AppRouter = () => {
@@ -60,17 +62,20 @@ const AppRouter = () => {
             <Router>
                 {init ? (
                     <>
+                    {isLoggedIn && <TopNavi />}
                     {isLoggedIn && <Navigation userObj={userObj}/>}
                         <Routes>
                             {isLoggedIn ? (
                                 <>
-                                    <Route path='/' element={<Home userObj={userObj} />} />
+                                    <Route path='/' element={<Home userObj={userObj} usersProfile={usersProfile} />} />
                                     <Route path='/profile' element={<Profile refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile}/>} />
+                                    {/* <Route path='/details' element={<Details />} /> */}
                                 </>
                             ) : (
                                 <Route path='/' element={<Auth userObj={userObj} />} />
                             )}
                         </Routes>
+                    {isLoggedIn && <SideRecommend />}
                     </>
                 ) : (
                     <span className='loading_page'>LOADING...</span>
