@@ -7,8 +7,8 @@ import Profile from 'Routers/Profile';
 import Navigation from 'components/Navigation';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from 'fbase';
-import TopNavi from 'components/TopNavi';
-import SideRecommend from 'components/SideRecommend';
+import TopNavi from 'Routers/TopNavi';
+import SideRecommend from 'Routers/SideRecommend';
 import Details from 'Routers/Details';
 
 
