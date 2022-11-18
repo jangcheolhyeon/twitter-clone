@@ -77,7 +77,7 @@ const AppRouter = () => {
                                 <Route path='/' element={<Auth userObj={userObj} usersProfile={usersProfile}  />} />
                             )}
                         </Routes>
-                    {isLoggedIn && <SideRecommend usersProfile={usersProfile}/>}
+                    {isLoggedIn && <SideRecommend usersProfile={usersProfile} userObj={userObj} />}
                     </>
                 ) : (
                     <span className='loading_page'>LOADING...</span>
