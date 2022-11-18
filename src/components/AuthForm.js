@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { UNSAFE_enhanceManualRouteObjects } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "fbase";
 
-const AuthForm = ({ userObj }) => {
+const AuthForm = ({ userObj, usersProfile }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [createNewAccount, setCreateNewAccount] = useState(true);
@@ -23,19 +22,32 @@ const AuthForm = ({ userObj }) => {
             const auth = getAuth();
             if(createNewAccount){
                 await createUserWithEmailAndPassword(auth, email, password);
-                await addDoc(collection(db, 'usersInfo'), {
-                    userId : userObj.uid,
-                    userImage : userObj.photoURL,
-                    displayName : userObj.displayName,
-                })
+
+                if(usersProfile.filter(element => element.userId === userObj.uid).length){
+                    await addDoc(collection(db, 'usersInfo'), {
+                        userId : userObj.uid,
+                        userImage : userObj.photoURL,
+                        displayName : userObj.displayName,
+                        email : userObj.email,
+                        follower:[],
+                        following:[],
+                    })
+                }
 
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
-                await addDoc(collection(db, 'usersInfo'), {
-                    userId : userObj.uid,
-                    userImage : userObj.photoURL,
-                    displayName : userObj.displayName,
-                })
+
+                if(usersProfile.filter(element => element.userId === userObj.uid).length){
+                    await addDoc(collection(db, 'usersInfo'), {
+                        userId : userObj.uid,
+                        userImage : userObj.photoURL,
+                        displayName : userObj.displayName,
+                        email : userObj.email,
+                        follower:[],
+                        following:[],
+                    })
+                }
+
             }
 
         } catch(error){

@@ -29,6 +29,9 @@ const AppRouter = () => {
                     uid : user.uid,
                     updateProfile: () => updateProfile(user, { displayName : user.displayName }),
                     photoURL : user.photoURL,
+                    email : user.email,
+                    follower : [],
+                    following : [],
                 });
                 setInit(true);
             } else{
@@ -48,9 +51,8 @@ const AppRouter = () => {
 
             setUsersProfile(newUsersInfo);
         })
-
+        
     }, []);
-
 
     //db에 있는 데이터 refresh해서 state변동
     const refreshUserObj = () => {
@@ -72,7 +74,7 @@ const AppRouter = () => {
                                     {/* <Route path='/details' element={<Details />} /> */}
                                 </>
                             ) : (
-                                <Route path='/' element={<Auth userObj={userObj} />} />
+                                <Route path='/' element={<Auth userObj={userObj} usersProfile={usersProfile}  />} />
                             )}
                         </Routes>
                     {isLoggedIn && <SideRecommend usersProfile={usersProfile}/>}
