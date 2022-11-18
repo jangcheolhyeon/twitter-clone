@@ -23,10 +23,10 @@ img{
 
 .top_container{
   position: fixed;
-  margin-left:calc(25% + 40px);
+  margin-left:calc(25% + 20px);
   height:40px;
   background-color: rgba(0,0,0,0.7);
-  width:65%;
+  width:40%;
   border-left:0.1px solid gray;
   border-right:0.1px solid gray;
 }
@@ -45,7 +45,7 @@ img{
 
 .top_side_container{
   position:fixed;
-  margin-left:calc(70% + 40px);
+  margin-left:calc(70% + 20px);
   height:40px;
   background-color: rgba(0,0,0,0.7);
   border:0.1px solid gray;
@@ -65,7 +65,6 @@ img{
   padding:0;
   height: 100%;
   position: fixed;
-  overflow: auto;
 }
 
 .nav_link_container > li > a:hover {
@@ -159,6 +158,19 @@ img{
   bottom:0;
   margin-bottom:20px;
   display:flex;
+  padding:10px;
+  align-items: center;
+  cursor:pointer;
+  right:0px;
+}
+
+.current_user_info_container:hover{
+  background-color:slategray;
+  border-radius: 30px;
+}
+
+.current_user_info_container > .three-dots-icon{
+  margin-left:auto;
 }
 
 .current_user_info{
@@ -172,11 +184,11 @@ img{
 /* content css */
 
 .container{
-  margin-left:calc(25% + 40px);
+  margin-left:calc(25% + 20px);
   margin-top:40px;
   padding: 0px;
-  border:0.5px solid lightslategray;
-  width:45%;
+  border:0.1px solid lightslategray;
+  width:40%;
 }
 
 .factoryForm{
@@ -243,15 +255,21 @@ img{
   position: absolute;
   right: 0;
   background-color:#04AAFF;
-  border:none;
   border-radius: 22px;
   font-size:15px;
-  color:white;
   padding:0 10px;
   height:32px;
-  cursor:pointer;
   display:flex;
   align-items: center;
+}
+
+.factory_input_tweet > button{
+  background-color: #04AAFF;
+  color:white;
+  border:none;
+  font-size:15px;
+  cursor:pointer;
+  font-weight: bold;
 }
 
 .factoryForm > .tweet_input_container > .factoryForm__attachment{
@@ -281,14 +299,7 @@ img{
   left:5px;
 }
 
-
-/* recommend(right side) css */
-
-.right_container{
-  width:20%;
-  height:100vh;
-  margin-top:40px;
-}
+/* tweet 입력시 tweet list container */
 
 .tweet{
   border-bottom:0.1px solid gray;
@@ -402,10 +413,6 @@ img{
   user-select:none;
 }
 
-/* .tweet > .tweet_content > .action_container svg:hover{
-  background-color:black;
-} */
-
 .action_container > .action_comment_container > svg:hover{
   background-color:skyblue;
 }
@@ -424,5 +431,58 @@ img{
 
 .action_like_container > .hearted{
   color:red;
+}
+
+
+/* recommend(right side) css */
+
+.recommend_container{
+  width:20%;
+  margin-top:40px;
+  padding:20px;
+  height:100vh;
+}
+
+.recommend_container_content{
+  background-color:rgb(30, 32, 36);
+  height:calc(100% - 80px);
+  border-radius: 16px;
+}
+
+.recommend_header_container{
+  padding-top: 15px;
+  padding-left: 15px;
+}
+
+.recommend_header_container > h3{
+  margin-top:0;
+}
+
+.recommend_list{
+  display:flex;
+  flex-direction:column;
+  list-style: none;
+  width:100%;
+  padding:0;
+  margin:0;
+}
+
+.recommend_list > .recommend_item{
+  display:flex;
+  align-items: center;
+  padding:20px;
+}
+
+.recommend_list > .recommend_item:hover{
+  background-color:white;
+}
+
+.recommend_item > .user_image_container > img{
+  width:50px;
+  height:50px;
+  border-radius: 25px;
+}
+
+.recommend_item > .user_display_name{
 }
 
