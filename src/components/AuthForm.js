@@ -22,8 +22,9 @@ const AuthForm = ({ userObj, usersProfile }) => {
             const auth = getAuth();
             if(createNewAccount){
                 await createUserWithEmailAndPassword(auth, email, password);
+                const isUserIn = usersProfile.filter(element => element.userId === userObj.uid).length;
 
-                if(usersProfile.filter(element => element.userId === userObj.uid).length){
+                if(isUserIn === 0){
                     await addDoc(collection(db, 'usersInfo'), {
                         userId : userObj.uid,
                         userImage : userObj.photoURL,
@@ -35,9 +36,10 @@ const AuthForm = ({ userObj, usersProfile }) => {
                 }
 
             } else {
-                await signInWithEmailAndPassword(auth, email, password);
+                await signInWithEmailAndPassword(auth, email, password);               
+                const isUserIn = usersProfile.filter(element => element.userId === userObj.uid).length;
 
-                if(usersProfile.filter(element => element.userId === userObj.uid).length){
+                if(isUserIn === 0){
                     await addDoc(collection(db, 'usersInfo'), {
                         userId : userObj.uid,
                         userImage : userObj.photoURL,
@@ -46,7 +48,7 @@ const AuthForm = ({ userObj, usersProfile }) => {
                         follower:[],
                         following:[],
                     })
-                }
+                }                
 
             }
 
