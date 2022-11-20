@@ -23,10 +23,10 @@ img{
 
 .top_container{
   position: fixed;
-  margin-left:calc(25% + 20px);
+  margin-left:calc(30% + 20px);
   height:40px;
   background-color: rgba(0,0,0,0.7);
-  width:40%;
+  width:33%;
   border-left:0.1px solid gray;
   border-right:0.1px solid gray;
 }
@@ -59,9 +59,9 @@ img{
 
 .nav_link_container{
   list-style-type: none;
-  width:15%;
+  width:12%;
   margin: 0;
-  margin-left:10%;
+  margin-left:17%;
   padding:0;
   height: 100%;
   position: fixed;
@@ -184,11 +184,12 @@ img{
 /* content css */
 
 .container{
-  margin-left:calc(25% + 20px);
+  margin-left:calc(30% + 20px);
   margin-top:40px;
   padding: 0px;
-  border:0.1px solid lightslategray;
-  width:40%;
+  border-left:0.1px solid lightslategray;
+  border-right:0.1px solid lightslategray;
+  width:33%;
 }
 
 .factoryForm{
@@ -437,7 +438,7 @@ img{
 /* recommend(right side) css */
 
 .recommend_container{
-  width:22%;
+  width:18%;
   margin-top:40px;
   padding:20px;
   height:100vh;
@@ -448,7 +449,7 @@ img{
   /* height:calc(100% - 80px); */
   border-radius: 16px;
   position:fixed;
-  width:22%;
+  width:18%;
 }
 
 .recommend_header_container{
@@ -511,4 +512,273 @@ img{
 .recommend_friend_unfollow_btn{
   color:blue;
   font-weight: bold;
+}
+
+
+/* profile */
+
+.container > .background_container{
+  width:100%;
+  height:200px;
+  background-color: rgb(49, 52, 55);
+}
+
+.container > .my_profile_container{
+  position: relative;
+  height:8%;
+}
+
+.container > .my_profile_container > .my_profile_container_top{
+  width:100%;
+}
+
+.my_profile_container > .my_profile_container_top > img{
+  width:140px;
+  height:140px;
+  border:px solid black;
+  border-radius: 70px;
+  position: absolute;
+  left:30px;
+  bottom:0px;
+  top:-70px;
+}
+
+.my_profile_container > .my_profile_container_top > button{
+  height:40px;
+  font-weight:bold;
+  background-color:black;
+  color:white;
+  border:1px solid white;
+  padding:10px 20px;
+  border-radius: 20px;
+  cursor:pointer;
+  float:right;
+  margin-top:20px;
+  margin-right:20px;
+}
+
+.my_profile_container > .my_profile_container_top > button:hover{
+  background-color:rgb(81, 86, 92)
+}
+
+.container > .my_profile_info_container{
+  display: flex;
+  flex-direction: column;
+  padding:0 20px;
+  margin-bottom:20px;
+}
+
+.container > .my_profile_info_container > .user_name{
+  font-weight: bold;
+  font-size:30px;
+}
+
+.container > .my_profile_info_container > .user_email{
+  font-weight:lighter;
+  color:rgb(100, 110, 119);
+
+}
+
+.container > .my_profile_info_container > .follow_follower_info{
+  margin-top:15px;
+  color:rgb(100, 110, 119);
+}
+
+.container > .my_profile_info_container > .follow_follower_info > span:nth-child(1){
+  margin-right:15px;
+}
+
+.container > .my_profile_info_container > .follow_follower_info > span:hover{
+  cursor:pointer;
+  border-bottom:1px solid white;
+}
+
+.container > .my_profile_info_container > .follow_follower_info .number{
+  font-weight:bold;
+  color:White;
+}
+
+.container > .my_trace_navi {
+  display: flex;
+  border-bottom:0.1px solid lightslategray;
+}
+
+.container > .my_trace_navi > .tweets:hover, .tweets_replies:hover, .media:hover, .likes:hover{
+  background-color:rgb(33, 34, 34);
+  cursor: pointer;
+}
+
+.container > .my_trace_navi > .my_trace_box {
+  padding:0px 20px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container > .my_trace_navi > .my_trace_box > span{
+  font-weight:lighter;
+  padding:20px 0;
+}
+
+.container > .my_trace_navi > .tweets{
+  flex:1;
+}
+
+.container > .my_trace_navi > .tweets_active > span{
+  border-bottom:3px solid #04AAFF;
+  font-weight: bold;
+}
+
+.container > .my_trace_navi > .tweets_replies{
+  flex:1.5;
+}
+
+.container > .my_trace_navi > .tweets_replies_active > span{
+  border-bottom:3px solid #04AAFF;
+  font-weight: bold;
+}
+
+.container > .my_trace_navi > .media{
+  flex:1;
+}
+
+.container > .my_trace_navi > .media_active > span{
+  border-bottom:3px solid #04AAFF;
+  font-weight: bold;
+}
+
+.container > .my_trace_navi > .likes{
+  flex:1;
+}
+
+.container > .my_trace_navi > .likes_active > span{
+  border-bottom:3px solid #04AAFF;
+  font-weight: bold;
+}
+
+.container > .my_trace_content{
+  border-bottom:0.1px solid lightslategray;
+  height:20%;
+  padding:10px 20px;
+}
+
+.container > .my_trace_content > .my_trace_content_top{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  height:18%;
+}
+
+.container > .my_trace_content > .my_trace_content_top > span{
+  font-weight:bold;
+  font-size:20px;
+}
+
+.container > .my_trace_content > .my_trace_content_top > svg{
+  color:slategray;
+  cursor:pointer;
+}
+
+.container > .my_trace_content > .setup_container{
+  display: flex;
+  height: calc(100% - 18%);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container > .my_trace_content > .setup_container > .setup_box{
+  height:100px;
+  width:170px;
+  padding: 15px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.container > .my_trace_content > .setup_container > .setup_box:hover{
+  background-color:white;
+}
+
+.container > .my_trace_content > .setup_container > .setup_box > div{
+  border:1px solid white;
+  border-radius: 10px;
+  height:80px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container > .my_trace_content > .setup_container > .setup_box > div> svg{
+  width:30px;
+  height:30px;
+}
+
+.container > .my_trace_content > .setup_container > .setup_box > span{
+  font-size:11px;
+  font-weight: bold;
+}
+
+.container > .my_trace_content > .setup_container > .setup_box:hover{
+  background-color:lightslategray;
+}
+
+/* .container > .my_trace_content >  */
+
+.container > .profile_follow_recommend{
+  padding: 10px 20px;
+  margin-bottom:10px;
+}
+
+.container > .profile_follow_recommend > span{
+  font-weight:bold;
+  font-size:20px;
+}
+
+.container > .profile_follow_recommend > .recommend_list_container{
+  margin-top:10px;
+}
+
+.media_container{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  padding:100px 130px;
+}
+
+.media_container > .media_content_img > svg{
+  width:200px;
+  height:200px;
+}
+
+.media_container > .media_content_message{
+  display:flex;
+  flex-direction: column;
+
+}
+
+.media_container > .media_content_message > .message_header{
+  font-weight: bold;
+  font-size:34px;
+}
+
+.media_container > .media_content_message > .text{
+  margin-top:20px;
+  font-weight: lighter;
+}
+
+.like_container {
+  padding:50px 130px;
+}
+
+.like_container > .like_container_content {
+  display:flex;
+  flex-direction: column;
+}
+
+.like_container > .like_container_content > .like_content_top {
+  font-weight: bold;
+  font-size:34px;
+}
+
+.like_container > .like_container_content > .text{
+  margin-top:20px;
 }
