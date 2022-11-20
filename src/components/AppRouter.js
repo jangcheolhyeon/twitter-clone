@@ -17,6 +17,7 @@ const AppRouter = () => {
     const [userObj, setUserObj] = useState(null);
     const [init, setInit] = useState(false);
     const [usersProfile, setUsersProfile] = useState([]);
+    const [currentPage, setCurrentPage] = useState('home');
 
     useEffect(() => {
         const auth = getAuth();
@@ -64,13 +65,13 @@ const AppRouter = () => {
             <Router>
                 {init ? (
                     <>
-                    {isLoggedIn && <TopNavi />}
+                    {isLoggedIn && <TopNavi currentPage={currentPage} userObj={userObj}/>}
                     {isLoggedIn && <Navigation userObj={userObj}/>}
                         <Routes>
                             {isLoggedIn ? (
                                 <>
-                                    <Route path='/' element={<Home userObj={userObj} usersProfile={usersProfile} />} />
-                                    <Route path='/profile' element={<Profile refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile}/>} />
+                                    <Route path='/' element={<Home userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} />} />
+                                    <Route path='/profile' element={<Profile refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage}/>} />
                                     {/* <Route path='/details' element={<Details />} /> */}
                                 </>
                             ) : (

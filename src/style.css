@@ -37,10 +37,15 @@ img{
   align-items:center;
 }
 
+.show_current_page > svg { 
+  margin-left:20px;
+  cursor: pointer;
+}
+
 .show_current_page > span{
   font-weight:bold;
   font-size:20px;
-  margin-left:10px;
+  margin-left:20px;
 }
 
 .top_side_container{
@@ -781,4 +786,17 @@ img{
 
 .like_container > .like_container_content > .text{
   margin-top:20px;
+}
+
+/* update profile modal */
+
+.modal_update_profile_container{
+  position: absolute;
+  background-color: slategray;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width:500px;
+  height:500px;
 }

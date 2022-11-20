@@ -5,22 +5,21 @@ import { collection, getDocs, query, where, orderBy, updateDoc, doc } from "fire
 import { authService, db, storageService } from 'fbase';
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faEllipsis } from "@fortawesome/free-solid-svg-icons";
-import RecommendFriend from 'components/RecommendFriend';
 import ProfileNaviTweets from './ProfileNaviTweets';
 import ProfileNaviTweets_Replies from './ProfileNaviTweets_Replies';
 import ProfileNaviMedia from './ProfileNaviMedia';
 import ProfileNaviLikes from './ProfileNaviLikes';
+import ModalUpdateProfile from 'components/ModalUpdateProfile';
 
 
-const Profile = ({ userObj, refreshUserObj, usersProfile }) => {
+const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const [userAttachment, setUserAttachment] = useState(userObj.photoURL);
     // const [tweetsActive, setTweetsActive] = useState(true);
     // const [twwetsRepliesActive, setTweetsRepliesActive] = useState(false);
     // const [media, setMedia] = useState(false);
     // const [likes, setLikes] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
     const [currentNavi, setCurrentNavi] = useState({
         Tweets : true,
         TweetsReplies : false,
@@ -77,6 +76,7 @@ const Profile = ({ userObj, refreshUserObj, usersProfile }) => {
             setUserAttachment(userObj.photoURL);
         }
 
+        setCurrentPage('profile');
     }, []);
 
     // OAuth대신 로그인 하면 displayName이 안나옴. 그래서 email의 @기준으로 앞 부분을 displayNAme으로 설정
@@ -136,110 +136,115 @@ const Profile = ({ userObj, refreshUserObj, usersProfile }) => {
                 newCurrentNavi.Likes = true
                 break;
         }
-
         setCurrentNavi(newCurrentNavi);
     }
 
+    const handleUpdateProfile = () => {
+        setModalOpen((prev) => !prev);
+    }
 
     return(
-        <div className='container'>
-            <div className='background_container'>
-            </div>
-
-            <div className='my_profile_container'>
-                <div className='my_profile_container_top'>
-                    <img src={userAttachment} />
-                    <button>Set up profile</button>
+        <>
+            { modalOpen && <ModalUpdateProfile /> }
+            <div className='container'>
+                <div className='background_container'>
                 </div>
-            </div>
 
-            <div className='my_profile_info_container'>
-                <span className='user_name'>{userObj.displayName}</span>
-                <span className='user_email'>{userObj.email}</span>
-                <div className='follow_follower_info'>
-                    <span>
-                        <span className='number'>0</span> Following
-                    </span>
-                    <span>
-                        <span className='number'>0</span> Followers
-                    </span>
-                </div>
-            </div>
-            
-            <div className='my_trace_navi'>
-                <div className={currentNavi.Tweets ? "my_trace_box tweets tweets_active" : "my_trace_box tweets"} onClick={() => handleTraceClick('Tweets')}>
-                    <span>Tweets</span>
-                </div>
-                <div className={currentNavi.TweetsReplies ? 'my_trace_box tweets_replies tweets_replies_active' : 'my_trace_box tweets_replies'} onClick={() => handleTraceClick('TweetsReplies')}>
-                    <span>Tweets & replies</span>
-                </div>
-                <div className={currentNavi.Media ? 'my_trace_box media media_active' : 'my_trace_box media'} onClick={() => handleTraceClick('Media')}>
-                    <span>Media</span>
-                </div>
-                <div className={currentNavi.Likes ? 'my_trace_box likes likes_active' : 'my_trace_box likes'} onClick={() => handleTraceClick('Likes')}>
-                    <span>Likes</span>
-                </div>
-            </div>
-
-            {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} />}
-            {currentNavi.TweetsReplies && <ProfileNaviTweets_Replies usersProfile={usersProfile} userObj={userObj} />}
-            {currentNavi.Media && <ProfileNaviMedia usersProfile={usersProfile} userObj={userObj} />}
-            {currentNavi.Likes && <ProfileNaviLikes usersProfile={usersProfile} userObj={userObj} />}
-
-            {/* <div className='my_trace_content'>
-                <div className='my_trace_content_top'>
-                    <span>Let's get you set up</span>
-                    <FontAwesomeIcon icon={faEllipsis} className='three-dots-icon' />
-                </div>
-                <div className='setup_container'>
-                    <div className="setup_box complete_your_profile">
-
-                    </div>
-                    <div className="setup_box follow_5_account">
-
-                    </div>
-                    <div className="setup_box follow_3Topics">
-
-                    </div>
-                    <div className="setup_box">
-
+                <div className='my_profile_container'>
+                    <div className='my_profile_container_top'>
+                        <img src={userAttachment} />
+                        <button onClick={handleUpdateProfile}>Set up profile</button>
                     </div>
                 </div>
-            </div> */}
-            {/* <div className='profile_follow_recommend'>
-                <span>Who to follow</span>
+
+                <div className='my_profile_info_container'>
+                    <span className='user_name'>{userObj.displayName}</span>
+                    <span className='user_email'>{userObj.email}</span>
+                    <div className='follow_follower_info'>
+                        <span>
+                            <span className='number'>0</span> Following
+                        </span>
+                        <span>
+                            <span className='number'>0</span> Followers
+                        </span>
+                    </div>
+                </div>
                 
-                <div className="recommend_list_container">
-                    <ul className="recommend_list">
-                        {usersProfile.filter(element => element.userId !== userObj.uid).map((element) => {
-                            return(
-                                <>
-                                    <RecommendFriend
-                                        key={element.userId} user={element} 
-                                    />
-                                    <span>asdlfnsaldk</span>
-                                </>
-                            );
-                        })}
-                    </ul>
+                <div className='my_trace_navi'>
+                    <div className={currentNavi.Tweets ? "my_trace_box tweets tweets_active" : "my_trace_box tweets"} onClick={() => handleTraceClick('Tweets')}>
+                        <span>Tweets</span>
+                    </div>
+                    <div className={currentNavi.TweetsReplies ? 'my_trace_box tweets_replies tweets_replies_active' : 'my_trace_box tweets_replies'} onClick={() => handleTraceClick('TweetsReplies')}>
+                        <span>Tweets & replies</span>
+                    </div>
+                    <div className={currentNavi.Media ? 'my_trace_box media media_active' : 'my_trace_box media'} onClick={() => handleTraceClick('Media')}>
+                        <span>Media</span>
+                    </div>
+                    <div className={currentNavi.Likes ? 'my_trace_box likes likes_active' : 'my_trace_box likes'} onClick={() => handleTraceClick('Likes')}>
+                        <span>Likes</span>
+                    </div>
                 </div>
-            </div> */}
 
-            {/* <div className="profile_image">
-                <img src={userAttachment} />
+                {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} />}
+                {currentNavi.TweetsReplies && <ProfileNaviTweets_Replies usersProfile={usersProfile} userObj={userObj} />}
+                {currentNavi.Media && <ProfileNaviMedia usersProfile={usersProfile} userObj={userObj} />}
+                {currentNavi.Likes && <ProfileNaviLikes usersProfile={usersProfile} userObj={userObj} />}
+
+                {/* <div className='my_trace_content'>
+                    <div className='my_trace_content_top'>
+                        <span>Let's get you set up</span>
+                        <FontAwesomeIcon icon={faEllipsis} className='three-dots-icon' />
+                    </div>
+                    <div className='setup_container'>
+                        <div className="setup_box complete_your_profile">
+
+                        </div>
+                        <div className="setup_box follow_5_account">
+
+                        </div>
+                        <div className="setup_box follow_3Topics">
+
+                        </div>
+                        <div className="setup_box">
+
+                        </div>
+                    </div>
+                </div> */}
+                {/* <div className='profile_follow_recommend'>
+                    <span>Who to follow</span>
+                    
+                    <div className="recommend_list_container">
+                        <ul className="recommend_list">
+                            {usersProfile.filter(element => element.userId !== userObj.uid).map((element) => {
+                                return(
+                                    <>
+                                        <RecommendFriend
+                                            key={element.userId} user={element} 
+                                        />
+                                        <span>asdlfnsaldk</span>
+                                    </>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                </div> */}
+
+                {/* <div className="profile_image">
+                    <img src={userAttachment} />
+                </div>
+                <label htmlFor="attach-file" className="factoryInput__label">
+                    <span>Add photo</span>
+                    <FontAwesomeIcon icon={faPlus} />
+                </label>
+                <input type="file" id="attach-file" accept='image/*' className='update_btn file_upload_input' onChange={onUserAttachment} />
+
+                <form onSubmit={onDisplayNameClick} className='profileForm' >
+                    <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChangeDisplayName} className='formInput' />
+                    <button className='formBtn'>update profile</button>
+                </form>
+                <button onClick={onLogout} className='formBtn cancelBtn logOut'>logout</button> */}
             </div>
-            <label htmlFor="attach-file" className="factoryInput__label">
-                <span>Add photo</span>
-                <FontAwesomeIcon icon={faPlus} />
-            </label>
-            <input type="file" id="attach-file" accept='image/*' className='update_btn file_upload_input' onChange={onUserAttachment} />
-
-            <form onSubmit={onDisplayNameClick} className='profileForm' >
-                <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChangeDisplayName} className='formInput' />
-                <button className='formBtn'>update profile</button>
-            </form>
-            <button onClick={onLogout} className='formBtn cancelBtn logOut'>logout</button> */}
-        </div>
+        </>
     );
 }
 

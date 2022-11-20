@@ -7,7 +7,7 @@ import Retweet from 'components/Retweet';
 // import ToastAlert from 'components/ToastAlert';
 
 
-const Home = ({ userObj, usersProfile }) => {
+const Home = ({ userObj, usersProfile, setCurrentPage }) => {
     const [messages, setMessages] = useState([]);
     const [RetweetContent, setRetweetContent] = useState('');
     const [reTweetState, setRetweetState] = useState(false);
@@ -28,6 +28,7 @@ const Home = ({ userObj, usersProfile }) => {
             setMessages(newMessages);
         })
 
+        setCurrentPage("home");
         
     }, []);
 
