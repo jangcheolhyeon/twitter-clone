@@ -790,13 +790,185 @@ img{
 
 /* update profile modal */
 
-.modal_update_profile_container{
+.modal_update_profile_background{
   position: absolute;
-  background-color: slategray;
+  background-color: rgba(255,255,255,0.5);
+  z-index: 2;
+  top:0;
+  height:0;
+  z-index: 2;
+  height:100%;
+  width:100%;
+}
+
+.modal_update_profile_background > .modal_update_profile_container{
+  position: absolute;
+  background-color:black;
   top:50%;
   left:50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
-  width:500px;
-  height:500px;
+  z-index: 3;
+  width:600px;
+  height:600px;
+  border-radius: 10px;
+  display:flex;
+  flex-direction: column;
+  padding:10px 70px;
+}
+
+.modal_update_profile_background > .modal_update_profile_container > svg{
+  font-size:30px;
+  color:white;
+  margin-bottom:30px;
+}
+
+.modal_update_content{
+  display: flex;
+  flex-direction: column;
+}
+
+
+.modal_upload_header{
+  font-weight:bold;
+  font-size:30px;
+  margin-bottom:10px;
+}
+
+.modal_upload_text{
+  font-weight:lighter;
+  font-size:15px;
+  color:lightslategrey;
+  margin-bottom:50px;
+}
+
+.modal_update_profile_container > .modal_update_user_img{
+  border:3px solid white;
+  background-color:slategray;
+  height:200px;
+  width:200px;
+  border-radius: 200px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal_update_user_img > .modal_update_camera{
+  position:absolute;
+  background-color:black;
+  border-radius:50px;
+  padding:2px;
+  height:30px;
+  width:30px;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  cursor:pointer;
+}
+
+.modal_update_user_img > .modal_update_camera > label > svg{
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal_update_input_user_img{
+  display:none;
+}
+
+.modal_update_user_img > .modal_update_camera:hover{
+  background-color:rgb(79, 77, 77);
+}
+
+.modal_update_user_img > img{
+  width:200px;
+  height:200px;
+  border-radius: 200px;
+}
+
+.modal_update_img_hover{
+  position: absolute;
+  top:28px;
+  left:7px;
+}
+
+.modal_update_img_hover > span{
+  background-color:rgb(135, 132, 132);
+  font-size:7px;
+  color:white;
+}
+
+.modal_update_skip_btn{
+  border:1px solid white;
+  width:70%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height:60px;
+  border-radius: 35px;
+  position: absolute;
+  bottom:36px;
+  left:108px;
+  cursor: pointer;
+}
+
+.modal_update_skip_btn:hover{
+  background-color:rgb(67, 64, 64);
+}
+
+.modal_update_skip_btn > button{
+  background: transparent;
+  padding: auto 20px;
+  color:white;
+  font-weight: bold;
+  border:none;
+  font-size:20px;
+  cursor: pointer;
+}
+
+.modal_update_display_name_top{
+  display:flex;
+  width:100%;
+  margin-bottom:30px;
+}
+
+.modal_update_display_name_top > svg:nth-child(1){
+  position: absolute;
+  left:20px;
+  font-size:15px;
+  cursor:pointer;
+  border-radius: 20px;
+  padding:10px;
+}
+
+.modal_update_display_name_top > svg:nth-child(1):hover{
+  background-color:rgb(67, 64, 64);
+}
+
+.modal_update_display_name_top > svg:nth-child(2){
+  font-size:30px;
+  margin: 0 auto;
+}
+
+.update_display_name_text{
+  border:1px solid rgb(67, 64, 64);
+  width:70%;
+  margin-top:50px;
+  margin: 0 auto;
+}
+
+.update_display_name_text > input{
+  background-color:transparent;
+  outline:none;
+  border: none;
+  font-size:20px;
+  width:100%;
+  height:80px;
+  font-weight:bold;
+  color:white;
 }
