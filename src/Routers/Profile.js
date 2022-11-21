@@ -15,10 +15,6 @@ import ModalUpdateProfile from 'components/ModalUpdateProfile';
 const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const [userAttachment, setUserAttachment] = useState(userObj.photoURL);
-    // const [tweetsActive, setTweetsActive] = useState(true);
-    // const [twwetsRepliesActive, setTweetsRepliesActive] = useState(false);
-    // const [media, setMedia] = useState(false);
-    // const [likes, setLikes] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [currentNavi, setCurrentNavi] = useState({
         Tweets : true,
@@ -53,16 +49,19 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage }) => {
 
     const onDisplayNameClick = async(event) => {
         event.preventDefault();
+        console.log("click");
         //다르면 업데이트
         onUpdateUserImg();
         if(newDisplayName !== userObj.displayName){
             await updateProfile(authService.currentUser, {displayName: newDisplayName});
             refreshUserObj();
         }
+        setModalOpen((prev) => !prev);
     }
 
     const onChangeDisplayName = (event) => {
         const {target : {value}} = event;
+        console.log(value);
         setNewDisplayName(value);
     }
 
@@ -145,7 +144,7 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage }) => {
 
     return(
         <>
-            { modalOpen && <ModalUpdateProfile /> }
+            { modalOpen && <ModalUpdateProfile userAttachment={userAttachment} onUserAttachment={onUserAttachment} newDisplayName={newDisplayName} onChangeDisplayName={onChangeDisplayName} onDisplayNameClick={onDisplayNameClick} setModalOpen={setModalOpen} /> }
             <div className='container'>
                 <div className='background_container'>
                 </div>
@@ -190,26 +189,6 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage }) => {
                 {currentNavi.Media && <ProfileNaviMedia usersProfile={usersProfile} userObj={userObj} />}
                 {currentNavi.Likes && <ProfileNaviLikes usersProfile={usersProfile} userObj={userObj} />}
 
-                {/* <div className='my_trace_content'>
-                    <div className='my_trace_content_top'>
-                        <span>Let's get you set up</span>
-                        <FontAwesomeIcon icon={faEllipsis} className='three-dots-icon' />
-                    </div>
-                    <div className='setup_container'>
-                        <div className="setup_box complete_your_profile">
-
-                        </div>
-                        <div className="setup_box follow_5_account">
-
-                        </div>
-                        <div className="setup_box follow_3Topics">
-
-                        </div>
-                        <div className="setup_box">
-
-                        </div>
-                    </div>
-                </div> */}
                 {/* <div className='profile_follow_recommend'>
                     <span>Who to follow</span>
                     
