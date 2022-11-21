@@ -5,11 +5,8 @@ import Tictoc from 'components/Tictoc';
 import TweetFactory from 'components/TweetFactory';
 import LikeToastNotification from 'components/LikeToastNotification';
 
-const Home = ({ userObj, usersProfile, setCurrentPage }) => {
+const Home = ({ userObj, usersProfile, setCurrentPage, RetweetContent, setRetweetContent, reTweetState, setRetweetState, parentBundle, setParentBundle }) => {
     const [messages, setMessages] = useState([]);
-    const [RetweetContent, setRetweetContent] = useState('');
-    const [reTweetState, setRetweetState] = useState(false);
-    const [parentBundle, setParentBundle] = useState();
     const [likeToast, setLikeToast] = useState(false);
 
     useEffect(() => {

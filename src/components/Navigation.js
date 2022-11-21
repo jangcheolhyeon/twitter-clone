@@ -6,7 +6,7 @@ import { faUser, faUserCircle, faHouse, faEllipsis } from "@fortawesome/free-sol
 import TweetModal from "components/TweetModal";
 
 
-const Navigation = ({ userObj }) => {
+const Navigation = ({ userObj, retweetState, parentBundle, RetweetContent, setRetweetContent }) => {
     const iconColor = "white";
     const iconSize = "2x";
     const [tweetModal, setTweetModal] = useState(false);
@@ -17,7 +17,7 @@ const Navigation = ({ userObj }) => {
 
     return(
         <>
-            {tweetModal && <TweetModal userObj={userObj} onTweetModalToggle={onTweetModalToggle}/>}
+            {tweetModal && <TweetModal userObj={userObj} onTweetModalToggle={onTweetModalToggle} retweetState={retweetState} parentBundle={parentBundle} RetweetContent={RetweetContent} setRetweetContent={setRetweetContent} />}
             <nav>
                 <ul className="nav_link_container">
                     <li>
