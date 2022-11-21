@@ -972,3 +972,23 @@ img{
   font-weight:bold;
   color:white;
 }
+
+
+/* Like Toast Notification */
+
+.like_toast_container{
+  position: absolute;
+  width:35%;
+  height:50px;
+  background-color:#04AAFF;
+  top:90vh;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  font-size:15px;
+  border-radius: 5px;
+}
+
+

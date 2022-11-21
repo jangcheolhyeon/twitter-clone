@@ -3,17 +3,14 @@ import { db } from 'fbase';
 import { collection, query, orderBy, onSnapshot, updateDoc, doc } from "firebase/firestore"; 
 import Tictoc from 'components/Tictoc';
 import TweetFactory from 'components/TweetFactory';
-import Retweet from 'components/Retweet';
-// import ToastAlert from 'components/ToastAlert';
-
+import LikeToastNotification from 'components/LikeToastNotification';
 
 const Home = ({ userObj, usersProfile, setCurrentPage }) => {
     const [messages, setMessages] = useState([]);
     const [RetweetContent, setRetweetContent] = useState('');
     const [reTweetState, setRetweetState] = useState(false);
     const [parentBundle, setParentBundle] = useState();
-    const [toastState, setToastState] = useState(false);
-
+    const [likeToast, setLikeToast] = useState(false);
 
     useEffect(() => {
         const q = query(collection(db, 'tictoc'), orderBy("bundle", "asc"), orderBy("createdAt", "asc"));
@@ -29,15 +26,8 @@ const Home = ({ userObj, usersProfile, setCurrentPage }) => {
         })
 
         setCurrentPage("home");
-        
-    }, []);
 
-    const deleteParentTweet = async(id) => {
-        await updateDoc(doc(db, "tictoc", id), {
-            text : 'deleted Text',
-            isDeleted : true,
-        } );
-    }
+    }, []);
 
     return(
         <>
@@ -49,14 +39,16 @@ const Home = ({ userObj, usersProfile, setCurrentPage }) => {
                     <div className="write_tweet_container">
                         <TweetFactory userObj={userObj} RetweetContent={RetweetContent} setRetweetContent={setRetweetContent} setRetweetState={setRetweetState} retweetState={reTweetState} parentBundle={parentBundle} />
                     </div>
+
                     <div className='tictoc_container'>
                         {messages.map((element) => {
-                            return <Tictoc key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} deleteParentTweet={deleteParentTweet} setRetweetContent={setRetweetContent} setRetweetState={setRetweetState} setParentBundle={setParentBundle} usersProfile={usersProfile} setToastState={setToastState}/>
+                            return <Tictoc key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} setRetweetContent={setRetweetContent} setRetweetState={setRetweetState} setParentBundle={setParentBundle} usersProfile={usersProfile} setLikeToast={setLikeToast}/>
                         })}
                     </div>
-                    {/* {toastState && 
-                        <ToastAlert setToastState={setToastState} />
-                    } */}
+
+                    { likeToast &&
+                        <LikeToastNotification setLikeToast={setLikeToast}/>
+                    }
                 </div>
             </div>
         </>
