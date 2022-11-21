@@ -1008,7 +1008,7 @@ img{
 .tweet_modal_background > .tweet_modal_container{
   background-color:black;
   width:600px;
-  height:350px;
+  height:auto;
   z-index: 3;
   border-radius: 15px;
   margin: 0 auto;
@@ -1078,20 +1078,25 @@ img{
 
 .tweet_modal_container_footer{
   margin: 0 auto;
-  margin-top:12%;
+  margin-top:8%;
   width:70%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom:20px;
 }
 
-.tweet_modal_container_footer > svg {
+.tweet_modal_container_footer > label >  svg {
   width:30px;
   height:30px;
   color:#04AAFF;
   margin-top:30px;
   margin-left:10px;
   cursor: pointer;
+}
+
+.tweet_modal_container_footer > input {
+  display:none;
 }
 
 .tweet_modal_container_footer > button{
@@ -1104,4 +1109,9 @@ img{
   margin-right:10px;
   cursor:pointer;
   margin-top:20px;
+}
+
+.user_tweet_container img{
+  width: auto;
+  height: auto;
 }
