@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faRetweet, faCommentDots, faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import ReplyMdoal from "components/ReplyModal";
 
 
 const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText }) => {
@@ -19,12 +20,12 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const [xMarkHover, setXMarkHover] = useState(false);
     const [threedotsHover, setThreedotsHover] = useState(false);
     const [commentHover, setCommentHover] = useState(false);
+    const [replyModalOpen, setReplyModalOpen] = useState(false);
     const [retweetHover, setRetweetHover] = useState(false);
     const [likeHover, setLikeHover] = useState(false);
     const [shareHover, setShareHover] = useState(false);
     const [threedotsActive, setThreedotsActive] = useState(false);
     const dotsRef = useRef();
-
 
     const onDeleteTweet = async() => {
         if(tictoc.parent && tictoc.RetweetContent === ''){
@@ -132,8 +133,14 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
         }
     }, [threedotsActive])
 
+    const onReplyModalToggle = () => {
+        console.log("tictoc = " ,tictoc);
+        setReplyModalOpen((prev) => !prev);
+    }
+
     return(
         <>
+            {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} />}
             <div className="tweet">
                 <div className="tweet_user_photo_container">
                     <img src={userPhoto} className="user_photo_image" />
@@ -176,7 +183,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                                             <ul>
                                                 {isOwner ? 
                                                     (
-                                                        <li onClick={onModifyTweet}>Modify</li>
+                                                        <li>Modify</li>
                                                     )
                                                     :
                                                     (<>
@@ -209,6 +216,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                         <div className="action_comment_container" 
                             onMouseOver={() => { setCommentHover(true) }}
                             onMouseOut={() => { setCommentHover(false) }}
+                            onClick={onReplyModalToggle}
                         >
                             {commentHover ? (
                                 <FontAwesomeIcon icon={faCommentDots} className="icons comment_dots_hover" />

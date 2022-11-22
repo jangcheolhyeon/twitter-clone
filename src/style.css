@@ -1081,7 +1081,7 @@ img{
 /* tweet_modal */
 
 .tweet_modal_background{
-  position: absolute;
+  position: fixed;
   top:0;
   left:0;
   width:100%;
@@ -1093,11 +1093,12 @@ img{
 .tweet_modal_background > .tweet_modal_container{
   background-color:black;
   width:600px;
-  height:auto;
+  max-height: 90%;
   z-index: 3;
   border-radius: 15px;
   margin: 0 auto;
   margin-top:40px;
+  overflow-y: auto;
 }
 
 .tweet_modal_container > .delete_container{
@@ -1126,6 +1127,49 @@ img{
 
 }
 
+.tweet_modal_container > .parent_tweet_info {
+  display:flex;
+}
+
+.tweet_modal_container > .parent_tweet_info > .parent_img_container{
+  margin-top:50px;
+}
+
+.tweet_modal_container > .parent_tweet_info > .parent_img_container > img{
+  width:60px;
+  height:60px;
+  border-radius: 30px;
+  margin-left:30px;
+}
+
+.tweet_modal_container > .parent_tweet_info > .parent_text_contaienr{
+  margin-top:50px;
+  display:flex;
+  flex-direction: column;
+  margin-left:15px;
+}
+
+.tweet_modal_container > .parent_tweet_info > .parent_text_contaienr > .user_name{
+  font-weight: bold;
+  font-size:20px;
+}
+
+.tweet_modal_container > .parent_tweet_info > .parent_text_contaienr > .user_tweet{
+  margin-top:5px;
+  font-weight: normal;
+}
+
+.tweet_modal_container > .parent_tweet_info > .parent_text_contaienr > .user_reply_info{
+  font-weight: lighter;
+  margin-top:30px;
+  color: rgb(100, 110, 119);
+}
+
+.parent_text_contaienr > .user_reply_info > .user_email{
+  font-weight: lighter;
+  color:blue;
+}
+
 
 .tweet_modal_content_container > .user_img_container{
   height:100%;
@@ -1142,7 +1186,6 @@ img{
   height:100%;
   width:100%;
   margin-left:20px;
-  margin-top:20px;
 }
 
 .tweet_modal_content_container > .user_tweet_container > div{
@@ -1224,4 +1267,27 @@ img{
 
 .tictoc_active_box > ul > li:hover{
   background-color: rgb(44, 43, 43);
+}
+
+
+.reply_attachment{
+  position:relative;
+}
+
+.reply_attachment > img {
+  width:100%;
+  height:auto;
+  border-radius: 10px;
+}
+
+.reply_clear > svg{
+  position: absolute;
+  color:white;
+  padding:3px;
+  width:16px;
+  height:16px;
+  border-radius: 20px;
+  background-color:black;
+  top:5px;
+  left:5px;
 }

@@ -7,7 +7,6 @@ import ToastNotification from 'components/ToastNotification';
 
 const Home = ({ userObj, usersProfile, setCurrentPage, RetweetContent, setRetweetContent, reTweetState, setRetweetState, parentBundle, setParentBundle }) => {
     const [messages, setMessages] = useState([]);
-    const [likeToast, setLikeToast] = useState(false);
     const [toastAlert, setToastAlert] = useState(false);
     const [toastText, setToastText] = useState('');
 
