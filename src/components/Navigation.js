@@ -1,19 +1,50 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faUser, faUserCircle, faHouse, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import TweetModal from "components/TweetModal";
+import { getAuth, signOut } from "firebase/auth";
 
 
 const Navigation = ({ userObj, retweetState, parentBundle, RetweetContent, setRetweetContent }) => {
     const iconColor = "white";
     const iconSize = "2x";
     const [tweetModal, setTweetModal] = useState(false);
+    const [logoutClicked, setLogoutClicked] = useState(false);
+    const userInfoRef = useRef();
+
+    const auth = getAuth();
+    const navi = useNavigate();
+
+    const onLogout = () => {
+        signOut(auth);
+        navi('/');
+    }
 
     const onTweetModalToggle = () => {
         setTweetModal((prev) => !prev);
     }
+
+    const userInfoClicked = () =>{
+        setLogoutClicked((prev) => !prev)
+    }
+
+    const onClickOutSide = (event) => {
+        console.log(event.path.includes(userInfoRef.current));
+        console.log(userInfoRef.current);
+        if(logoutClicked && !event.path.includes(userInfoRef.current)){
+            userInfoClicked();
+        };
+
+    }
+
+    useEffect(() => {
+        document.addEventListener("mousedown", onClickOutSide);
+        return () => {
+            document.removeEventListener("mousedown", onClickOutSide);
+        }
+    }, [logoutClicked])
 
     return(
         <>
@@ -44,14 +75,18 @@ const Navigation = ({ userObj, retweetState, parentBundle, RetweetContent, setRe
                         </div>
                     </li>
 
-
                     <div className="navi_tweet_container" onClick={onTweetModalToggle}>
                         <div className="tweet_btn">
                             <span>Tweet</span>
                         </div>
                     </div>
 
-                    <div className="current_user_info_container">
+                    <div className="current_user_info_container" onClick={userInfoClicked} ref={userInfoRef}>
+                        {logoutClicked && (
+                            <div className="user_info_click">
+                                <span onClick={onLogout}>Logout</span>
+                            </div>
+                        )}
                         <FontAwesomeIcon icon={faUserCircle} color={iconColor} size={iconSize} />
                         <span className="current_user_info">
                             {userObj.displayName
