@@ -1062,8 +1062,8 @@ img{
 
 /* Like Toast Notification */
 
-.like_toast_container{
-  position: absolute;
+.toast_container{
+  position: fixed;
   width:35%;
   height:50px;
   background-color:#04AAFF;
@@ -1199,4 +1199,29 @@ img{
 .user_tweet_container img{
   width: auto;
   height: auto;
+}
+
+
+.tictoc_active_box{
+  position: absolute;
+  border:0.1px solid gray;
+  right:0;
+  display: flex;
+  flex-direction:column;
+  background-color: black;
+  z-index: 10;
+}
+
+.tictoc_active_box > ul{
+  list-style: none;
+  margin:0px;
+  padding:0px;
+}
+
+.tictoc_active_box > ul > li {
+  padding:5px 20px;
+}
+
+.tictoc_active_box > ul > li:hover{
+  background-color: rgb(44, 43, 43);
 }

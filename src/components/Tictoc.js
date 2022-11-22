@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { doc, deleteDoc, updateDoc, query, collection, onSnapshot } from 'firebase/firestore';
 import { deleteObject, ref } from "firebase/storage";
 import { storageService, db } from 'fbase';
@@ -8,7 +8,7 @@ import { faRetweet, faCommentDots, faArrowUpFromBracket } from "@fortawesome/fre
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 
-const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setLikeToast }) => {
+const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText }) => {
     const [newText, setNewText] = useState(tictoc.text);
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
@@ -16,13 +16,14 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setLikeToast }) => {
     const [likeState, setLikeState] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
     const [enrollDate, setEnrollDate] = useState();
-    
     const [xMarkHover, setXMarkHover] = useState(false);
     const [threedotsHover, setThreedotsHover] = useState(false);
     const [commentHover, setCommentHover] = useState(false);
     const [retweetHover, setRetweetHover] = useState(false);
     const [likeHover, setLikeHover] = useState(false);
     const [shareHover, setShareHover] = useState(false);
+    const [threedotsActive, setThreedotsActive] = useState(false);
+    const dotsRef = useRef();
 
 
     const onDeleteTweet = async() => {
@@ -45,6 +46,10 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setLikeToast }) => {
         await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
             text : newText
         } );
+    }
+
+    const onModifyTweet = () => {
+
     }
     
     useEffect(() => {
@@ -104,10 +109,28 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setLikeToast }) => {
                 return prev + 1;
             })
 
-            setLikeToast(true);
+            setToastAlert(true);
+            setToastText('Keep it up! The more Tweets you like, the better your timeline will be.');
         }
         setLikeState((prev) => !prev);
     }
+
+    const onThreedotsToggle = () => {
+        setThreedotsActive((prev) => !prev);
+    }
+
+    const threedotsOutSide = (event) => {
+        if(threedotsActive && !event.path.includes(dotsRef.current)){
+            setThreedotsActive();
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener("mousedown", threedotsOutSide);
+        return () => {
+            document.removeEventListener("mousedown", threedotsOutSide);
+        }
+    }, [threedotsActive])
 
     return(
         <>
@@ -136,11 +159,33 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setLikeToast }) => {
                             <FontAwesomeIcon icon={faEllipsis} className='three-dots-icon'
                                 onMouseOver={() => { setThreedotsHover(true) }}
                                 onMouseOut={() => { setThreedotsHover(false) }}
+                                onClick={onThreedotsToggle}
+                                ref={dotsRef}
                                 />
                                 {threedotsHover && 
                                     (
                                         <div className="action_hover">
                                             more
+                                        </div>
+                                    )
+                                }
+
+                                {threedotsActive && 
+                                    (
+                                        <div className="tictoc_active_box threedots_active_container">
+                                            <ul>
+                                                {isOwner ? 
+                                                    (
+                                                        <li onClick={onModifyTweet}>Modify</li>
+                                                    )
+                                                    :
+                                                    (<>
+                                                        <li>Follow</li>
+                                                        <li>Block</li>
+                                                        <li>Mute</li>
+                                                    </>)
+                                                }
+                                            </ul>
                                         </div>
                                     )
                                 }
