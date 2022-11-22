@@ -185,6 +185,34 @@ img{
   font-weight: bold;
 }
 
+.current_user_info_container > .user_info_click{
+  width:170px;
+  height:40px;
+  position: absolute;
+  border:1px solid white;
+  border-style: double;
+  border-radius: 10px;
+  top: -50px;
+  bottom:0px;
+  margin-bottom:50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.pull.gr {
+  background-color: #22ac38;
+}
+.pull.gr:after {
+  content:""; 
+  position: absolute; 
+  right: 100px; 
+  top: 100px; 
+  border-left: 20px solid transparent; 
+  border-right: 20px solid transparent; 
+  border-top: 30px solid #22ac38;
+}
 
 /* content css */
 
@@ -404,10 +432,36 @@ img{
   justify-content: space-around;
 }
 
-.tweet > .tweet_content > .action_container div{
+.action_container > div {
+  position: relative;
+}
+
+.action_container .action_hover{
+  position: absolute;
+  background-color: rgb(109, 110, 112);
+  top:35px;
+  font-size: 10px;
+  padding:2px;
+}
+
+.action_comment_container > .action_hover{
+  left:2px;
+}
+
+.action_like_container > .action_hover{
+  left:4px;
+}
+
+.action_share_container > .action_hover{
+  left:2px;
+}
+
+.tweet > .tweet_content > .action_container > div{
   display:flex;
   align-items:center;
 }
+
+
 
 .tweet > .tweet_content > .action_container svg{
   padding:8px;
@@ -423,7 +477,15 @@ img{
   background-color:skyblue;
 }
 
+.action_container > .action_comment_container > .comment_dots_hover{
+  background-color:skyblue;
+}
+
 .action_container > .action_retweet_container > svg:hover{
+  background-color:rgb(40, 155, 40);
+}
+
+.action_container > .action_retweet_container > .retweet_hover{
   background-color:rgb(40, 155, 40);
 }
 
@@ -431,7 +493,15 @@ img{
   background-color:rgb(170, 83, 83);
 }
 
+.action_container > .action_like_container > .heart_hover{
+  background-color:rgb(170, 83, 83);
+}
+
 .action_container > .action_share_container > svg:hover{
+  background-color:skyblue;
+}
+
+.action_container > .action_share_container > .share_hover{
   background-color:skyblue;
 }
 

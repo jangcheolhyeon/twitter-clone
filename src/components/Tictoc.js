@@ -6,22 +6,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faRetweet, faCommentDots, faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import ReplyTweet from "components/ReplyTweet";
 
 
-const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent, setRetweetState, setParentBundle, usersProfile, setToastState }) => {
+const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setLikeToast }) => {
     const [newText, setNewText] = useState(tictoc.text);
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
     const [commentList, setCommnetList] = useState([]);
     const [likeState, setLikeState] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
-    const [hover, setHover] = useState();
     const [enrollDate, setEnrollDate] = useState();
+    
+    const [commentHover, setCommentHover] = useState(false);
+    const [retweetHover, setRetweetHover] = useState(false);
+    const [likeHover, setLikeHover] = useState(false);
+    const [shareHover, setShareHover] = useState(false);
+
 
     const onDeleteTweet = async() => {
         if(tictoc.parent && tictoc.RetweetContent === ''){
-            deleteParentTweet(tictoc.id);
+            await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
             await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
         } else{
             await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
@@ -39,8 +43,6 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent
         await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
             text : newText
         } );
-        
-        
     }
     
     useEffect(() => {
@@ -69,8 +71,6 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent
         const time = new Date(tictoc.createdAt);
         setEnrollDate((time.getMonth()+1) + "." + (time.getDate()));
     }, []);
-    console.log('tictoc', tictoc);
-    console.log('usersProfile', usersProfile);
 
     const likeStateInit = () => {
         if(tictoc.like_users.includes(tictoc.userId)){
@@ -78,7 +78,6 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent
         }
         return false;
     }
-
 
     const onClickLike = async() => {
         if(tictoc.isDeleted) {
@@ -103,12 +102,11 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent
                 return prev + 1;
             })
 
-            setToastState(true);
+            setLikeToast(true);
         }
         setLikeState((prev) => !prev);
     }
 
-    
     return(
         <>
             <div className="tweet">
@@ -117,7 +115,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent
                 </div>
 
                 <div className="tweet_content">
-                    {isOwner && <div className="close_tweet">
+                    {isOwner && <div className="close_tweet" onClick={onDeleteTweet}>
                         <FontAwesomeIcon icon={faXmark} />
                     </div>}
 
@@ -138,35 +136,94 @@ const Tictoc = ({ tictoc, isOwner, userObj, deleteParentTweet, setRetweetContent
                     }
 
                     <div className="action_container">
-                        <div className="action_comment_container">
-                            <FontAwesomeIcon icon={faCommentDots} className="icons" />
+                        <div className="action_comment_container" 
+                            onMouseOver={() => { setCommentHover(true) }}
+                            onMouseOut={() => { setCommentHover(false) }}
+                        >
+                            {commentHover ? (
+                                <FontAwesomeIcon icon={faCommentDots} className="icons comment_dots_hover" />
+                            ) : (
+                                <FontAwesomeIcon icon={faCommentDots} className="icons" />
+                            )}
                             <span>{commentList.filter(element => element.child && element.bundle === tictoc.bundle).length}</span>
+                            {commentHover && 
+                                (
+                                    <div className="action_hover"> 
+                                        Reply
+                                    </div>
+                                )
+                            }
                         </div>
                         
-                        <div className="action_retweet_container">
-                            <FontAwesomeIcon icon={faRetweet} className="icons" />
+                        <div className="action_retweet_container"
+                            onMouseOver={() => { setRetweetHover(true) }}
+                            onMouseOut={() => { setRetweetHover(false) }}
+                        >
+                            {retweetHover ? (
+                                <FontAwesomeIcon icon={faRetweet} className="icons retweet_hover" />
+                            ) : (
+                                <FontAwesomeIcon icon={faRetweet} className="icons" />
+                            )}
                             <span>{commentList.filter(element => element.RetweetContent === tictoc.text && element.bundle === tictoc.bundle).length}</span>
+                            {retweetHover &&
+                                (
+                                    <div className="action_hover"> 
+                                        Retweet
+                                    </div>
+                                )
+                            }
                         </div>
 
-                        <div className="action_like_container">
+                        <div className="action_like_container"
+                            onMouseOver={() => { setLikeHover(true) }}
+                            onMouseOut={() => { setLikeHover(false) }}
+                        >
                             {likeState ? (
                                 <>
-                                    <FontAwesomeIcon icon={faHeart} className="icons hearted" onClick={onClickLike} />
+                                    {likeHover ? (
+                                        <FontAwesomeIcon icon={faHeart} className="icons hearted heart_hover" onClick={onClickLike} />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faHeart} className="icons hearted" onClick={onClickLike} />
+                                    )}
                                     <span className="hearted">{likeCount}</span>
+                                    {likeHover && (
+                                        <div className="action_hover">
+                                            UnLike
+                                        </div>
+                                    )}
                                 </>
                             ) : (
                                 <>
-                                    <FontAwesomeIcon icon={faHeart} className="icons" onClick={onClickLike} />
+                                    {likeHover ? (
+                                        <FontAwesomeIcon icon={faHeart} className="icons heart_hover" onClick={onClickLike} />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faHeart} className="icons" onClick={onClickLike} />
+                                    )}
                                     <span>{likeCount}</span>
+                                    {likeHover && (
+                                        <div className="action_hover">
+                                            Like
+                                        </div>
+                                    )}
                                 </>
                             )}
-                            {/* <FontAwesomeIcon icon={faHeart} className="icons hearted" />
-                            <span>0</span> */}
-
                         </div>
 
-                        <div className="action_share_container">
-                            <FontAwesomeIcon icon={faArrowUpFromBracket} className="icons share_icon" />
+                        <div className="action_share_container"
+                            onMouseOver={() => { setShareHover(true) }}
+                            onMouseOut={() => { setShareHover(false) }}
+                        >
+                            {shareHover ? (
+                                <FontAwesomeIcon icon={faArrowUpFromBracket} className="icons share_icon share_hover" />
+                            ) : (
+                                <FontAwesomeIcon icon={faArrowUpFromBracket} className="icons share_icon" />
+                            )}
+
+                            {shareHover && (
+                                <div className="action_hover">
+                                    share
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
