@@ -17,6 +17,8 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setLikeToast }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [enrollDate, setEnrollDate] = useState();
     
+    const [xMarkHover, setXMarkHover] = useState(false);
+    const [threedotsHover, setThreedotsHover] = useState(false);
     const [commentHover, setCommentHover] = useState(false);
     const [retweetHover, setRetweetHover] = useState(false);
     const [likeHover, setLikeHover] = useState(false);
@@ -115,14 +117,37 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setLikeToast }) => {
                 </div>
 
                 <div className="tweet_content">
-                    {isOwner && <div className="close_tweet" onClick={onDeleteTweet}>
+                    {isOwner && <div className="close_tweet" onClick={onDeleteTweet} 
+                        onMouseOver={() => { setXMarkHover(true) }}
+                        onMouseOut={() => { setXMarkHover(false) }}
+                    >
                         <FontAwesomeIcon icon={faXmark} />
+                        {xMarkHover && 
+                            (
+                                <div className="action_hover"> 
+                                    remove
+                                </div>
+                            )
+                        }
                     </div>}
 
                     <div className="tweet_userInfo_container">
+                        <div className="tweet_more_container">
+                            <FontAwesomeIcon icon={faEllipsis} className='three-dots-icon'
+                                onMouseOver={() => { setThreedotsHover(true) }}
+                                onMouseOut={() => { setThreedotsHover(false) }}
+                                />
+                                {threedotsHover && 
+                                    (
+                                        <div className="action_hover">
+                                            more
+                                        </div>
+                                    )
+                                }
+                        </div>
+
                         <span className="user_name">{userName}</span>
                         <span className="enroll_date">{enrollDate}</span>
-                        <FontAwesomeIcon icon={faEllipsis} className='three-dots-icon' />
                     </div>
 
                     <div className="user_tweet_content">

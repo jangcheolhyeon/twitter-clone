@@ -378,21 +378,36 @@ img{
   margin-left:10px;
 }
 
-.tweet > .tweet_content > .tweet_userInfo_container > svg{
+.tweet > .tweet_content > .tweet_userInfo_container > .tweet_more_container{
+  position: relative;
+}
+
+.tweet > .tweet_content > .tweet_userInfo_container > .tweet_more_container > svg{
   position: absolute;
   right: 0;
   padding:5px;
 }
 
-.tweet > .tweet_content > .tweet_userInfo_container > svg:hover{
+.tweet > .tweet_content > .tweet_userInfo_container > .tweet_more_container > svg:hover{
   background-color:black;
   border-radius: 100px;
 
 }
+
+.tweet_more_container > .action_hover{
+  top:22px;
+  right:-2px;
+}
+
 .close_tweet{
   position: relative;
   width: 100%;
   height:30px;
+}
+
+.close_tweet > .action_hover{
+  right:-7px;
+  top:22px;
 }
 
 .close_tweet svg{
@@ -436,7 +451,7 @@ img{
   position: relative;
 }
 
-.action_container .action_hover{
+.action_hover{
   position: absolute;
   background-color: rgb(109, 110, 112);
   top:35px;
