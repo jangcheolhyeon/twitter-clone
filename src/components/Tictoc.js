@@ -8,9 +8,10 @@ import { faRetweet, faCommentDots, faArrowUpFromBracket } from "@fortawesome/fre
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import ReplyMdoal from "components/ReplyModal";
 import RetweetModal from "components/RetweetModal";
+import { useNavigate } from "react-router-dom";
 
 
-const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText }) => {
+const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail }) => {
     const [newText, setNewText] = useState(tictoc.text);
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
@@ -33,7 +34,8 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const [retweetActive, setRetweetActive] = useState(false);
     const retweetRef = useRef();
 
-    const onDeleteTweet = async() => {
+    const onDeleteTweet = async(event) => {
+        event.stopPropagation();
         setToastAlert(true);
         setToastText('Your Tweet was Deleted');
 
@@ -94,7 +96,8 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
         return false;
     }
 
-    const onClickLike = async() => {
+    const onClickLike = async(event) => {
+        event.stopPropagation();
         if(tictoc.isDeleted) {
             return ;
         }
@@ -123,13 +126,14 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
         setLikeState((prev) => !prev);
     }
 
-    const onRetweetToggle = () => {
+    const onRetweetToggle = (event) => {
+        event.stopPropagation();
         setRetweetActive((prev) => !prev);
     }
 
     const reTweetOutSide = (event) => {
         if(retweetActive && !event.path.includes(retweetRef.current)){
-            onRetweetToggle();
+            onRetweetToggle(event);
         }
     }
 
@@ -141,13 +145,14 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     }, [retweetActive])
 
 
-    const onThreedotsToggle = () => {
+    const onThreedotsToggle = (event) => {
+        event.stopPropagation()
         setThreedotsActive((prev) => !prev);
     }
 
     const threedotsOutSide = (event) => {
         if(threedotsActive && !event.path.includes(dotsRef.current)){
-            onThreedotsToggle();
+            onThreedotsToggle(event);
         }
     }
 
@@ -158,31 +163,40 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
         }
     }, [threedotsActive])
 
-    const onReplyModalToggle = () => {
+    const onReplyModalToggle = (event) => {
+        event.stopPropagation();
         setReplyModalOpen((prev) => !prev);
     }
 
-    const onRetweetModalToggle = () => {
+    const onRetweetModalToggle = (event) => {
+        event.stopPropagation();
         setRetweetModalOpen((prev) => !prev);
     }
+    
+    const navi = useNavigate();
 
+    const onTweetClick = () => {
+        console.log("tictoc", tictoc);
+        setTweetDetail(tictoc);
+        navi('/details');
+    }
     
 
     return(
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} />}
             {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile}/>}
-            <div className="tweet">
+            <div className="tweet" onClick={onTweetClick}>
                 <div className="tweet_user_photo_container">
                     <img src={userPhoto} className="user_photo_image" />
                 </div>
 
                 <div className="tweet_content">
-                    {isOwner && <div className="close_tweet" onClick={onDeleteTweet} 
+                    {isOwner && <div className="close_tweet">
+                        <FontAwesomeIcon icon={faXmark} 
                         onMouseOver={() => { setXMarkHover(true) }}
                         onMouseOut={() => { setXMarkHover(false) }}
-                    >
-                        <FontAwesomeIcon icon={faXmark} />
+                        onClick={onDeleteTweet} />
                         {xMarkHover && 
                             (
                                 <div className="action_hover"> 
@@ -294,6 +308,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                         <div className="action_retweet_container" ref={retweetRef} onClick={onRetweetToggle}
                             onMouseOver={() => { setRetweetHover(true) }}
                             onMouseOut={() => { setRetweetHover(false) }}
+                            
                         >
                             {retweetHover ? (
                                 <FontAwesomeIcon icon={faRetweet} className="icons retweet_hover" />
