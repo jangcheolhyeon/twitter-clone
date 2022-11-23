@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const LikeToastNotification = ({ text, setToastAlert }) => {
+const ToastNotification = ({ text, setToastAlert }) => {
     useEffect(() => {
         let timer = setTimeout(() => {
             setToastAlert(false);
@@ -19,4 +19,4 @@ const LikeToastNotification = ({ text, setToastAlert }) => {
     );
 }
 
-export default LikeToastNotification;
+export default ToastNotification;
