@@ -56,6 +56,7 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
         }
 
         await addDoc(collection(db, 'tictoc'), replyTweetObj);
+        setAttachment('');
         setReplyTweet('');
     }
 
