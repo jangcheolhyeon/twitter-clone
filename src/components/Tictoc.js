@@ -33,21 +33,14 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const [retweetActive, setRetweetActive] = useState(false);
     const retweetRef = useRef();
 
-    // const [RetweetContent, setRetweetContent] = useState('');
-
-    console.log("retweetClickedState", retweetClickedState);
-
     const onDeleteTweet = async() => {
-        // if(tictoc.parent && tictoc.RetweetContent === ''){
-        //     await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
-        //     await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
-        // } else{
-        //     await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
-        //     await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
-        // }
+        setToastAlert(true);
+        setToastText('Your Tweet was Deleted');
 
         await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
-        await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
+        if(tictoc.attachmentUrl !== null || tictoc.attachmentUrl !== ""){
+            await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
+        }
     }
 
     const parentInfo = usersProfile.filter(element => {
@@ -172,8 +165,6 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const onRetweetModalToggle = () => {
         setRetweetModalOpen((prev) => !prev);
     }
-
-    console.log('tictoc', tictoc);
 
     
 
