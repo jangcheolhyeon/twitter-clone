@@ -34,6 +34,12 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const [retweetActive, setRetweetActive] = useState(false);
     const retweetRef = useRef();
 
+
+    const [shareActive, setShareActive] = useState(false);
+    const shareRef = useRef();
+
+    const [editing, setEditing] = useState(false);
+
     const onDeleteTweet = async(event) => {
         event.stopPropagation();
         setToastAlert(true);
@@ -179,7 +185,29 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
         setTweetDetail(tictoc);
         navi('/details');
     }
-    
+
+    const onShareToggle = (event) => {
+        event.stopPropagation();
+        setShareActive((prev) => !prev);
+    }
+
+    const shareOutSide = (event) => {
+        if(shareActive && !event.path.includes(shareRef.current)){
+            onShareToggle(event);
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener("mousedown", shareOutSide);
+        return () => {
+            document.removeEventListener("mousedown", shareOutSide);
+        }
+    }, [shareActive])
+
+
+    const onModifyText = () => {
+        setEditing(true);
+    }
 
     return(
         <>
@@ -227,7 +255,10 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                                             <ul>
                                                 {isOwner ? 
                                                     (
-                                                        <li>Modify</li>
+                                                        <>
+                                                            <li>Pin to your profile</li>
+                                                            <li>change who can reply</li>
+                                                        </>
                                                     )
                                                     :
                                                     (<>
@@ -377,14 +408,24 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                             onMouseOut={() => { setShareHover(false) }}
                         >
                             {shareHover ? (
-                                <FontAwesomeIcon icon={faArrowUpFromBracket} className="icons share_icon share_hover" />
+                                <FontAwesomeIcon icon={faArrowUpFromBracket} className="icons share_icon share_hover" ref={shareRef} onClick={onShareToggle}/>
                             ) : (
-                                <FontAwesomeIcon icon={faArrowUpFromBracket} className="icons share_icon" />
+                                <FontAwesomeIcon icon={faArrowUpFromBracket} className="icons share_icon" ref={shareRef} onClick={onShareToggle}/>
                             )}
 
                             {shareHover && (
                                 <div className="action_hover">
                                     share
+                                </div>
+                            )}
+
+                            {shareActive && (
+                                <div className="tictoc_active_box">
+                                    <ul>
+                                        <li>Copy link to Tweet</li>
+                                        <li>share Tweet</li>
+                                        <li>BookMark</li>
+                                    </ul>
                                 </div>
                             )}
                         </div>
