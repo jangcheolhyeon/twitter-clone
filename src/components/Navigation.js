@@ -7,7 +7,7 @@ import TweetModal from "components/TweetModal";
 import { getAuth, signOut } from "firebase/auth";
 
 
-const Navigation = ({ userObj, retweetState, parentBundle, RetweetContent, setRetweetContent }) => {
+const Navigation = ({ userObj, retweetState, parentBundle }) => {
     const iconColor = "white";
     const iconSize = "2x";
     const [tweetModal, setTweetModal] = useState(false);
@@ -31,8 +31,6 @@ const Navigation = ({ userObj, retweetState, parentBundle, RetweetContent, setRe
     }
 
     const onClickOutSide = (event) => {
-        console.log(event.path.includes(userInfoRef.current));
-        console.log(userInfoRef.current);
         if(logoutClicked && !event.path.includes(userInfoRef.current)){
             userInfoClicked();
         };
@@ -48,7 +46,7 @@ const Navigation = ({ userObj, retweetState, parentBundle, RetweetContent, setRe
 
     return(
         <>
-            {tweetModal && <TweetModal userObj={userObj} onTweetModalToggle={onTweetModalToggle} retweetState={retweetState} parentBundle={parentBundle} RetweetContent={RetweetContent} setRetweetContent={setRetweetContent} />}
+            {tweetModal && <TweetModal userObj={userObj} onTweetModalToggle={onTweetModalToggle} retweetState={retweetState} parentBundle={parentBundle} />}
             <nav>
                 <ul className="nav_link_container">
                     <li>

@@ -53,16 +53,14 @@ const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile }) 
             attachmentUrl,
             userImage : userObj.photoURL,
             like_users : [],
-            retweetContent : '',
             child : true,
+            parentReplyInfo : parentInfo, 
         }
 
         await addDoc(collection(db, 'tictoc'), replyTweetObj);
         setModalTweet('');
+        onReplyModalToggle();
     }
-
-    console.log("usersProfile", usersProfile);
-    console.log("parentTweet", parentTweet);
 
     return(
         <div className="tweet_modal_background">
@@ -81,10 +79,6 @@ const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile }) 
                         {parentTweet.attachmentUrl && (
                             <div className="reply_attachment">
                                 <img src={parentTweet.attachmentUrl} style={{ backgroundImage : attachment }} />
-
-                                <div className="reply_clear" onClick={onClearImage}>
-                                    <FontAwesomeIcon icon={faTimes} />
-                                </div>
                             </div>
                         )}
                         <span className="user_reply_info">Replying to <span className="user_email">{parentInfo.email}</span></span>

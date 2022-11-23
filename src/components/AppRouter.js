@@ -18,7 +18,6 @@ const AppRouter = () => {
     const [init, setInit] = useState(false);
     const [usersProfile, setUsersProfile] = useState([]);
     const [currentPage, setCurrentPage] = useState('home');
-    const [RetweetContent, setRetweetContent] = useState('');
     const [reTweetState, setRetweetState] = useState(false);
     const [parentBundle, setParentBundle] = useState();
 
@@ -70,11 +69,11 @@ const AppRouter = () => {
                 {init ? (
                     <>
                     {isLoggedIn && <TopNavi currentPage={currentPage} userObj={userObj}/>}
-                    {isLoggedIn && <Navigation userObj={userObj} retweetState={reTweetState} parentBundle={parentBundle} RetweetContent={RetweetContent} setRetweetContent={setRetweetContent}/>}
+                    {isLoggedIn && <Navigation userObj={userObj} retweetState={reTweetState} parentBundle={parentBundle} />}
                         <Routes>
                             {isLoggedIn ? (
                                 <>
-                                    <Route path='/' element={<Home userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} RetweetContent={RetweetContent} setRetweetContent={setRetweetContent} reTweetState={reTweetState} setRetweetState={setRetweetState} parentBundle={parentBundle} setParentBundle={setParentBundle} />} />
+                                    <Route path='/' element={<Home userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} reTweetState={reTweetState} setRetweetState={setRetweetState} parentBundle={parentBundle} setParentBundle={setParentBundle} />} />
                                     <Route path='/profile' element={<Profile refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage}/>} />
                                     {/* <Route path='/details' element={<Details />} /> */}
                                 </>
