@@ -27,7 +27,6 @@ const AppRouter = () => {
 
     useEffect(() => {
         const auth = getAuth();
-        // init은 처음에 로딩할때 Loading을 해줌(안해주면 쿠키를 통해서 로그인 정보를 가져오기 전에 로그인안한상태의 로그인페이지가 뜸)
         onAuthStateChanged(auth, (user) => {
             if(user){
                 setIsLoggedIn(true);
@@ -61,7 +60,6 @@ const AppRouter = () => {
         
     }, []);
 
-    //db에 있는 데이터 refresh해서 state변동
     const refreshUserObj = () => {
         setUserObj(getAuth().currentUser);
     }

@@ -12,7 +12,6 @@ const Auth = ({ userObj, usersProfile }) => {
         const auth = getAuth();
         let provider;
 
-        // OAUTH 인증
         if(name === 'google'){
             provider = new GoogleAuthProvider();
         } else if(name === 'github'){
