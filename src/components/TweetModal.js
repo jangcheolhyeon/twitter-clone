@@ -6,11 +6,10 @@ import { db, storageService } from "fbase";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
-const TweetModal = ({ userObj, onTweetModalToggle, retweetState, parentBundle, RetweetContent, setRetweetContent }) => {
+const TweetModal = ({ userObj, onTweetModalToggle, retweetState, parentBundle }) => {
     const [modalTweet, setModalTweet] = useState();
     const [attachment, setAttachment] = useState('');
 
-    
     const onChangeModalTweet = (e) => {
         const {target : {value}} = e;
         setModalTweet(value);
@@ -42,17 +41,12 @@ const TweetModal = ({ userObj, onTweetModalToggle, retweetState, parentBundle, R
 
         let attachmentUrl = "";
 
-        //파일을 업로드 하지 않았을때 
         if(attachment !== ""){
-            // 저장할 경로(userObj.uid/랜덤값(v4))
             const attachmentRef = ref(storageService, `${userObj.uid}/${v4()}`);
-            // 위에 만든 경로로 업로드 하기
             const response = await uploadString(attachmentRef, attachment, "data_url" );
-            // storage에 있는 파일 URL을 통해 이미지를 다운로드 하고 attchmentUrl에 넣음
             attachmentUrl = await getDownloadURL(response.ref);
         }
 
-        // firebase에 올릴 정보들(글, 사진)
         const retweetBundle = retweetState ? (
             parentBundle
         ) : (
@@ -67,20 +61,16 @@ const TweetModal = ({ userObj, onTweetModalToggle, retweetState, parentBundle, R
             userImage : userObj.photoURL,
             attachmentUrl,
             bundle:retweetBundle,
-            like_users: [],
+            like_users : [],
             parent : true,
             reply_cnt : 0,
             isDeleted : false,
-            RetweetContent,
         }
-
-        // db에 tictoc이라는 컬렉션에 추가 twitObj 객체 추가
         await addDoc(collection(db, 'tictoc'), tweetObj);
 
         onTweetModalToggle();
         setModalTweet('');
         setAttachment('');
-        setRetweetContent('');
     }
 
 

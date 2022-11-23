@@ -31,6 +31,8 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
     }
 
     const onRetweetBtn = async(e) => {
+        console.log("click");
+
         if(modalRetweet === ""){
             return ;
         }
@@ -39,13 +41,9 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
 
         let attachmentUrl = "";
 
-        //파일을 업로드 하지 않았을때 
         if(attachment !== ""){
-            // 저장할 경로(userObj.uid/랜덤값(v4))
             const attachmentRef = ref(storageService, `${userObj.uid}/${v4()}`);
-            // 위에 만든 경로로 업로드 하기
             const response = await uploadString(attachmentRef, attachment, "data_url" );
-            // storage에 있는 파일 URL을 통해 이미지를 다운로드 하고 attchmentUrl에 넣음
             attachmentUrl = await getDownloadURL(response.ref);
         }
         
@@ -54,12 +52,16 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
             createdAt : Date.now(),
             userId : userObj.uid,
             userImage : userObj.photoURL,
+            bundle : Number(`${retweetContent.bundle}`),
             attachmentUrl,
             parent : true,
             reply_cnt : 0,
             isDeleted : false,
+            like_users : [],
             retweet:true,
-            retweetParent: retweetContent.id
+            retweetParent: retweetContent.id,
+            retweetAttachment : retweetContent.attachmentUrl,
+            retweetText : retweetContent.text,
         }
 
         await addDoc(collection(db, 'tictoc'), tweetObj);
@@ -69,15 +71,9 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
         setAttachment('');
     }    
 
-    console.log('userObj', userObj);
-    console.log('retweetContent', retweetContent);
-    console.log('usersProfile', usersProfile);
-
     const parentInfo = usersProfile.filter(element => {
         return element.userId === retweetContent.userId;
     })[0];
-
-    console.log("parentInfo", parentInfo);
 
     return(
         <>

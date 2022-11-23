@@ -6,7 +6,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faImage } from "@fortawesome/free-solid-svg-icons";
 
-const TweetFactory = ({ userObj, RetweetContent, setRetweetContent, retweetState, parentBundle }) => {
+const TweetFactory = ({ userObj, retweetState, parentBundle }) => {
     const [message, setMessage] = useState('');
     const [attachment, setAttachment] = useState('');
 
@@ -52,7 +52,6 @@ const TweetFactory = ({ userObj, RetweetContent, setRetweetContent, retweetState
             parent : true,
             reply_cnt : 0,
             isDeleted : false,
-            RetweetContent,
         }
 
         // db에 tictoc이라는 컬렉션에 추가 twitObj 객체 추가
@@ -60,7 +59,6 @@ const TweetFactory = ({ userObj, RetweetContent, setRetweetContent, retweetState
 
         setMessage('');
         setAttachment('');
-        setRetweetContent('');
     }
 
     const onFileChange = (e) => {
