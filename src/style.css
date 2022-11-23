@@ -1490,3 +1490,70 @@ img{
   font-weight: bold;
   color:rgba(255,255,255, 0.5);
 }
+
+
+/* 로그인 화면 */
+.authContainer {
+  width:100%;
+  height:100vh;
+  display: flex;
+}
+
+.twitter_image{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width:50%;
+  border-right:0.1px solid white;
+}
+
+.init_page_login_form_container{
+  display:flex;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.login_form_container{
+  display:flex;
+  flex-direction: column;
+}
+
+.login_form_container > input{
+  color:white;
+  margin:5px;
+  background: transparent;
+  border:none;
+}
+
+.login_form_container > .authInput{
+  height:20px;
+  border-bottom:1px solid #04AAFF;
+}
+
+.login_form_container > .authSubmit {
+  padding: 10px 20px;
+  background-color:#04AAFF;
+  border-radius: 20px;
+}
+
+.authBtns{
+  margin-left:30px;
+  display:flex;
+  flex-direction: column;
+  margin-bottom:40px;
+}
+
+.authSwitch{
+  margin-top:10px;
+  background-color: #04AAFF;
+  padding:10px 20px;
+  text-align: center;
+  border-radius: 30px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.login_form{
+  text-align:center;
+}

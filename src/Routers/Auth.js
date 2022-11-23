@@ -22,15 +22,21 @@ const Auth = ({ userObj, usersProfile }) => {
 
     return(
         <div className="authContainer"> 
-            <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="3x" className="tweetter_icon" /> 
-            <AuthForm userObj={userObj} usersProfile={usersProfile} />      
-            <div className="authBtns">
-                <button onClick={onSnsClick} name="google" className="authBtn">
-                    Continue with Google <FontAwesomeIcon icon={faGoogle} />
-                </button>
-                <button onClick={onSnsClick} name="github" className="authBtn">
-                    Continue with Github <FontAwesomeIcon icon={faGithub} />
-                </button>
+            <div className="twitter_image">
+                <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="10x" className="tweetter_icon" /> 
+            </div>
+            <div className="init_page_login_form_container">
+                <div className="login_form">
+                    <AuthForm userObj={userObj} usersProfile={usersProfile} />      
+                </div>
+                <div className="authBtns">
+                    <button onClick={onSnsClick} name="google" className="authBtn">
+                        Continue with Google <FontAwesomeIcon icon={faGoogle} />
+                    </button>
+                    <button onClick={onSnsClick} name="github" className="authBtn">
+                        Continue with Github <FontAwesomeIcon icon={faGithub} />
+                    </button>
+                </div>
             </div>
         </div>
     );
