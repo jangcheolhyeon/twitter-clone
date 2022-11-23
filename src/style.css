@@ -1253,6 +1253,7 @@ img{
   flex-direction:column;
   background-color: black;
   z-index: 10;
+  width:auto;
 }
 
 .tictoc_active_box > ul{
@@ -1290,4 +1291,78 @@ img{
   background-color:black;
   top:5px;
   left:5px;
+}
+
+.user_tweet_content > .reply_content{
+  display:flex;
+  flex-direction: column;
+}
+
+.user_tweet_content > .reply_content > .replying{
+  color : rgb(100, 110, 119);
+  font-weight: lighter;
+}
+
+.user_tweet_content > .reply_content > .replying > .user_email{
+  color:blue;
+}
+
+.user_tweet_content > .reply_content > .text {
+  margin-top:10px;
+  font-weight:bold;
+}
+
+
+/* retweet_content */
+.retweet_content_container{
+  display:flex;
+  flex-direction: column;
+  margin-top:30px;
+  margin-left:60px;
+  margin-right:60px;
+  border:1px solid white;
+  border-radius: 30px;
+}
+
+.retweet_content_container > .retweet_top{
+  margin-top:10px;
+  margin-left:10px;
+  padding:10px;
+  display:flex;
+  align-items: center;
+}
+
+.retweet_content_container > .retweet_top > img{
+  width:20px;
+  height:20px;
+  border-radius: 30px;
+  margin-right:5px;
+}
+
+.retweet_content_container > .retweet_top > .user_email{
+  margin-left:5px;
+  font-weight: lighter;
+  color: rgb(100, 110, 119);
+}
+
+.retweet_content_container > .retweet_content{
+  margin-top:10px;
+  margin-left:10px;
+  padding:10px;
+}
+
+.retweet_content_container > .retweet_content > span{
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.retweet_content_container > .retweet_img {
+  margin-top:10px;
+  margin-left:20px;
+  margin-bottom:20px;
+}
+
+.retweet_content_container > .retweet_img > img{
+  width:auto;
+  height:auto;
 }
