@@ -27,8 +27,8 @@ img{
   height:40px;
   background-color: rgba(0,0,0,0.7);
   width:33%;
-  border-left:0.1px solid gray;
-  border-right:0.1px solid gray;
+  border-left:0.1px solid lightslategray;
+  border-right:0.1px solid lightslategray;
 }
 
 .show_current_page{
@@ -53,7 +53,7 @@ img{
   margin-left:calc(70% + 20px);
   height:40px;
   background-color: rgba(0,0,0,0.7);
-  border:0.1px solid gray;
+  border:0.1px solid lightslategray;
   width:20%;
   display:flex;
   align-items:center;
@@ -234,7 +234,7 @@ img{
 .content_container > .write_tweet_container{
   padding:20px;
   padding-bottom:0px;
-  border-bottom:0.1px solid gray;
+  border-bottom:0.1px solid lightslategray;
 }
 .user_image_container {
   margin-right:20px;
@@ -266,7 +266,7 @@ img{
 }
 
 .tweet_input_container > .tweet_footer{
-  border-top: 0.1px solid gray;
+  border-top: 0.1px solid lightslategray;
   padding-top:20px;
   margin-top:10px;
   display:flex;
@@ -336,7 +336,7 @@ img{
 /* tweet 입력시 tweet list container */
 
 .tweet{
-  border-bottom:0.1px solid gray;
+  border-bottom:0.1px solid lightslategray;
   padding:10px;
   padding-bottom:15px;
   display:flex;
@@ -1251,7 +1251,7 @@ img{
 
 .tictoc_active_box{
   position: absolute;
-  border:0.1px solid gray;
+  border:0.1px solid lightslategray;
   right:0;
   display: flex;
   flex-direction:column;
@@ -1317,7 +1317,7 @@ img{
 }
 
 
-/* retweet_content */
+/* retweet_content  */
 .retweet_content_container{
   display:flex;
   flex-direction: column;
@@ -1375,4 +1375,117 @@ img{
   margin-right:0;
   margin-left:0;
   margin-bottom:20px;
+}
+
+/* tweet_detail inactive */
+
+.container > .detail_tweet_write_container {
+  border-bottom:0.1px solid lightslategray;
+  width:100%;
+  height:80px;
+  padding:15px 0px;
+  display:flex;
+  align-items: center;
+}
+
+.container > .detail_tweet_write_container > .detail_tweet_write_content {
+  display:flex;
+  align-items: center;
+  width:100%;
+  padding:0 10px;
+}
+
+.container > .detail_tweet_write_container > .detail_tweet_write_content > img {
+  width:50px;
+  height:50px;
+  border-radius: 30px;
+}
+
+.container > .detail_tweet_write_container> .detail_tweet_write_content > div{
+  margin-left:15px; 
+}
+
+.container > .detail_tweet_write_container> .detail_tweet_write_content > div{
+  color: slategray;
+  font-weight:bold;
+}
+
+.container > .detail_tweet_write_container > .detail_tweet_write_content > button{
+  margin-left:auto;
+  background-color:rgba(4, 170, 255, 0.6);
+  border-radius: 22px;
+  font-size:15px;
+  padding:0 10px;
+  height:32px;
+  display:flex;
+  align-items: center;
+  font-weight: bold;
+  color:rgba(255,255,255, 0.5);
+}
+
+/* tweet_detail active */
+
+.detail_tweet_write_container_active{
+  display:flex;
+  padding:5px 10px;
+  border:0.1px solid slategray;
+}
+
+.detail_tweet_write_container_active > .tweet_write_active_img_container > img{
+  width:50px;
+  height:50px;
+  border-radius: 30px;
+  margin-top:20px;
+}
+
+.tweet_write_active_content_container{
+  padding-left:15px;
+  width: 75%;
+}
+
+.tweet_write_active_content_container > span{
+  color:rgb(100, 110, 119);
+  font-size:14px;
+}
+
+.tweet_write_active_content_container > span > .user_email{
+  color:blue;
+}
+
+.tweet_write_active_content_container > div > .tweet_container{
+  border:none;
+  background: transparent;
+  outline: none;
+  color:white;
+  height:40px;
+  font-size:20px;
+}
+
+.tweet_write_active_content_container > .tweet_write_active_content_footer {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top:10px;
+}
+
+.tweet_write_active_content_container > .tweet_write_active_content_footer > .input_file{
+  display:none;
+}
+
+.tweet_write_active_content_container > .tweet_write_active_content_footer > label > svg{
+  color:#04AAFF;
+  cursor: pointer;
+}
+
+.tweet_write_active_content_container > .tweet_write_active_content_footer > button{
+  margin-left:auto;
+  background-color:rgba(4, 170, 255, 0.6);
+  border-radius: 22px;
+  font-size:15px;
+  padding:0 10px;
+  height:32px;
+  display:flex;
+  align-items: center;
+  font-weight: bold;
+  color:rgba(255,255,255, 0.5);
 }

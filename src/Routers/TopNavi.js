@@ -9,7 +9,7 @@ const TopNavi = ({ currentPage, userObj }) => {
     }
     return(
         <>
-            {currentPage === "home" ? (
+            {/* {currentPage === "home" ? (
                 <div className="top_container">
                     <div className="show_current_page">
                         <span>HOME</span>
@@ -22,13 +22,33 @@ const TopNavi = ({ currentPage, userObj }) => {
                         <span>{userObj.displayName}</span>
                     </div>
                 </div>
-            )}
-            {/* <div className="top_side_container">
-                <div className="search_container">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} size={25} />
-                    <input type="text" />
+            )} */}
+
+            {currentPage === "home" &&
+                <div className="top_container">
+                    <div className="show_current_page">
+                        <span>HOME</span>
+                    </div>
                 </div>
-            </div> */}
+            }
+
+            {currentPage === 'profile' && 
+                <div className="top_container">
+                    <div className="show_current_page">
+                        <FontAwesomeIcon icon={faArrowLeft} onClick={handlePreviousPage} />
+                        <span>{userObj.displayName}</span>
+                    </div>
+                </div>        
+            }
+
+            {currentPage === 'details' &&
+                <div className="top_container">
+                    <div className="show_current_page">
+                        <FontAwesomeIcon icon={faArrowLeft} onClick={handlePreviousPage} />
+                        <span>Tweet</span>
+                    </div>
+                </div>
+            }
         </>
     )
 }

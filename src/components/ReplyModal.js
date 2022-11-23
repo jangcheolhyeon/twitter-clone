@@ -59,7 +59,7 @@ const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile }) 
 
         await addDoc(collection(db, 'tictoc'), replyTweetObj);
         setModalTweet('');
-        onReplyModalToggle();
+        onReplyModalToggle(false);
     }
 
     return(

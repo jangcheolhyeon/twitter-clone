@@ -20,6 +20,9 @@ const AppRouter = () => {
     const [currentPage, setCurrentPage] = useState('home');
     const [reTweetState, setRetweetState] = useState(false);
     const [parentBundle, setParentBundle] = useState();
+    const [tweetDetail, setTweetDetail] = useState();
+    const [toastAlert, setToastAlert] = useState(false);
+    const [toastText, setToastText] = useState('');
 
 
     useEffect(() => {
@@ -73,9 +76,9 @@ const AppRouter = () => {
                         <Routes>
                             {isLoggedIn ? (
                                 <>
-                                    <Route path='/' element={<Home userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} reTweetState={reTweetState} setRetweetState={setRetweetState} parentBundle={parentBundle} setParentBundle={setParentBundle} />} />
+                                    <Route path='/' element={<Home userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} reTweetState={reTweetState} setRetweetState={setRetweetState} parentBundle={parentBundle} setParentBundle={setParentBundle} setTweetDetail={setTweetDetail} toastAlert={toastAlert} setToastAlert={setToastAlert} toastText={toastText} setToastText={setToastText} />} />
                                     <Route path='/profile' element={<Profile refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage}/>} />
-                                    {/* <Route path='/details' element={<Details />} /> */}
+                                    <Route path='/details' element={<Details tweetDetail={tweetDetail} setCurrentPage={setCurrentPage} usersProfile={usersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText} />} />
                                 </>
                             ) : (
                                 <Route path='/' element={<Auth userObj={userObj} usersProfile={usersProfile}  />} />

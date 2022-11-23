@@ -31,8 +31,6 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
     }
 
     const onRetweetBtn = async(e) => {
-        console.log("click");
-
         if(modalRetweet === ""){
             return ;
         }
@@ -65,7 +63,7 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
         }
 
         await addDoc(collection(db, 'tictoc'), tweetObj);
-
+        
         onRetweetModalToggle();
         setModalRetweet('');
         setAttachment('');

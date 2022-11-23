@@ -176,7 +176,6 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const navi = useNavigate();
 
     const onTweetClick = () => {
-        console.log("tictoc", tictoc);
         setTweetDetail(tictoc);
         navi('/details');
     }
@@ -185,7 +184,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     return(
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} />}
-            {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile}/>}
+            {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} />}
             <div className="tweet" onClick={onTweetClick}>
                 <div className="tweet_user_photo_container">
                     <img src={userPhoto} className="user_photo_image" />

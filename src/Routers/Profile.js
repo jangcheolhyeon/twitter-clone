@@ -45,12 +45,10 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage }) => {
 
     const onChangeDisplayName = (event) => {
         const {target : {value}} = event;
-        console.log(value);
         setNewDisplayName(value);
     }
 
         
-    // React Hook useEffect has missing dependencies 경고는 useEffect 안에 state를 넣어줘야 되는데 그냥 쓰고싶을땐 ??
     useEffect(() => {
         getMyTweets();
         createAccountUser();
