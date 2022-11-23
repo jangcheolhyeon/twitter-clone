@@ -33,16 +33,21 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const [retweetActive, setRetweetActive] = useState(false);
     const retweetRef = useRef();
 
+    // const [RetweetContent, setRetweetContent] = useState('');
+
     console.log("retweetClickedState", retweetClickedState);
 
     const onDeleteTweet = async() => {
-        if(tictoc.parent && tictoc.RetweetContent === ''){
-            await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
-            await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
-        } else{
-            await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
-            await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
-        }
+        // if(tictoc.parent && tictoc.RetweetContent === ''){
+        //     await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
+        //     await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
+        // } else{
+        //     await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
+        //     await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
+        // }
+
+        await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
+        await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
     }
 
     const parentInfo = usersProfile.filter(element => {
@@ -168,6 +173,9 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
         setRetweetModalOpen((prev) => !prev);
     }
 
+    console.log('tictoc', tictoc);
+
+    
 
     return(
         <>
@@ -235,15 +243,13 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                     </div>
 
                     <div className="user_tweet_content">
-                        {tictoc.child === null || tictoc.child === '' ? (
-                            <span>{tictoc.text}</span>
-                        ) : (
+                        {tictoc.parent && <span>{tictoc.text}</span>}
+                        {tictoc.child && 
                             <div className="reply_content">
                                 <span className="replying">Replying to <span className="user_email">@{parentInfo.email.split('@')[0]}</span></span>
                                 <span className="text">{tictoc.text}</span>
                             </div>
-                        )}
-
+                        }
                     </div>
 
                     {tictoc.attachmentUrl && 
@@ -252,6 +258,26 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                         </div>
                     }
 
+                    {tictoc.retweet && 
+                        <div className="tictoc_retweet_content_container">
+                            <div className="retweet_content_container">
+                                <div className="retweet_top">
+                                    <img src={parentInfo.userImage} />
+                                    <span>{parentInfo.displayName}</span>
+                                    <span className="user_email">@{parentInfo.email.split('@')[0]}</span>
+                                </div>
+                                <div className="retweet_content">
+                                    <span>{tictoc.retweetText}</span>
+                                </div>
+
+                                {tictoc.retweetAttachment && (
+                                    <div className="retweet_img">
+                                        <img src={tictoc.retweetAttachment} style={{ backgroundImage : tictoc.retweetAttachment }} />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    }
 
                     <div className="action_container">
                         <div className="action_comment_container" 
@@ -281,13 +307,12 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                             {retweetHover ? (
                                 <FontAwesomeIcon icon={faRetweet} className="icons retweet_hover" />
                             ) : (
-                                // <FontAwesomeIcon icon={faRetweet} className="icons" />
                                 <FontAwesomeIcon icon={faRetweet} className={retweetClickedState ? "icons retweet_hover" : "icons" } />
                             )}
-                            <span>{commentList.filter(element => element.RetweetContent === tictoc.text && element.bundle === tictoc.bundle).length}</span>
+                            {/* <span>{commentList.filter(element => element.RetweetContent === tictoc.text && element.bundle === tictoc.bundle).length}</span> */}
+                            <span>0</span>
                             {retweetHover &&
                                 (
-                                    //onRetweetModalToggle
                                     <div className="action_hover"> 
                                         {retweetClickedState ? "undo retweet" : "retweet"}
                                     </div>
