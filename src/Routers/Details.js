@@ -1,11 +1,11 @@
-import React,{ useState } from "react";
+import React,{ useEffect, useState } from "react";
 import Tictoc from "components/Tictoc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { db, storageService } from "fbase";
 import { v4 } from "uuid";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, query } from "firebase/firestore";
 
 const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastAlert, setToastText }) => {
     setCurrentPage("details");
@@ -13,10 +13,25 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
     const [activeTweetReply, setActiveTweetReply] = useState(false);
     const [replyTweet, setReplyTweet] = useState();
     const [attachment, setAttachment] = useState('');
+    const [commentList, setCommentList] = useState([]);
 
     const parentInfo = usersProfile.filter(element => {
         return element.userId === tweetDetail.userId;
     })[0];
+
+    useEffect(() => {
+        const q = query(collection(db, "tictoc"));
+        onSnapshot(q, (snapshot) => {
+            const comments = snapshot.docs.map((doc) => {
+                return {
+                    id : doc.id,
+                    ...doc.data(),
+                }
+            })
+            setCommentList(comments);
+        })
+
+    }, [])
 
     const onClearImage = () => {
         setAttachment('');
@@ -112,6 +127,14 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
                     </div>
                 </div>
             )}
+
+            {commentList.map((element) => {
+                if(element.child && element.bundle === tweetDetail.bundle){
+                    return <Tictoc tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />
+                }
+            })}
+
+
         </div>
     );
 }

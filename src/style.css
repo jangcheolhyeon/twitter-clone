@@ -1428,7 +1428,7 @@ img{
 .detail_tweet_write_container_active{
   display:flex;
   padding:5px 10px;
-  border:0.1px solid slategray;
+  border-bottom:0.1px solid slategray;
 }
 
 .detail_tweet_write_container_active > .tweet_write_active_img_container > img{
