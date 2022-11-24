@@ -99,6 +99,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
         if(tictoc.like_users.includes(tictoc.userId)){
             return true;
         }
+        
         return false;
     }
 
@@ -208,6 +209,8 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const onModifyText = () => {
         setEditing(true);
     }
+
+    
 
     return(
         <>
@@ -345,8 +348,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                             ) : (
                                 <FontAwesomeIcon icon={faRetweet} className={retweetClickedState ? "icons retweet_hover" : "icons" } />
                             )}
-                            {/* <span>{commentList.filter(element => element.RetweetContent === tictoc.text && element.bundle === tictoc.bundle).length}</span> */}
-                            <span>0</span>
+                            <span>{commentList.filter(element => element.retweet && element.bundle === tictoc.bundle).length}</span>
                             {retweetHover &&
                                 (
                                     <div className="action_hover"> 

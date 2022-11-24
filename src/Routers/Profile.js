@@ -1,6 +1,6 @@
 import { updateProfile } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, query, where, orderBy, updateDoc, doc } from "firebase/firestore";
+import { collection, getDocs, query, where, orderBy, updateDoc, doc, onSnapshot } from "firebase/firestore";
 import { authService, db, storageService } from 'fbase';
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
@@ -11,10 +11,11 @@ import ProfileNaviLikes from './ProfileNaviLikes';
 import ModalUpdateProfile from 'components/ModalUpdateProfile';
 
 
-const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage }) => {
+const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setTweetDetail, setToastAlert, setToastText }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const [userAttachment, setUserAttachment] = useState(userObj.photoURL);
     const [modalOpen, setModalOpen] = useState(false);
+    const [myTweetList, setMyTweetList] = useState([]);
     const [currentNavi, setCurrentNavi] = useState({
         Tweets : true,
         TweetsReplies : false,
@@ -22,18 +23,23 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage }) => {
         Likes : false
     });
 
-    const getMyTweets = async () => {
-        const q = query(
-            collection(db, "tictoc"),
-            where("userId", "==", userObj.uid),
-            orderBy("createdAt", "desc")
-        );
-        
-        await getDocs(q);
+    const getMyTweets = () => {    
+        const q = query(collection(db, "tictoc"), orderBy("createdAt", "desc"));
+        onSnapshot(q, (snapshot) => {
+            const comments = snapshot.docs.map((doc) => {
+                return {
+                    id : doc.id,
+                    ...doc.data(),
+                }
+            })
 
+            setMyTweetList(comments.filter((element) => {
+                return element.userId === userObj.uid;
+            }));
+        })
     };
 
-    const onDisplayNameClick = async(event) => {
+    const onDisplayNameClick = async (event) => {
         event.preventDefault();
         onUpdateUserImg();
         if(newDisplayName !== userObj.displayName){
@@ -123,6 +129,10 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage }) => {
         setModalOpen((prev) => !prev);
     }
 
+    if (!myTweetList) {
+        return null
+    }
+
     return(
         <>
             { modalOpen && <ModalUpdateProfile userAttachment={userAttachment} onUserAttachment={onUserAttachment} newDisplayName={newDisplayName} onChangeDisplayName={onChangeDisplayName} onDisplayNameClick={onDisplayNameClick} setModalOpen={setModalOpen} /> }
@@ -165,7 +175,7 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage }) => {
                     </div>
                 </div>
 
-                {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} />}
+                {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} tictoc={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} />}
                 {currentNavi.TweetsReplies && <ProfileNaviTweets_Replies usersProfile={usersProfile} userObj={userObj} />}
                 {currentNavi.Media && <ProfileNaviMedia usersProfile={usersProfile} userObj={userObj} />}
                 {currentNavi.Likes && <ProfileNaviLikes usersProfile={usersProfile} userObj={userObj} />}

@@ -2,36 +2,21 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEllipsis, faUserPlus, faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import RecommendFriend from "components/RecommendFriend";
+import Tictoc from "components/Tictoc";
 
-const ProfileNaviTweets = ({ usersProfile, userObj }) => {
+const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setToastAlert, setToastText }) => {
+    if(tictoc.length === 0){
+        console.log("tictoc is empty array");
+        return null;
+    }
+
     return(
         <>
-            <div className='my_trace_content'>
-                <div className='my_trace_content_top'>
-                    <span>Let's get you set up</span>
-                    <FontAwesomeIcon icon={faEllipsis} className='three-dots-icon' />
-                </div>
-                <div className='setup_container'>
-                    <div className="setup_box">
-                        <div>
-                            <FontAwesomeIcon icon={faUser} />
-                        </div>
-                        <span>Complete your profile</span>
-                    </div>
-                    <div className="setup_box">
-                        <div>
-                            <FontAwesomeIcon icon={faUserPlus} />
-                        </div>
-                        <span>Follow 5 accounts</span>
-                    </div>
-                    <div className="setup_box">
-                        <div>
-                            <FontAwesomeIcon icon={faCommentDots} />
-                        </div>
-                        <span>Follow 3 topics</span>
-                    </div>
-                </div>
-            </div>
+            {
+                tictoc.map((element) => {
+                    return <Tictoc tictoc={element} isOwner={true} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail}/>
+                })
+            }
 
             <div className='profile_follow_recommend'>
                 <span>Who to follow</span>
