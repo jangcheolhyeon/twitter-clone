@@ -31,9 +31,6 @@ const AuthForm = ({ userObj, usersProfile }) => {
         try{
             const auth = getAuth();
             if(createNewAccount){
-                console.log("createnewAccount");
-                console.log("createEmail",createEmail);
-                console.log("cratePwd",createPassword);
                 await createUserWithEmailAndPassword(auth, createEmail, createPassword);
                 const isUserIn = usersProfile.filter(element => element.userId === userObj.uid).length;
 
@@ -43,6 +40,7 @@ const AuthForm = ({ userObj, usersProfile }) => {
                         userImage : userObj.photoURL,
                         displayName : userObj.displayName,
                         email : userObj.email,
+                        pin : userObj.pin,
                         follower:[],
                         following:[],
                     })
@@ -63,6 +61,7 @@ const AuthForm = ({ userObj, usersProfile }) => {
                         userImage : userObj.photoURL,
                         displayName : userObj.displayName,
                         email : userObj.email,
+                        pin : userObj.pin,
                         follower:[],
                         following:[],
                     })
@@ -85,12 +84,6 @@ const AuthForm = ({ userObj, usersProfile }) => {
             return !prev;
         })
     }
-
-    console.log("current State(create newAccount)", createNewAccount);
-    console.log("eamil", email);
-    console.log("pwd", password);
-    console.log("createEmail",createEmail);
-    console.log("cratePwd",createPassword);
 
     return(
         <>
