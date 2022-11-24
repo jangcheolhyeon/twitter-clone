@@ -394,6 +394,24 @@ img{
 
 }
 
+.tweet_pin{
+  display: flex;
+  align-items: center;
+  color:rgb(100, 110, 119);
+  height: 30px;
+}
+
+.tweet_pin > svg {
+  margin-left:15px;
+  font-size:15px;
+}
+
+.tweet_pin > span{
+  margin-left:10px;
+  font-size:12px;
+}
+
+
 .tweet_more_container > .action_hover{
   top:22px;
   right:-2px;
@@ -410,14 +428,14 @@ img{
   top:22px;
 }
 
-.close_tweet svg{
+.close_tweet .x_mark_icon{
   position:absolute;
   right:0;
   padding:5px;
 
 }
 
-.close_tweet svg:hover{
+.close_tweet .x_mark_icon:hover{
   background-color: black;
   border-radius: 100px;
 }
@@ -1373,7 +1391,7 @@ img{
 }
 
 .tictoc_retweet_content_container > .retweet_content_container{
-  margin-right:0;
+  margin-right:20px;
   margin-left:0;
   margin-bottom:20px;
 }
@@ -1701,3 +1719,5 @@ img{
   border-radius: 20px;
   background-color: rgb(38, 36, 36);
 }
+
+

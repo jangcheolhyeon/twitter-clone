@@ -4,12 +4,11 @@ import { deleteObject, ref } from "firebase/storage";
 import { storageService, db } from 'fbase';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { faRetweet, faCommentDots, faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faRetweet, faCommentDots, faArrowUpFromBracket, faThumbtack } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import ReplyMdoal from "components/ReplyModal";
 import RetweetModal from "components/RetweetModal";
 import { useNavigate } from "react-router-dom";
-
 
 const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail }) => {
     const [newText, setNewText] = useState(tictoc.text);
@@ -38,8 +37,6 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const [shareActive, setShareActive] = useState(false);
     const shareRef = useRef();
 
-    const [editing, setEditing] = useState(false);
-
     const onDeleteTweet = async(event) => {
         event.stopPropagation();
         setToastAlert(true);
@@ -66,8 +63,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
             text : newText
         } );
     }
-
-    
+        
     useEffect(() => {
         usersProfile.map(element => {
             if(element.userId === tictoc.userId){
@@ -153,7 +149,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
 
 
     const onThreedotsToggle = (event) => {
-        event.stopPropagation()
+        event.stopPropagation();
         setThreedotsActive((prev) => !prev);
     }
 
@@ -178,6 +174,8 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const onRetweetModalToggle = (event) => {
         event.stopPropagation();
         setRetweetModalOpen((prev) => !prev);
+        setRetweetActive(false);
+        setRetweetHover(false);
     }
     
     const navi = useNavigate();
@@ -204,13 +202,25 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
             document.removeEventListener("mousedown", shareOutSide);
         }
     }, [shareActive])
+    
+    const userInfo = usersProfile.filter(element => element.userId === userObj.uid)[0];
 
-
-    const onModifyText = () => {
-        setEditing(true);
+    const handlePinActive = async() => {
+        if(userInfo.pin === tictoc.id){
+            console.log("같은거");
+            await updateDoc(doc(db, "usersInfo", `${userInfo.id}`), {
+                pin : ""
+            });
+        }
+        else{
+            console.log("다른거");
+            await updateDoc(doc(db, "usersInfo", `${userInfo.id}`), {
+                pin : tictoc.id
+            });
+        }
     }
 
-    
+    console.log(tictoc);
 
     return(
         <>
@@ -226,7 +236,9 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                         <FontAwesomeIcon icon={faXmark} 
                         onMouseOver={() => { setXMarkHover(true) }}
                         onMouseOut={() => { setXMarkHover(false) }}
-                        onClick={onDeleteTweet} />
+                        onClick={onDeleteTweet}
+                        className="x_mark_icon"
+                        />
                         {xMarkHover && 
                             (
                                 <div className="action_hover"> 
@@ -234,7 +246,15 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                                 </div>
                             )
                         }
+
+                        {Boolean(userInfo.pin.length) && userInfo.pin === tictoc.id && <>
+                            <div className="tweet_pin">
+                                <FontAwesomeIcon icon={faThumbtack} />
+                                <span>Pinned Tweet</span>
+                            </div>
+                        </>}
                     </div>}
+
 
                     <div className="tweet_userInfo_container">
                         <div className="tweet_more_container">
@@ -254,12 +274,12 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
 
                                 {threedotsActive && 
                                     (
-                                        <div className="tictoc_active_box threedots_active_container">
+                                        <div className="tictoc_active_box threedots_active_container" >
                                             <ul>
                                                 {isOwner ? 
                                                     (
                                                         <>
-                                                            <li>Pin to your profile</li>
+                                                            <li onMouseDown={handlePinActive}>Pin to your profile</li>
                                                             <li>change who can reply</li>
                                                         </>
                                                     )
@@ -349,6 +369,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                                 <FontAwesomeIcon icon={faRetweet} className={retweetClickedState ? "icons retweet_hover" : "icons" } />
                             )}
                             <span>{commentList.filter(element => element.retweet && element.bundle === tictoc.bundle).length}</span>
+                            
                             {retweetHover &&
                                 (
                                     <div className="action_hover"> 
@@ -356,6 +377,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                                     </div>
                                 )
                             }
+
                             {retweetActive && (
                                 <div className="tictoc_active_box">
                                     <ul>
