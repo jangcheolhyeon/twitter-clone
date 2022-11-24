@@ -36,6 +36,7 @@ const AppRouter = () => {
                     updateProfile: () => updateProfile(user, { displayName : user.displayName }),
                     photoURL : user.photoURL,
                     email : user.email,
+                    pin : '',
                     follower : [],
                     following : [],
                 });
@@ -75,7 +76,7 @@ const AppRouter = () => {
                             {isLoggedIn ? (
                                 <>
                                     <Route path='/' element={<Home userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} reTweetState={reTweetState} setRetweetState={setRetweetState} parentBundle={parentBundle} setParentBundle={setParentBundle} setTweetDetail={setTweetDetail} toastAlert={toastAlert} setToastAlert={setToastAlert} toastText={toastText} setToastText={setToastText} />} />
-                                    <Route path='/profile' element={<Profile refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage}/>} />
+                                    <Route path='/profile' element={<Profile refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} />} />
                                     <Route path='/details' element={<Details tweetDetail={tweetDetail} setCurrentPage={setCurrentPage} usersProfile={usersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText} />} />
                                 </>
                             ) : (
