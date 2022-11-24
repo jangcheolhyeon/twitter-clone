@@ -30,16 +30,17 @@ const Auth = ({ userObj, usersProfile }) => {
                     <AuthForm userObj={userObj} usersProfile={usersProfile} />      
                 </div>
                 <div className="authBtns">
-                    <button onClick={onSnsClick} name="google" className="authBtn">
-                        Continue with Google <FontAwesomeIcon icon={faGoogle} />
+                    <button onClick={onSnsClick} name="google" className="authBtn googleAuth">
+                        <FontAwesomeIcon icon={faGoogle} /><span>Continue with Google</span>
                     </button>
-                    <button onClick={onSnsClick} name="github" className="authBtn">
-                        Continue with Github <FontAwesomeIcon icon={faGithub} />
+                    <button onClick={onSnsClick} name="github" className="authBtn githubAuth">
+                        <FontAwesomeIcon icon={faGithub} /><span>Continue with Google</span>
                     </button>
                 </div>
             </div>
         </div>
     );
+
 }
 
 export default Auth;
