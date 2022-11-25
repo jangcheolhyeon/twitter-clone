@@ -398,7 +398,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
                             
                         >
                             {retweetHover ? (
-                                <FontAwesomeIcon icon={faRetweet} className={replyState ? "icons retweet_hover retweet_state" : "icons retweet_hover"}/>
+                                <FontAwesomeIcon icon={faRetweet} className={replyState ? "icons retweet_hover" : "icons retweet_hover"}/>
                             ) : (
                                 <>
                                 {replyState ? (

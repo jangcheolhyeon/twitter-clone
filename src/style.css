@@ -1133,6 +1133,8 @@ img{
   padding:10px;
   margin-top:10px;
   margin-left:10px;
+  width:15px;
+  height:15px;
 }
 
 .tweet_modal_container > .delete_container > svg:hover{
