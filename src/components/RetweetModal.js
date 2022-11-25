@@ -6,7 +6,7 @@ import { db, storageService } from "fbase";
 import { v4 } from "uuid";
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 
-const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProfile }) => {
+const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProfile, setRetweetModalOpen }) => {
     const [modalRetweet, setModalRetweet] = useState();
     const [attachment, setAttachment] = useState('');
 
@@ -65,9 +65,9 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
 
         await addDoc(collection(db, 'tictoc'), tweetObj);
         
-        onRetweetModalToggle();
         setModalRetweet('');
         setAttachment('');
+        setRetweetModalOpen(false);
     }    
 
     const parentInfo = usersProfile.filter(element => {

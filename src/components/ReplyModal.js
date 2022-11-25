@@ -6,7 +6,7 @@ import { db, storageService } from "fbase";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
-const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile }) => {
+const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile, setReplyModalOpen }) => {
     const [modalTweet, setModalTweet] = useState();
     const [attachment, setAttachment] = useState('');
 
@@ -61,7 +61,7 @@ const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile }) 
 
         await addDoc(collection(db, 'tictoc'), replyTweetObj);
         setModalTweet('');
-        onReplyModalToggle(false);
+        setReplyModalOpen(false);
     }
 
     return(

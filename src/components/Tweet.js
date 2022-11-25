@@ -16,7 +16,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
     const [userPhoto, setUserPhoto] = useState(); 
     const [replyList, setReplyList] = useState([]);
     const [replyState, setReplyState] = useState(false);
-    const [replyCount, setReplyCount] = useState(0); 
     const [retweetList, setRetweetList] = useState([]);
     const [likeState, setLikeState] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
@@ -30,7 +29,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
     const [shareHover, setShareHover] = useState(false);
     const [threedotsActive, setThreedotsActive] = useState(false);
     const dotsRef = useRef();
-    const [retweetClickedState, setRetweetClickedState] = useState(false);
     const [retweetModalOpen, setRetweetModalOpen] = useState(false);
     const [retweetActive, setRetweetActive] = useState(false);
     const retweetRef = useRef();
@@ -101,8 +99,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
         return false;
     }
 
-    console.log("retweetActive", retweetActive);
-
     const onClickReply = async(event) => {
         event.stopPropagation();
         if(tictoc.isDeleted) {
@@ -172,6 +168,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
 
     const onRetweetToggle = (event) => {
         event.stopPropagation();
+        setRetweetHover(false);
         setRetweetActive((prev) => !prev);
     }
 
@@ -248,26 +245,21 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
 
     const handlePinActive = async() => {
         if(userInfo.pin === tictoc.id){
-            console.log("같은거");
             await updateDoc(doc(db, "usersInfo", `${userInfo.id}`), {
                 pin : ""
             });
         }
         else{
-            console.log("다른거");
             await updateDoc(doc(db, "usersInfo", `${userInfo.id}`), {
                 pin : tictoc.id
             });
         }
     }
-
-    console.log("replyState", replyState);
-    console.log("retweetHover", retweetHover);
-
+    
     return(
         <>
-            {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} />}
-            {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} />}
+            {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen}/>}
+            {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} />}
             <div className="tweet" onClick={onTweetClick}>
                 <div className="tweet_user_photo_container">
                     <img src={userPhoto} className="user_photo_image" />
@@ -406,7 +398,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
                             
                         >
                             {retweetHover ? (
-                                <FontAwesomeIcon icon={faRetweet} className="icons retweet_hover" />
+                                <FontAwesomeIcon icon={faRetweet} className={replyState ? "icons retweet_hover retweet_state" : "icons retweet_hover"}/>
                             ) : (
                                 <>
                                 {replyState ? (
@@ -431,12 +423,10 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
                                 <div className="tictoc_active_box">
                                     <ul>
                                         {replyState ? (
-                                            <li onClick={() => { setRetweetClickedState((prev) => !prev); }}
-                                                onMouseDown={onClickReply}
+                                            <li onMouseDown={onClickReply}
                                             >Undo Retweet</li>
                                         ) : (
-                                            <li onClick={() => { setRetweetClickedState((prev) => !prev); }}
-                                                onMouseDown={onClickReply}
+                                            <li onMouseDown={onClickReply}
                                             >Retweet</li>
                                         )}
                                         <li onClick={onRetweetModalToggle}>Quote Tweet</li>
