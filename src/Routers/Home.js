@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from 'fbase';
 import { collection, query, orderBy, onSnapshot, updateDoc, doc } from "firebase/firestore"; 
-import Tictoc from 'components/Tictoc';
+import Tweet from 'components/Tweet';
 import TweetFactory from 'components/TweetFactory';
 import ToastNotification from 'components/ToastNotification';
 
@@ -35,7 +35,7 @@ const Home = ({ userObj, usersProfile, setCurrentPage, reTweetState, setRetweetS
 
                     <div className='tictoc_container'>
                         {messages.map((element) => {
-                            return <Tictoc key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} />
+                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} />
                         })}
                     </div>
 

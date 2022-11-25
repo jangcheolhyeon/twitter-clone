@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEllipsis, faUserPlus, faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import RecommendFriend from "components/RecommendFriend";
-import Tictoc from "components/Tictoc";
+import Tweet from "components/Tweet";
 
 const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setToastAlert, setToastText }) => {
     if(tictoc.length === 0){
@@ -13,7 +13,7 @@ const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setT
         <>
             {
                 tictoc.map((element) => {
-                    return <Tictoc key={element.createdAt} tictoc={element} isOwner={true} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail}/>
+                    return <Tweet key={element.createdAt} tictoc={element} isOwner={true} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail}/>
                 })
             }
 

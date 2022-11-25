@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from "react";
-import Tictoc from "components/Tictoc";
+import Tweet from "components/Tweet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
@@ -82,7 +82,7 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
 
     return(
         <div className="container">
-            <Tictoc tictoc={tweetDetail} isOwner={tweetDetail.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />
+            <Tweet tictoc={tweetDetail} isOwner={tweetDetail.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />
             {activeTweetReply ? (
                 <div className="detail_tweet_write_container_active">
                     <div className="tweet_write_active_img_container">
@@ -130,7 +130,7 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
 
             {commentList.map((element) => {
                 if(element.child && element.bundle === tweetDetail.bundle){
-                    return <Tictoc tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />
+                    return <Tweet tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />
                 }
             })}
 

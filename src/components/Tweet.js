@@ -10,7 +10,7 @@ import ReplyMdoal from "components/ReplyModal";
 import RetweetModal from "components/RetweetModal";
 import { useNavigate } from "react-router-dom";
 
-const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail }) => {
+const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail }) => {
     const [newText, setNewText] = useState(tictoc.text);
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
@@ -466,4 +466,4 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     );
 }
 
-export default Tictoc;
+export default Tweet;
