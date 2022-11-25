@@ -52,6 +52,7 @@ const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile }) 
             bundle : Number(`${parentTweet.bundle}`),
             attachmentUrl,
             userImage : userObj.photoURL,
+            reply_users : [],
             like_users : [],
             child : true,
             parentReplyInfo : parentInfo, 

@@ -65,6 +65,7 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
             bundle : Number(`${tweetDetail.bundle}`),
             attachmentUrl,
             userImage : userObj.photoURL,
+            reply_users : [],
             like_users : [],
             child : true,
             parentReplyInfo : parentInfo, 

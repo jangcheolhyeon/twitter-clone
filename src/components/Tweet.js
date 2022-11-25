@@ -14,8 +14,9 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
     const [newText, setNewText] = useState(tictoc.text);
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
-    const [commentList, setCommnetList] = useState([]);
     const [replyList, setReplyList] = useState([]);
+    const [replyState, setReplyState] = useState(false);
+    const [replyCount, setReplyCount] = useState(0); 
     const [retweetList, setRetweetList] = useState([]);
     const [likeState, setLikeState] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
@@ -79,23 +80,57 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
                     ...doc.data(),
                 }
             })
-            setCommnetList(comments);
             setReplyList(comments.filter(element => {return element.child === true}));
             setRetweetList(comments.filter(element => {return element.retweet === true}))
         })
 
         setLikeState(likeStateInit());
         setLikeCount(tictoc.like_users.length);
+
+        setReplyState(replyStateInit());
         
         const time = new Date(tictoc.createdAt);
         setEnrollDate((time.getMonth()+1) + "." + (time.getDate()));
     }, []);
 
-    console.log(commentList);
-    console.log('replyList', replyList);
-    console.log('retweetList', retweetList);
-    console.log("usersProfile", usersProfile);
+    const replyStateInit = () => {
+        if(tictoc.reply_users.includes(tictoc.userId)){
+            return true;
+        }
 
+        return false;
+    }
+
+    console.log("retweetActive", retweetActive);
+
+    const onClickReply = async(event) => {
+        event.stopPropagation();
+        if(tictoc.isDeleted) {
+            return ;
+        }
+
+        if(replyState){
+            await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
+                reply_users : tictoc.reply_users.filter((element) => { return element !== userObj.uid})
+            })
+
+            setReplyState((prev) => {
+                return prev - 1;
+            })
+            
+        } else {
+            await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
+                reply_users : [...tictoc.reply_users, userObj.uid]
+            })
+
+            setReplyState((prev) => {
+                return prev + 1;
+            })
+            
+            setToastAlert(true);
+            setToastText('Keep it up! Retweet suceess!');
+        }
+    }
 
     const likeStateInit = () => {
         if(tictoc.like_users.includes(tictoc.userId)){
@@ -226,7 +261,8 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
         }
     }
 
-    console.log(tictoc);
+    console.log("replyState", replyState);
+    console.log("retweetHover", retweetHover);
 
     return(
         <>
@@ -372,14 +408,21 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
                             {retweetHover ? (
                                 <FontAwesomeIcon icon={faRetweet} className="icons retweet_hover" />
                             ) : (
-                                <FontAwesomeIcon icon={faRetweet} className={retweetClickedState ? "icons retweet_hover" : "icons" } />
+                                <>
+                                {replyState ? (
+                                        <FontAwesomeIcon icon={faRetweet} className={replyState ? "icons retweet_hover retweet_state" : "icons retweet_state" } />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faRetweet} className={replyState ? "icons retweet_hover" : "icons" } />
+                                    )}
+                                </>
                             )}
-                            <span>{retweetList.filter(element => { return element.retweetParent === tictoc.id }).length}</span>
+
+                            <span className={replyState && "retweet_state_num"}>{retweetList.filter(element => { return element.retweetParent === tictoc.id }).length + Number(replyState)}</span>
                             
                             {retweetHover &&
                                 (
                                     <div className="action_hover"> 
-                                        {retweetClickedState ? "undo retweet" : "retweet"}
+                                        {replyState ? "undo retweet" : "retweet"}
                                     </div>
                                 )
                             }
@@ -387,10 +430,14 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
                             {retweetActive && (
                                 <div className="tictoc_active_box">
                                     <ul>
-                                        {retweetClickedState ? (
-                                            <li onClick={() => { setRetweetClickedState((prev) => !prev) }}>Undo Retweet</li>
+                                        {replyState ? (
+                                            <li onClick={() => { setRetweetClickedState((prev) => !prev); }}
+                                                onMouseDown={onClickReply}
+                                            >Undo Retweet</li>
                                         ) : (
-                                            <li onClick={() => { setRetweetClickedState((prev) => !prev) }}>Retweet</li>
+                                            <li onClick={() => { setRetweetClickedState((prev) => !prev); }}
+                                                onMouseDown={onClickReply}
+                                            >Retweet</li>
                                         )}
                                         <li onClick={onRetweetModalToggle}>Quote Tweet</li>
                                     </ul>

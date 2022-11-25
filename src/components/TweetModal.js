@@ -61,6 +61,7 @@ const TweetModal = ({ userObj, onTweetModalToggle, retweetState, parentBundle })
             userImage : userObj.photoURL,
             attachmentUrl,
             bundle:retweetBundle,
+            reply_users : [],
             like_users : [],
             parent : true,
             isDeleted : false,

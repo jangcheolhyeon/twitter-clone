@@ -54,6 +54,7 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
             attachmentUrl,
             parent : true,
             isDeleted : false,
+            reply_users : [],
             like_users : [],
             retweet:true,
             retweetParentInfo : retweetContent,

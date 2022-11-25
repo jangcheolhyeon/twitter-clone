@@ -518,10 +518,6 @@ img{
   background-color:rgb(40, 155, 40);
 }
 
-.action_container > .action_retweet_container > .retweet_hover{
-  background-color:rgb(40, 155, 40);
-}
-
 .action_container > .action_like_container > svg:hover{
   background-color:rgb(170, 83, 83);
 }
@@ -1718,6 +1714,14 @@ img{
 .create_account_modal_close > svg:hover{
   border-radius: 20px;
   background-color: rgb(38, 36, 36);
+}
+
+.retweet_state{
+  color:rgba(40, 155, 40, 0.6);
+}
+
+.retweet_state_num{
+  color:rgb(40, 155, 40);
 }
 
 
