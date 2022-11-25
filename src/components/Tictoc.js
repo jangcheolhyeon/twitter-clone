@@ -15,6 +15,8 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
     const [commentList, setCommnetList] = useState([]);
+    const [replyList, setReplyList] = useState([]);
+    const [retweetList, setRetweetList] = useState([]);
     const [likeState, setLikeState] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
     const [enrollDate, setEnrollDate] = useState();
@@ -27,13 +29,10 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
     const [shareHover, setShareHover] = useState(false);
     const [threedotsActive, setThreedotsActive] = useState(false);
     const dotsRef = useRef();
-
     const [retweetClickedState, setRetweetClickedState] = useState(false);
     const [retweetModalOpen, setRetweetModalOpen] = useState(false);
     const [retweetActive, setRetweetActive] = useState(false);
     const retweetRef = useRef();
-
-
     const [shareActive, setShareActive] = useState(false);
     const shareRef = useRef();
 
@@ -81,15 +80,22 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                 }
             })
             setCommnetList(comments);
+            setReplyList(comments.filter(element => {return element.child === true}));
+            setRetweetList(comments.filter(element => {return element.retweet === true}))
         })
 
         setLikeState(likeStateInit());
         setLikeCount(tictoc.like_users.length);
         
-
         const time = new Date(tictoc.createdAt);
         setEnrollDate((time.getMonth()+1) + "." + (time.getDate()));
     }, []);
+
+    console.log(commentList);
+    console.log('replyList', replyList);
+    console.log('retweetList', retweetList);
+    console.log("usersProfile", usersProfile);
+
 
     const likeStateInit = () => {
         if(tictoc.like_users.includes(tictoc.userId)){
@@ -348,7 +354,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                             ) : (
                                 <FontAwesomeIcon icon={faCommentDots} className="icons" />
                             )}
-                            <span>{commentList.filter(element => element.child && element.bundle === tictoc.bundle).length}</span>
+                            <span>{replyList.filter(element => { return element.parentReplyInfoDetail.id === tictoc.id }).length}</span>
                             {commentHover && 
                                 (
                                     <div className="action_hover"> 
@@ -368,7 +374,7 @@ const Tictoc = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToas
                             ) : (
                                 <FontAwesomeIcon icon={faRetweet} className={retweetClickedState ? "icons retweet_hover" : "icons" } />
                             )}
-                            <span>{commentList.filter(element => element.retweet && element.bundle === tictoc.bundle).length}</span>
+                            <span>{retweetList.filter(element => { return element.retweetParent === tictoc.id }).length}</span>
                             
                             {retweetHover &&
                                 (

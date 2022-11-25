@@ -6,7 +6,6 @@ import Tictoc from "components/Tictoc";
 
 const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setToastAlert, setToastText }) => {
     if(tictoc.length === 0){
-        console.log("tictoc is empty array");
         return null;
     }
 
@@ -14,7 +13,7 @@ const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setT
         <>
             {
                 tictoc.map((element) => {
-                    return <Tictoc tictoc={element} isOwner={true} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail}/>
+                    return <Tictoc key={element.createdAt} tictoc={element} isOwner={true} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail}/>
                 })
             }
 

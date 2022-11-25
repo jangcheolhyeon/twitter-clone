@@ -45,7 +45,6 @@ const TweetFactory = ({ userObj, retweetState, parentBundle }) => {
             bundle:retweetBundle,
             like_users: [],
             parent : true,
-            reply_cnt : 0,
             isDeleted : false,
         }
 

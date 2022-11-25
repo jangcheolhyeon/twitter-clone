@@ -4,7 +4,7 @@ import { faXmark, faTimes, faImage } from "@fortawesome/free-solid-svg-icons";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { db, storageService } from "fbase";
 import { v4 } from "uuid";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, updateDoc } from "firebase/firestore";
 
 const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProfile }) => {
     const [modalRetweet, setModalRetweet] = useState();
@@ -53,10 +53,10 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
             bundle : Number(`${retweetContent.bundle}`),
             attachmentUrl,
             parent : true,
-            reply_cnt : 0,
             isDeleted : false,
             like_users : [],
             retweet:true,
+            retweetParentInfo : retweetContent,
             retweetParent: retweetContent.id,
             retweetAttachment : retweetContent.attachmentUrl,
             retweetText : retweetContent.text,

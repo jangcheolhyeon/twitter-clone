@@ -55,6 +55,7 @@ const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile }) 
             like_users : [],
             child : true,
             parentReplyInfo : parentInfo, 
+            parentReplyInfoDetail: parentTweet,
         }
 
         await addDoc(collection(db, 'tictoc'), replyTweetObj);
