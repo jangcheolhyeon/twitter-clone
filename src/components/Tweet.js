@@ -92,7 +92,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
     }, []);
 
     const replyStateInit = () => {
-        if(tictoc.reply_users.includes(tictoc.userId)){
+        if(tictoc.reply_users.includes(userObj.userId)){
             return true;
         }
 
@@ -129,7 +129,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
     }
 
     const likeStateInit = () => {
-        if(tictoc.like_users.includes(tictoc.userId)){
+        if(tictoc.like_users.includes(userObj.uid)){
             return true;
         }
         
@@ -281,12 +281,12 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
                             )
                         }
 
-                        {Boolean(userInfo.pin.length) && userInfo.pin === tictoc.id && <>
+                        {/* {Boolean(userInfo.pin.length) && userInfo.pin === tictoc.id && <>
                             <div className="tweet_pin">
                                 <FontAwesomeIcon icon={faThumbtack} />
                                 <span>Pinned Tweet</span>
                             </div>
-                        </>}
+                        </>} */}
                     </div>}
 
 
