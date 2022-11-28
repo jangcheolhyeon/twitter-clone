@@ -35,6 +35,8 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
     const [shareActive, setShareActive] = useState(false);
     const shareRef = useRef();
 
+    console.log(tictoc);
+    console.log(userObj);
     const onDeleteTweet = async(event) => {
         event.stopPropagation();
         setToastAlert(true);
@@ -92,7 +94,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
     }, []);
 
     const replyStateInit = () => {
-        if(tictoc.reply_users.includes(userObj.userId)){
+        if(tictoc.reply_users.includes(userObj.uid)){
             return true;
         }
 
@@ -409,7 +411,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
                                 </>
                             )}
 
-                            <span className={replyState && "retweet_state_num"}>{retweetList.filter(element => { return element.retweetParent === tictoc.id }).length + Number(replyState)}</span>
+                            <span className={replyState && "retweet_state_num"}>{tictoc.reply_users.length}</span>
                             
                             {retweetHover &&
                                 (
