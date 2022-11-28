@@ -11,11 +11,12 @@ import ProfileNaviLikes from './ProfileNaviLikes';
 import ModalUpdateProfile from 'components/ModalUpdateProfile';
 
 
-const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setTweetDetail, setToastAlert, setToastText }) => {
+const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const [userAttachment, setUserAttachment] = useState(userObj.photoURL);
     const [modalOpen, setModalOpen] = useState(false);
     const [myTweetList, setMyTweetList] = useState([]);
+    const [tweets, setTweets] = useState([]);
     const [currentNavi, setCurrentNavi] = useState({
         Tweets : true,
         TweetsReplies : false,
@@ -36,6 +37,8 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setTwe
             setMyTweetList(comments.filter((element) => {
                 return element.userId === userObj.uid;
             }));
+
+            setTweets(comments);
         })
     };
 
@@ -178,7 +181,7 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setTwe
                 {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} tictoc={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} />}
                 {currentNavi.TweetsReplies && <ProfileNaviTweets_Replies usersProfile={usersProfile} userObj={userObj} />}
                 {currentNavi.Media && <ProfileNaviMedia usersProfile={usersProfile} userObj={userObj} />}
-                {currentNavi.Likes && <ProfileNaviLikes usersProfile={usersProfile} userObj={userObj} />}
+                {currentNavi.Likes && <ProfileNaviLikes userObj={userObj} tweets={tweets} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />}
             </div>
         </>
     );

@@ -35,8 +35,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
     const [shareActive, setShareActive] = useState(false);
     const shareRef = useRef();
 
-    console.log(tictoc);
-    console.log(userObj);
     const onDeleteTweet = async(event) => {
         event.stopPropagation();
         setToastAlert(true);
@@ -221,6 +219,9 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
     const navi = useNavigate();
 
     const onTweetClick = () => {
+        if(setTweetDetail === null || setTweetDetail === undefined){
+            return ;
+        }
         setTweetDetail(tictoc);
         navi('/details');
     }
