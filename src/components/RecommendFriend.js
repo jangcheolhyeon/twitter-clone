@@ -7,8 +7,7 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile }) => {
     const [followState, setFollowState] = useState(true);
     const [followingHover, setFollowingHover] = useState(false);
 
-    // const currentUser = useRef();
-    let currentUser;
+    const currentUser = useRef();
 
     useEffect(() => {
         if(usersProfile === undefined || usersProfile === null || usersProfile.length === 0){
@@ -24,6 +23,8 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile }) => {
             });
             setUsersProfile(newUsersInfo);
         })
+
+        currentUser.current = usersProfile.filter(element => element.userId === userObj.uid)[0];
     }, [followState])
 
     useEffect(() => {
@@ -38,35 +39,33 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile }) => {
             setFollowState(false);
         }
 
-        currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
-        
+        currentUser.current = usersProfile.filter(element => element.userId === userObj.uid)[0];
     }, [])
-
+    
+        
     const onFollowClick = async(user) => {
         setFollowState(prev => !prev);
-        console.log("onclick");
-        console.log("currentUSer", currentUser);
 
         if(followState){
-            await updateDoc(doc(db, "usersInfo", `${currentUser.id}`), {
-                follower : currentUser.follower.filter(element => {
+            await updateDoc(doc(db, "usersInfo", `${currentUser.current.id}`), {
+                follower : currentUser.current.follower.filter(element => {
                     return element !== user.userId
                 })
             });   
 
             await updateDoc(doc(db, 'usersInfo', user.id), {
                 following : user.following.filter(element => {
-                    return element !== currentUser.userId
+                    return element !== currentUser.current.userId
                 })
             })
                         
         } else{
-            await updateDoc(doc(db, 'usersInfo', `${currentUser.id}`), {
-                follower : [...currentUser.follower, user.userId],
+            await updateDoc(doc(db, 'usersInfo', `${currentUser.current.id}`), {
+                follower : [...currentUser.current.follower, user.userId],
             });
 
             await updateDoc(doc(db, 'usersInfo', user.id), {
-                following : [...user.following, currentUser.userId]
+                following : [...user.following, currentUser.current.userId]
             })
         }
     }
