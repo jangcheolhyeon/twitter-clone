@@ -4,7 +4,7 @@ import { faUser, faEllipsis, faUserPlus, faCommentDots } from "@fortawesome/free
 import RecommendFriend from "components/RecommendFriend";
 import Tweet from "components/Tweet";
 
-const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setToastAlert, setToastText }) => {
+const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setToastAlert, setToastText, setUsersProfile }) => {
     if(tictoc.length === 0){
         return null;
     }
@@ -26,7 +26,7 @@ const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setT
                             return(
                                 <>
                                     <RecommendFriend
-                                        key={element.userId} user={element} 
+                                        key={element.userId} user={element} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile}
                                     />
                                     <span>asdlfnsaldk</span>
                                 </>

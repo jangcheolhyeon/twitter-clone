@@ -1,5 +1,5 @@
 import { updateProfile } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { collection, getDocs, query, where, orderBy, updateDoc, doc, onSnapshot } from "firebase/firestore";
 import { authService, db, storageService } from 'fbase';
 import { v4 } from "uuid";
@@ -11,7 +11,7 @@ import ProfileNaviLikes from './ProfileNaviLikes';
 import ModalUpdateProfile from 'components/ModalUpdateProfile';
 
 
-const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText }) => {
+const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const [userAttachment, setUserAttachment] = useState(userObj.photoURL);
     const [modalOpen, setModalOpen] = useState(false);
@@ -23,6 +23,9 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
         Media : false,
         Likes : false
     });
+    let currentUser;
+    const [followersCnt, setFollowersCnt] = useState(0);
+    const [followingCnt, setFollowingCnt] = useState(0);
 
     const getMyTweets = () => {    
         const q = query(collection(db, "tictoc"), orderBy("createdAt", "desc"));
@@ -56,7 +59,6 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
         const {target : {value}} = event;
         setNewDisplayName(value);
     }
-
         
     useEffect(() => {
         getMyTweets();
@@ -68,6 +70,15 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
 
         setCurrentPage('profile');
     }, []);
+
+    useEffect(() => {
+        if(usersProfile.length !== 0){
+            currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
+
+            setFollowersCnt(currentUser.follower.length);
+            setFollowingCnt(currentUser.following.length);
+        }
+    }, [])
 
     const createAccountUser = () => {
         if(userObj.displayName === null){
@@ -155,10 +166,10 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
                     <span className='user_email'>{userObj.email}</span>
                     <div className='follow_follower_info'>
                         <span>
-                            <span className='number'>0</span> Following
+                            <span className='number'>{followingCnt}</span> Following
                         </span>
                         <span>
-                            <span className='number'>0</span> Followers
+                            <span className='number'>{followersCnt}</span> Followers
                         </span>
                     </div>
                 </div>
@@ -178,8 +189,8 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
                     </div>
                 </div>
 
-                {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} tictoc={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} />}
-                {currentNavi.TweetsReplies && <ProfileNaviTweets_Replies usersProfile={usersProfile} userObj={userObj} />}
+                {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} tictoc={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile}/>}
+                {currentNavi.TweetsReplies && <ProfileNaviTweets_Replies usersProfile={usersProfile} userObj={userObj} setUsersProfile={setUsersProfile} />}
                 {currentNavi.Media && <ProfileNaviMedia usersProfile={usersProfile} userObj={userObj} />}
                 {currentNavi.Likes && <ProfileNaviLikes userObj={userObj} tweets={tweets} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />}
             </div>

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEllipsis, faUserPlus, faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import RecommendFriend from "components/RecommendFriend";
 
-const ProfileNaviTweets_Replies = ( { usersProfile, userObj } ) => {
+const ProfileNaviTweets_Replies = ( { usersProfile, userObj, setUsersProfile } ) => {
     return(
         <>
             <div className='my_trace_content'>
@@ -42,7 +42,7 @@ const ProfileNaviTweets_Replies = ( { usersProfile, userObj } ) => {
                             return(
                                 <>
                                     <RecommendFriend
-                                        key={element.userId} user={element} 
+                                        key={element.userId} user={element} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile}
                                     />
                                     <span>asdlfnsaldk</span>
                                 </>
