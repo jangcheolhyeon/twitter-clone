@@ -7,12 +7,9 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile }) => {
     const [followState, setFollowState] = useState(true);
     const [followingHover, setFollowingHover] = useState(false);
 
-    const currentUser = useRef();
+    let currentUser;
 
-    useEffect(() => {
-        if(usersProfile === undefined || usersProfile === null || usersProfile.length === 0){
-            return;
-        }
+    const getUsersInfo = () => {
         const q = query(collection(db, 'usersInfo'));
         onSnapshot(q, (snapshot) => {
             const newUsersInfo = snapshot.docs.map((doc) => {
@@ -24,8 +21,8 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile }) => {
             setUsersProfile(newUsersInfo);
         })
 
-        currentUser.current = usersProfile.filter(element => element.userId === userObj.uid)[0];
-    }, [followState])
+        currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
+    }
 
     useEffect(() => {
         if(usersProfile === undefined || usersProfile === null || usersProfile.length === 0){
@@ -39,33 +36,33 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile }) => {
             setFollowState(false);
         }
 
-        currentUser.current = usersProfile.filter(element => element.userId === userObj.uid)[0];
-    }, [])
-    
+        currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
+    }, [])    
         
     const onFollowClick = async(user) => {
         setFollowState(prev => !prev);
+        getUsersInfo();
 
         if(followState){
-            await updateDoc(doc(db, "usersInfo", `${currentUser.current.id}`), {
-                follower : currentUser.current.follower.filter(element => {
+            await updateDoc(doc(db, "usersInfo", `${currentUser.id}`), {
+                follower : currentUser.follower.filter(element => {
                     return element !== user.userId
                 })
             });   
 
             await updateDoc(doc(db, 'usersInfo', user.id), {
                 following : user.following.filter(element => {
-                    return element !== currentUser.current.userId
+                    return element !== currentUser.userId
                 })
             })
                         
         } else{
-            await updateDoc(doc(db, 'usersInfo', `${currentUser.current.id}`), {
-                follower : [...currentUser.current.follower, user.userId],
+            await updateDoc(doc(db, 'usersInfo', `${currentUser.id}`), {
+                follower : [...currentUser.follower, user.userId],
             });
 
             await updateDoc(doc(db, 'usersInfo', user.id), {
-                following : [...user.following, currentUser.current.userId]
+                following : [...user.following, currentUser.userId]
             })
         }
     }
