@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import RecommendFriend from "components/RecommendFriend";
 
-const SideRecommend = ({ usersProfile, userObj }) => {
+const SideRecommend = ({ usersProfile, userObj, setUsersProfile }) => {
+
     return(
         <div className="recommend_container">
             <div className="recommend_container_content">
@@ -13,7 +14,7 @@ const SideRecommend = ({ usersProfile, userObj }) => {
                     {usersProfile.filter(element => element.userId !== userObj.uid).map((element) => {
                         return(
                             <RecommendFriend 
-                                key={element.userId} user={element} 
+                                key={element.userId} user={element} usersProfile={usersProfile} userObj={userObj} setUsersProfile={setUsersProfile}
                             />
                         );
                     })}
