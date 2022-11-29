@@ -1,15 +1,19 @@
-import { isReactNative } from "@firebase/util";
 import { db } from "fbase";
 import { collection, doc, onSnapshot, query, updateDoc } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 
 
 const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile }) => {
-    const [followState, setFollowState] = useState(false);
+    const [followState, setFollowState] = useState(true);
     const [followingHover, setFollowingHover] = useState(false);
+
+    // const currentUser = useRef();
     let currentUser;
-    
+
     useEffect(() => {
+        if(usersProfile === undefined || usersProfile === null || usersProfile.length === 0){
+            return;
+        }
         const q = query(collection(db, 'usersInfo'));
         onSnapshot(q, (snapshot) => {
             const newUsersInfo = snapshot.docs.map((doc) => {
@@ -23,21 +27,25 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile }) => {
     }, [followState])
 
     useEffect(() => {
+        if(usersProfile === undefined || usersProfile === null || usersProfile.length === 0){
+            return;
+        }
         const isFollow = usersProfile.filter(element => element.userId === userObj.uid)[0].follower.includes(user.userId);
+        
         if(isFollow){
             setFollowState(true);
         } else{
             setFollowState(false);
         }
-        
-    },[])
 
-    currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
+        currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
+        
+    }, [])
 
     const onFollowClick = async(user) => {
         setFollowState(prev => !prev);
-        console.log("clickUser", user);
-        console.log("currentUser", currentUser);
+        console.log("onclick");
+        console.log("currentUSer", currentUser);
 
         if(followState){
             await updateDoc(doc(db, "usersInfo", `${currentUser.id}`), {
