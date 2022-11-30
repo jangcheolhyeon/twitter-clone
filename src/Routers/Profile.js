@@ -24,6 +24,7 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
         Likes : false
     });
     let currentUser;
+
     const [followersCnt, setFollowersCnt] = useState(0);
     const [followingCnt, setFollowingCnt] = useState(0);
 
@@ -45,7 +46,7 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
         })
     };
 
-    const onDisplayNameClick = async (event) => {
+    const onDisplayNameClick = async(event) => {
         event.preventDefault();
         onUpdateUserImg();
         if(newDisplayName !== userObj.displayName){
@@ -72,13 +73,12 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
     }, []);
 
     useEffect(() => {
-        if(usersProfile.length !== 0){
-            currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
-
-            setFollowersCnt(currentUser.follower.length);
-            setFollowingCnt(currentUser.following.length);
-        }
-    }, [])
+        if(usersProfile.length === 0) return;
+        
+        currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
+        setFollowersCnt(currentUser.follower.length);
+        setFollowingCnt(currentUser.following.length);
+    }, [usersProfile]) 
 
     const createAccountUser = () => {
         if(userObj.displayName === null){

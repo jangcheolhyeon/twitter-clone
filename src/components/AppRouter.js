@@ -24,7 +24,6 @@ const AppRouter = () => {
     const [toastAlert, setToastAlert] = useState(false);
     const [toastText, setToastText] = useState('');
 
-
     useEffect(() => {
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
