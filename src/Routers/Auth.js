@@ -6,11 +6,10 @@ import { faTwitter, faGoogle, faGithub } from "@fortawesome/free-brands-svg-icon
 
 
 const Auth = ({ userObj, usersProfile }) => {
-        const onSnsClick = async (event) => {
-        const {target : { name }} = event;
-
-        const auth = getAuth();
+    const onSnsClick = async (event) => {
         let provider;
+        const {target : { name }} = event;
+        const auth = getAuth();
 
         if(name === 'google'){
             provider = new GoogleAuthProvider();
@@ -34,7 +33,7 @@ const Auth = ({ userObj, usersProfile }) => {
                         <FontAwesomeIcon icon={faGoogle} /><span>Continue with Google</span>
                     </button>
                     <button onClick={onSnsClick} name="github" className="authBtn githubAuth">
-                        <FontAwesomeIcon icon={faGithub} /><span>Continue with Google</span>
+                        <FontAwesomeIcon icon={faGithub} /><span>Continue with github</span>
                     </button>
                 </div>
             </div>
