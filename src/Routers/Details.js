@@ -7,7 +7,7 @@ import { db, storageService } from "fbase";
 import { v4 } from "uuid";
 import { addDoc, collection, onSnapshot, query } from "firebase/firestore";
 
-const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastAlert, setToastText,}) => {
+const Details = ({ tweetDetail, currentPage, setCurrentPage, userObj, usersProfile, setToastAlert, setToastText,}) => {
     const [activeTweetReply, setActiveTweetReply] = useState(false);
     const [replyTweet, setReplyTweet] = useState();
     const [attachment, setAttachment] = useState('');
@@ -24,11 +24,12 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
         })[0]
     }
     
+    setCurrentPage('details');
+
     useEffect(() => {
         if(tweetDetail === undefined){
             return null;
         }
-        setCurrentPage("details");
         const q = query(collection(db, "tictoc"));
         onSnapshot(q, (snapshot) => {
             const comments = snapshot.docs.map((doc) => {
@@ -39,7 +40,7 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
             })
             setCommentList(comments);
         })
-        
+        setCurrentPage('details');
     }, [])
 
     const onClearImage = () => {
@@ -89,6 +90,8 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
         const {target : {value}} = e;
         setReplyTweet(value);
     }
+
+    console.log("currentpage of details", currentPage);
 
     return(
         <div className="container">

@@ -5,7 +5,7 @@ import Tweet from 'components/Tweet';
 import TweetFactory from 'components/TweetFactory';
 import ToastNotification from 'components/ToastNotification';
 
-const Home = ({ userObj, usersProfile, setCurrentPage, reTweetState, setRetweetState, parentBundle, setParentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, setDetailTweet }) => {
+const Home = ({ userObj, usersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, }) => {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const Home = ({ userObj, usersProfile, setCurrentPage, reTweetState, setRetweetS
 
                     <div className='tictoc_container'>
                         {messages.map((element) => {
-                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail}  />
+                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage}  />
                         })}
                     </div>
 

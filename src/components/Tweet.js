@@ -10,7 +10,7 @@ import ReplyMdoal from "components/ReplyModal";
 import RetweetModal from "components/RetweetModal";
 import { useNavigate } from "react-router-dom";
 
-const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail }) => {
+const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage }) => {
     const [newText, setNewText] = useState(tictoc.text);
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
@@ -223,6 +223,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
             return ;
         }
         setTweetDetail(tictoc);
+        setCurrentPage("details");
         navi('/details');
     }
 
@@ -258,12 +259,12 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
             });
         }
     }
-    
+
     return(
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen}/>}
             {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} />}
-            <div className="tweet" onClick={onTweetClick}>
+            <div className={currentPage === 'home' ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" ? onTweetClick : undefined}>
                 <div className="tweet_user_photo_container">
                     <img src={userPhoto} className="user_photo_image" />
                 </div>
@@ -284,12 +285,12 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
                             )
                         }
 
-                        {/* {Boolean(userInfo.pin.length) && userInfo.pin === tictoc.id && <>
+                        {Boolean(userInfo.pin.length) && userInfo.pin === tictoc.id && <>
                             <div className="tweet_pin">
                                 <FontAwesomeIcon icon={faThumbtack} />
                                 <span>Pinned Tweet</span>
                             </div>
-                        </>} */}
+                        </>}
                     </div>}
 
 

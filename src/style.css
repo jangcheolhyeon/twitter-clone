@@ -178,6 +178,7 @@ img{
   margin-left:auto;
 }
 
+
 .current_user_info{
   display:flex;
   align-items:center;
@@ -340,11 +341,18 @@ img{
   padding:10px;
   padding-bottom:15px;
   display:flex;
-  cursor:pointer;
 }
 
-.tweet:hover{
+.tweet_home{
+  cursor: pointer;
+}
+
+.tweet_home:hover{
   background-color:rgb(28, 29, 29);
+}
+
+.tweet svg{
+  cursor: pointer;
 }
 
 .tweet > .tweet_user_photo_container{
