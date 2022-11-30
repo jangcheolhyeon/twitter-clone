@@ -7,19 +7,28 @@ import { db, storageService } from "fbase";
 import { v4 } from "uuid";
 import { addDoc, collection, onSnapshot, query } from "firebase/firestore";
 
-const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastAlert, setToastText }) => {
-    setCurrentPage("details");
-
+const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastAlert, setToastText,}) => {
     const [activeTweetReply, setActiveTweetReply] = useState(false);
     const [replyTweet, setReplyTweet] = useState();
     const [attachment, setAttachment] = useState('');
     const [commentList, setCommentList] = useState([]);
-
+    
     const parentInfo = usersProfile.filter(element => {
         return element.userId === tweetDetail.userId;
     })[0];
-
+    
+    let parentTweet;
+    if(commentList.length !== 0){
+        parentTweet = commentList.filter(element => {
+            return element.id === tweetDetail.id
+        })[0]
+    }
+    
     useEffect(() => {
+        if(tweetDetail === undefined){
+            return null;
+        }
+        setCurrentPage("details");
         const q = query(collection(db, "tictoc"));
         onSnapshot(q, (snapshot) => {
             const comments = snapshot.docs.map((doc) => {
@@ -30,7 +39,7 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
             })
             setCommentList(comments);
         })
-
+        
     }, [])
 
     const onClearImage = () => {
@@ -39,7 +48,6 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
 
     const onFileChange = (e) => {
         const {target : { files }} = e;
-        
         const theFile = files[0];
         const reader = new FileReader();
         reader.onloadend = (finishedEvent) => {
@@ -69,6 +77,7 @@ const Details = ({ tweetDetail, setCurrentPage, userObj, usersProfile, setToastA
             like_users : [],
             child : true,
             parentReplyInfo : parentInfo, 
+            parentReplyInfoDetail: parentTweet,
         }
 
         await addDoc(collection(db, 'tictoc'), replyTweetObj);
