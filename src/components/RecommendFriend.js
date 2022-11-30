@@ -3,9 +3,9 @@ import { collection, doc, onSnapshot, query, updateDoc } from "firebase/firestor
 import React, { useEffect, useRef, useState } from "react";
 
 
-const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile }) => {
-    const [followState, setFollowState] = useState(true);
+const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, }) => {
     const [followingHover, setFollowingHover] = useState(false);
+    const [followState, setFollowState] = useState(true);
 
     let currentUser;
 
@@ -28,6 +28,15 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile }) => {
         if(usersProfile === undefined || usersProfile === null || usersProfile.length === 0){
             return;
         }
+
+        getFollowInit();
+    }, [])    
+
+    useEffect(() => {
+        getFollowInit();
+    }, [usersProfile])
+        
+    const getFollowInit = () => {
         const isFollow = usersProfile.filter(element => element.userId === userObj.uid)[0].follower.includes(user.userId);
         
         if(isFollow){
@@ -37,8 +46,8 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile }) => {
         }
 
         currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
-    }, [])    
-        
+    } 
+
     const onFollowClick = async(user) => {
         setFollowState(prev => !prev);
         getUsersInfo();
