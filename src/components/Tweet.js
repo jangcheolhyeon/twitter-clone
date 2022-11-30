@@ -79,7 +79,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
                 }
             })
             setReplyList(comments.filter(element => {return element.child === true}));
-            setRetweetList(comments.filter(element => {return element.retweet === true}))
+            setRetweetList(comments.filter(element => {return element.retweet === true}));
         })
 
         setLikeState(likeStateInit());
