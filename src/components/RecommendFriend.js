@@ -37,7 +37,12 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, }) => {
     }, [usersProfile])
         
     const getFollowInit = () => {
-        const isFollow = usersProfile.filter(element => element.userId === userObj.uid)[0].follower.includes(user.userId);
+        let isFollow;
+        if(usersProfile.filter(element => element.userId === userObj.uid).length === 0){
+            isFollow = false;
+        }else{
+            isFollow = usersProfile.filter(element => element.userId === userObj.uid)[0].follower.includes(user.userId);
+        }
         
         if(isFollow){
             setFollowState(true);
