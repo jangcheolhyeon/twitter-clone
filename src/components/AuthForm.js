@@ -32,13 +32,13 @@ const AuthForm = ({ userObj, usersProfile }) => {
             const auth = getAuth();
             if(createNewAccount){
                 await createUserWithEmailAndPassword(auth, createEmail, createPassword);
-
+                console.log("createNewAccount");
                 await addDoc(collection(db, 'usersInfo'), {
                     userId : userObj.uid,
                     userImage : userObj.photoURL,
                     displayName : userObj.displayName,
                     email : userObj.email,
-                    pin : userObj.pin,
+                    pin : '',
                     follower:[],
                     following:[],
                 })
@@ -50,9 +50,8 @@ const AuthForm = ({ userObj, usersProfile }) => {
 
             } else {
                 await signInWithEmailAndPassword(auth, email, password);       
-                console.log("createNewAccount else");
                 const isUserIn = usersProfile.filter(element => element.userId === userObj.uid).length;
-                console.log("inUserIn", isUserIn);
+                console.log("else createNewAccount");
                 if(isUserIn === 0){
                     await addDoc(collection(db, 'usersInfo'), {
                         userId : userObj.uid,
