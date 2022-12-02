@@ -51,10 +51,27 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
         onUpdateUserImg();
         if(newDisplayName !== userObj.displayName){
             await updateProfile(authService.currentUser, {displayName: newDisplayName});
+            const currentUserId = usersProfile.filter(element => element.userId === userObj.uid)[0];
+
+            await updateDoc(doc(db, 'usersInfo', currentUserId.id), {
+                displayName : userObj.displayName
+            })
+                        
             refreshUserObj();
         }
         setModalOpen((prev) => !prev);
     }
+
+    useEffect(() => {
+        const newUsersProfile = usersProfile.map(element => {
+            if(element.userId === userObj.uid){
+                return {...element, displayName : userObj.displayName}
+            } else{
+                return element;
+            }
+        })
+        setUsersProfile(newUsersProfile);
+    }, [modalOpen])
 
     const onChangeDisplayName = (event) => {
         const {target : {value}} = event;

@@ -10,7 +10,7 @@ import ReplyMdoal from "components/ReplyModal";
 import RetweetModal from "components/RetweetModal";
 import { useNavigate } from "react-router-dom";
 
-const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage }) => {
+const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, setPinState }) => {
     const [newText, setNewText] = useState(tictoc.text);
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
@@ -90,6 +90,15 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
         const time = new Date(tictoc.createdAt);
         setEnrollDate((time.getMonth()+1) + "." + (time.getDate()));
     }, []);
+
+    useEffect(() => {
+        usersProfile.map(element => {
+            if(element.userId === tictoc.userId){
+                setUserName(element.displayName);
+                setUserPhoto(element.userImage);
+            } 
+        });
+    }, [usersProfile])
 
     const replyStateInit = () => {
         if(tictoc.reply_users.includes(userObj.uid)){
@@ -258,6 +267,12 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
                 pin : tictoc.id
             });
         }
+
+        onPinStateToggle();
+    }
+
+    const onPinStateToggle = () => {
+        setPinState((prev) => { return !prev });
     }
 
     return(
