@@ -5,7 +5,7 @@ import Tweet from 'components/Tweet';
 import TweetFactory from 'components/TweetFactory';
 import ToastNotification from 'components/ToastNotification';
 
-const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, pinState, setPinState }) => {
+const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, pinState }) => {
     const [messages, setMessages] = useState([]);
     const [defaultMessages, setDefaultMessages] = useState([]);
 
@@ -43,6 +43,24 @@ const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentP
 
     }, [userObj])
 
+    useEffect(() => {
+        if(usersProfile.length === 0) return;
+        console.log("home rerender");
+        setDefaultMessages(messages);        
+        let isPin = usersProfile.filter(element => element.userId === userObj.uid)[0];
+
+        if(isPin.pin !== ''){
+            let pinIndex = messages.findIndex(element => element.id === isPin.pin);
+            let changeMessages = [...messages];
+            changeMessages.splice(pinIndex, 1);
+            let pinContent = messages.filter(element => element.id === isPin.pin)[0];
+            changeMessages.unshift(pinContent);
+            setMessages(changeMessages);
+        } else{
+            setMessages(defaultMessages);
+        }
+    }, [usersProfile])
+
     const insertUser = async() => {
         await addDoc(collection(db, 'usersInfo'), {
             userId : userObj.uid,
@@ -68,7 +86,7 @@ const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentP
 
                     <div className='tictoc_container'>
                         {messages.map((element) => {
-                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} pinState={pinState} setPinState={setPinState} />
+                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} pinState={pinState} />
                         })}
                     </div>
 

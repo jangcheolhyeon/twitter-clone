@@ -17,6 +17,7 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
     const [modalOpen, setModalOpen] = useState(false);
     const [myTweetList, setMyTweetList] = useState([]);
     const [tweets, setTweets] = useState([]);
+    const [defaultMessages, setDefaultMessages] = useState([]);
     const [currentNavi, setCurrentNavi] = useState({
         Tweets : true,
         TweetsReplies : false,
@@ -72,6 +73,22 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
         })
         setUsersProfile(newUsersProfile);
     }, [modalOpen])
+
+    useEffect(() => {
+        if(usersProfile.length === 0) return;
+        setDefaultMessages(myTweetList); 
+        let isPin = usersProfile.filter(element => element.userId === userObj.uid)[0];
+        if(isPin.pin !== ''){
+            let pinIndex = myTweetList.findIndex(element => element.id === isPin.pin);
+            let changeMessages = [...myTweetList];
+            changeMessages.splice(pinIndex, 1);
+            let pinContent = myTweetList.filter(element => element.id === isPin.pin)[0];
+            changeMessages.unshift(pinContent);
+            setMyTweetList(changeMessages);
+        } else{
+            setMyTweetList(defaultMessages);
+        }
+    }, [usersProfile])
 
     const onChangeDisplayName = (event) => {
         const {target : {value}} = event;
