@@ -10,7 +10,7 @@ import ReplyMdoal from "components/ReplyModal";
 import RetweetModal from "components/RetweetModal";
 import { useNavigate } from "react-router-dom";
 
-const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, setPinState }) => {
+const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, }) => {
     const [newText, setNewText] = useState(tictoc.text);
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
@@ -268,11 +268,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setToastAlert, setToast
             });
         }
 
-        onPinStateToggle();
-    }
-
-    const onPinStateToggle = () => {
-        setPinState((prev) => { return !prev });
     }
 
     return(
