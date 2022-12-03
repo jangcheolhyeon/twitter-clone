@@ -46,6 +46,7 @@ const AppRouter = () => {
             }
         })
 
+        
         const q = query(collection(db, 'usersInfo'));
         onSnapshot(q, (snapshot) => {
             const newUsersInfo = snapshot.docs.map((doc) => {
@@ -54,10 +55,10 @@ const AppRouter = () => {
                     ...doc.data(),
                 }
             });
-
+            
             setUsersProfile(newUsersInfo);
         })
-        
+    
     }, []);
 
     const refreshUserObj = () => {
@@ -70,16 +71,16 @@ const AppRouter = () => {
                 {init ? (
                     <>
                     {isLoggedIn && <TopNavi currentPage={currentPage} userObj={userObj}/>}
-                    {isLoggedIn && <Navigation userObj={userObj} retweetState={reTweetState} parentBundle={parentBundle} />}
+                    {isLoggedIn && <Navigation userObj={userObj} retweetState={reTweetState} parentBundle={parentBundle} setUserObj={setUserObj}/>}
                         <Routes>
                             {isLoggedIn ? (
                                 <>
-                                    <Route path='/' element={<Home userObj={userObj} usersProfile={usersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} reTweetState={reTweetState} setRetweetState={setRetweetState} parentBundle={parentBundle} setParentBundle={setParentBundle} setTweetDetail={setTweetDetail} toastAlert={toastAlert} setToastAlert={setToastAlert} toastText={toastText} setToastText={setToastText} />} />
+                                    <Route path='/' element={<Home userObj={userObj} setUserObj={setUserObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} reTweetState={reTweetState} setRetweetState={setRetweetState} parentBundle={parentBundle} setParentBundle={setParentBundle} setTweetDetail={setTweetDetail} toastAlert={toastAlert} setToastAlert={setToastAlert} toastText={toastText} setToastText={setToastText} />} />
                                     <Route path='/profile' element={<Profile refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} />} />
                                     <Route path='/details' element={<Details tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} usersProfile={usersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText} />} />
                                 </>
                             ) : (
-                                <Route path='/' element={<Auth userObj={userObj} usersProfile={usersProfile}  />} />
+                                <Route path='/' element={<Auth userObj={userObj} setUserObj={setUserObj} usersProfile={usersProfile}  />} />
                             )}
                         </Routes>
                     {isLoggedIn && <SideRecommend usersProfile={usersProfile} userObj={userObj} setUsersProfile={setUsersProfile}/>}

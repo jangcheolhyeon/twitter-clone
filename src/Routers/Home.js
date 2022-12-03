@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { db } from 'fbase';
-import { collection, query, orderBy, onSnapshot, updateDoc, doc } from "firebase/firestore"; 
+import { collection, query, orderBy, onSnapshot, updateDoc, doc, where, addDoc } from "firebase/firestore"; 
 import Tweet from 'components/Tweet';
 import TweetFactory from 'components/TweetFactory';
 import ToastNotification from 'components/ToastNotification';
 
-const Home = ({ userObj, usersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, }) => {
+const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, pinState, setPinState }) => {
     const [messages, setMessages] = useState([]);
+    const [defaultMessages, setDefaultMessages] = useState([]);
 
     useEffect(() => {
         const q = query(collection(db, 'tictoc'), orderBy("bundle", "asc"), orderBy("createdAt", "asc"));
@@ -18,11 +19,44 @@ const Home = ({ userObj, usersProfile, currentPage, setCurrentPage, reTweetState
                 }
             })
             setMessages(newMessages);
+            setDefaultMessages(newMessages);
         })
 
         setCurrentPage("home");
-
     }, []);
+
+    useEffect(() => {
+        let currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
+        if(!currentUser && usersProfile.length !== 0){
+            insertUser();
+            let newUsersProfile = [...usersProfile, {
+                userId : userObj.uid,
+                userImage : userObj.photoURL,
+                displayName : userObj.displayName,
+                email : userObj.email,
+                pin : '',
+                follower:[],
+                following:[],
+            }];
+            setUsersProfile(newUsersProfile);
+        }
+
+    }, [userObj])
+
+    const insertUser = async() => {
+        await addDoc(collection(db, 'usersInfo'), {
+            userId : userObj.uid,
+            userImage : userObj.photoURL,
+            displayName : userObj.displayName,
+            email : userObj.email,
+            pin : '',
+            follower:[],
+            following:[],
+        })
+    }
+
+
+    if(usersProfile.length === 0) return;
 
     return(
         <>
@@ -34,7 +68,7 @@ const Home = ({ userObj, usersProfile, currentPage, setCurrentPage, reTweetState
 
                     <div className='tictoc_container'>
                         {messages.map((element) => {
-                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage}  />
+                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} pinState={pinState} setPinState={setPinState} />
                         })}
                     </div>
 

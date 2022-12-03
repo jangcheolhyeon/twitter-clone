@@ -86,13 +86,28 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
             setUserAttachment(userObj.photoURL);
         }
 
+        let currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
+
+        if(!currentUser && usersProfile.length !== 0){
+            let newUsersProfile = [...usersProfile, {
+                userId : userObj.uid,
+                userImage : userObj.photoURL,
+                displayName : userObj.displayName,
+                email : userObj.email,
+                pin : '',
+                follower:[],
+                following:[],
+            }];
+            setUsersProfile(newUsersProfile);
+        }
+
         setCurrentPage('profile');
     }, []);
 
     useEffect(() => {
         if(usersProfile.length === 0) return;
-        
         currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
+
         setFollowersCnt(currentUser.follower.length);
         setFollowingCnt(currentUser.following.length);
     }, [usersProfile]) 

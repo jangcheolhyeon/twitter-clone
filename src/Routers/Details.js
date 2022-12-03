@@ -91,8 +91,6 @@ const Details = ({ tweetDetail, currentPage, setCurrentPage, userObj, usersProfi
         setReplyTweet(value);
     }
 
-    console.log("currentpage of details", currentPage);
-
     return(
         <div className="container">
             <Tweet tictoc={tweetDetail} isOwner={tweetDetail.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />

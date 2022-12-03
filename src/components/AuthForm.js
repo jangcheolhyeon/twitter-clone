@@ -7,7 +7,7 @@ import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 
-const AuthForm = ({ userObj, usersProfile }) => {
+const AuthForm = ({ userObj, usersProfile, setUserObj }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [createNewAccount, setCreateNewAccount] = useState(false);
@@ -32,16 +32,6 @@ const AuthForm = ({ userObj, usersProfile }) => {
             const auth = getAuth();
             if(createNewAccount){
                 await createUserWithEmailAndPassword(auth, createEmail, createPassword);
-                console.log("createNewAccount");
-                await addDoc(collection(db, 'usersInfo'), {
-                    userId : userObj.uid,
-                    userImage : userObj.photoURL,
-                    displayName : userObj.displayName,
-                    email : userObj.email,
-                    pin : '',
-                    follower:[],
-                    following:[],
-                })
 
                 onCraeteAccountModal();
                 setCreateEmail('');
@@ -50,20 +40,6 @@ const AuthForm = ({ userObj, usersProfile }) => {
 
             } else {
                 await signInWithEmailAndPassword(auth, email, password);       
-                const isUserIn = usersProfile.filter(element => element.userId === userObj.uid).length;
-                console.log("else createNewAccount");
-                if(isUserIn === 0){
-                    await addDoc(collection(db, 'usersInfo'), {
-                        userId : userObj.uid,
-                        userImage : userObj.photoURL,
-                        displayName : userObj.displayName,
-                        email : userObj.email,
-                        pin : userObj.pin,
-                        follower:[],
-                        following:[],
-                    })
-                }                
-
             }
 
         } catch(error){
