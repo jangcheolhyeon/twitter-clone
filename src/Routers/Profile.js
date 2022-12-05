@@ -9,15 +9,16 @@ import ProfileNaviTweets_Replies from './ProfileNaviTweets_Replies';
 import ProfileNaviMedia from './ProfileNaviMedia';
 import ProfileNaviLikes from './ProfileNaviLikes';
 import ModalUpdateProfile from 'components/ModalUpdateProfile';
+import { faCropSimple } from '@fortawesome/free-solid-svg-icons';
 
 
-const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile }) => {
+const Profile = ({ userObj, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const [userAttachment, setUserAttachment] = useState(userObj.photoURL);
     const [modalOpen, setModalOpen] = useState(false);
-    const [myTweetList, setMyTweetList] = useState([]);
+    const [myTweetList, setMyTweetList] = useState(null);
     const [tweets, setTweets] = useState([]);
-    const [defaultMessages, setDefaultMessages] = useState([]);
+    const [defaultMessages, setDefaultMessages] = useState(null);
     const [currentNavi, setCurrentNavi] = useState({
         Tweets : true,
         TweetsReplies : false,
@@ -44,8 +45,14 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
             }));
 
             setTweets(comments);
+
         })
+
     };
+
+    useEffect(() => {
+        sortTweetList();
+    }, [tweets])
 
     const onDisplayNameClick = async(event) => {
         event.preventDefault();
@@ -75,36 +82,15 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
     }, [modalOpen])
 
     useEffect(() => {
-        if(usersProfile.length === 0) return;
-        setDefaultMessages(myTweetList); 
-        let isPin = usersProfile.filter(element => element.userId === userObj.uid)[0];
-        if(isPin.pin !== ''){
-            let pinIndex = myTweetList.findIndex(element => element.id === isPin.pin);
-            let changeMessages = [...myTweetList];
-            changeMessages.splice(pinIndex, 1);
-            let pinContent = myTweetList.filter(element => element.id === isPin.pin)[0];
-            changeMessages.unshift(pinContent);
-            setMyTweetList(changeMessages);
-        } else{
-            setMyTweetList(defaultMessages);
-        }
-    }, [usersProfile])
-
-    const onChangeDisplayName = (event) => {
-        const {target : {value}} = event;
-        setNewDisplayName(value);
-    }
-        
-    useEffect(() => {
-        getMyTweets();
         createAccountUser();
-
+        
         if(userObj.photoURL !== '' || userObj.photoURL !== null){
             setUserAttachment(userObj.photoURL);
         }
-
+        
         let currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
-
+        
+        getMyTweets();
         if(!currentUser && usersProfile.length !== 0){
             let newUsersProfile = [...usersProfile, {
                 userId : userObj.uid,
@@ -117,9 +103,46 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
             }];
             setUsersProfile(newUsersProfile);
         }
-
         setCurrentPage('profile');
+
     }, []);
+    
+    useEffect(() => {
+        getMyTweets();
+        sortTweetList();
+    }, [currentPage])
+
+    useEffect(() => {
+        setDefaultMessages(myTweetList); 
+        sortTweetList();
+    }, [usersProfile])
+
+
+    const sortTweetList = () => {
+        if(usersProfile.length === 0) return null;
+        if(myTweetList === null) return null;
+        
+        setDefaultMessages(myTweetList); 
+        let isPin = usersProfile.filter(element => element.userId === userObj.uid)[0];
+
+        if(isPin.pin.length !== 0){
+            let pinIndex = myTweetList.findIndex(element => element.id === isPin.pin);
+            let changeMessages = [...myTweetList];
+            
+            changeMessages.splice(pinIndex, 1);
+            let pinContent = myTweetList.filter(element => element.id === isPin.pin)[0];
+            changeMessages.unshift(pinContent);
+            setMyTweetList(changeMessages);
+        } else if(isPin.pin.length ===0){
+            getMyTweets();
+        }
+    }
+
+    const onChangeDisplayName = (event) => {
+        const {target : {value}} = event;
+        setNewDisplayName(value);
+    }
+        
 
     useEffect(() => {
         if(usersProfile.length === 0) return;
@@ -192,9 +215,12 @@ const Profile = ({ userObj, refreshUserObj, usersProfile, setCurrentPage, setToa
         setModalOpen((prev) => !prev);
     }
 
-    if (!myTweetList) {
-        return null
+     
+    if(myTweetList === null) {
+        return null;
     }
+
+    if(usersProfile.length === 0) return null;
 
     return(
         <>

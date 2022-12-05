@@ -5,7 +5,7 @@ import Tweet from 'components/Tweet';
 import TweetFactory from 'components/TweetFactory';
 import ToastNotification from 'components/ToastNotification';
 
-const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, pinState }) => {
+const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText }) => {
     const [messages, setMessages] = useState([]);
     const [defaultMessages, setDefaultMessages] = useState([]);
 
@@ -21,6 +21,7 @@ const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentP
             setMessages(newMessages);
             setDefaultMessages(newMessages);
         })
+
 
         setCurrentPage("home");
     }, []);
@@ -44,9 +45,18 @@ const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentP
     }, [userObj])
 
     useEffect(() => {
+        sortTweetList();
+    }, [])
+
+    useEffect(() => {
+        sortTweetList();
+    }, [usersProfile])
+
+    const sortTweetList = () => {
         if(usersProfile.length === 0) return;
-        console.log("home rerender");
-        setDefaultMessages(messages);        
+        if(messages.length === 0) return;
+
+        setDefaultMessages(messages);      
         let isPin = usersProfile.filter(element => element.userId === userObj.uid)[0];
 
         if(isPin.pin !== ''){
@@ -59,7 +69,7 @@ const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentP
         } else{
             setMessages(defaultMessages);
         }
-    }, [usersProfile])
+    }
 
     const insertUser = async() => {
         await addDoc(collection(db, 'usersInfo'), {
@@ -73,7 +83,6 @@ const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentP
         })
     }
 
-
     if(usersProfile.length === 0) return;
 
     return(
@@ -86,7 +95,7 @@ const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentP
 
                     <div className='tictoc_container'>
                         {messages.map((element) => {
-                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} pinState={pinState} />
+                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setUsersProfile={setUsersProfile} />
                         })}
                     </div>
 
