@@ -44,33 +44,6 @@ const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentP
 
     }, [userObj])
 
-    useEffect(() => {
-        sortTweetList();
-    }, [])
-
-    useEffect(() => {
-        sortTweetList();
-    }, [usersProfile])
-
-    const sortTweetList = () => {
-        if(usersProfile.length === 0) return;
-        if(messages.length === 0) return;
-
-        setDefaultMessages(messages);      
-        let isPin = usersProfile.filter(element => element.userId === userObj.uid)[0];
-
-        if(isPin.pin !== ''){
-            let pinIndex = messages.findIndex(element => element.id === isPin.pin);
-            let changeMessages = [...messages];
-            changeMessages.splice(pinIndex, 1);
-            let pinContent = messages.filter(element => element.id === isPin.pin)[0];
-            changeMessages.unshift(pinContent);
-            setMessages(changeMessages);
-        } else{
-            setMessages(defaultMessages);
-        }
-    }
-
     const insertUser = async() => {
         await addDoc(collection(db, 'usersInfo'), {
             userId : userObj.uid,
