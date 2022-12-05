@@ -272,6 +272,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         }
 
     }
+
     return(
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen}/>}

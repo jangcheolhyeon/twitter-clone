@@ -93,7 +93,7 @@ const Details = ({ tweetDetail, currentPage, setCurrentPage, userObj, usersProfi
 
     return(
         <div className="container">
-            <Tweet tictoc={tweetDetail} setTweetDetail={setTweetDetail} isOwner={tweetDetail.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} currentPage={currentPage} />
+            <Tweet tictoc={tweetDetail} setTweetDetail={setTweetDetail} isOwner={tweetDetail.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
             {activeTweetReply ? (
                 <div className="detail_tweet_write_container_active">
                     <div className="tweet_write_active_img_container">
