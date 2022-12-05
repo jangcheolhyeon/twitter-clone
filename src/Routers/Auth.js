@@ -6,9 +6,8 @@ import { faTwitter, faGoogle, faGithub } from "@fortawesome/free-brands-svg-icon
 
 
 const Auth = ({ userObj, usersProfile }) => {
-    const onSnsClick = async (event) => {
+    const onSnsClick = async (name) => {
         let provider;
-        const {target : { name }} = event;
         const auth = getAuth();
 
         if(name === 'google'){
@@ -29,10 +28,10 @@ const Auth = ({ userObj, usersProfile }) => {
                     <AuthForm userObj={userObj} usersProfile={usersProfile} />      
                 </div>
                 <div className="authBtns">
-                    <button onClick={onSnsClick} name="google" className="authBtn googleAuth">
+                    <button onClick={() => onSnsClick('google')} name="google" className="authBtn googleAuth">
                         <FontAwesomeIcon icon={faGoogle} /><span>Continue with Google</span>
                     </button>
-                    <button onClick={onSnsClick} name="github" className="authBtn githubAuth">
+                    <button onClick={() => onSnsClick('github')} name="github" className="authBtn githubAuth">
                         <FontAwesomeIcon icon={faGithub} /><span>Continue with github</span>
                     </button>
                 </div>
