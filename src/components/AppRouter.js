@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Auth from 'Routers/Auth';
 import Home from 'Routers/Home';
@@ -77,7 +77,8 @@ const AppRouter = () => {
                                 <>
                                     <Route path='/' element={<Home userObj={userObj} setUserObj={setUserObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} reTweetState={reTweetState} setRetweetState={setRetweetState} parentBundle={parentBundle} setParentBundle={setParentBundle} setTweetDetail={setTweetDetail} toastAlert={toastAlert} setToastAlert={setToastAlert} toastText={toastText} setToastText={setToastText} />} />
                                     <Route path='/profile' element={<Profile refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} />} />
-                                    <Route path='/details' element={<Details tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} usersProfile={usersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText} />} />
+                                    <Route path='/details' element={<Details tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} usersProfile={usersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText} />} />
+                                    <Route path='/detailsParent' element={<Details tweetDetail={tweetDetail} current={currentPage} setCurrentPage={setCurrentPage} usersProfile={usersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText} />} />
                                 </>
                             ) : (
                                 <Route path='/' element={<Auth userObj={userObj} setUserObj={setUserObj} usersProfile={usersProfile}  />} />

@@ -7,12 +7,12 @@ import { db, storageService } from "fbase";
 import { v4 } from "uuid";
 import { addDoc, collection, onSnapshot, query } from "firebase/firestore";
 
-const Details = ({ tweetDetail, currentPage, setCurrentPage, userObj, usersProfile, setToastAlert, setToastText,}) => {
+const Details = ({ tweetDetail, currentPage, setCurrentPage, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail}) => {
     const [activeTweetReply, setActiveTweetReply] = useState(false);
     const [replyTweet, setReplyTweet] = useState();
     const [attachment, setAttachment] = useState('');
     const [commentList, setCommentList] = useState([]);
-    
+
     const parentInfo = usersProfile.filter(element => {
         return element.userId === tweetDetail.userId;
     })[0];
@@ -93,7 +93,7 @@ const Details = ({ tweetDetail, currentPage, setCurrentPage, userObj, usersProfi
 
     return(
         <div className="container">
-            <Tweet tictoc={tweetDetail} isOwner={tweetDetail.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />
+            <Tweet tictoc={tweetDetail} setTweetDetail={setTweetDetail} isOwner={tweetDetail.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} currentPage={currentPage} />
             {activeTweetReply ? (
                 <div className="detail_tweet_write_container_active">
                     <div className="tweet_write_active_img_container">
@@ -141,7 +141,7 @@ const Details = ({ tweetDetail, currentPage, setCurrentPage, userObj, usersProfi
 
             {commentList.map((element) => {
                 if(element.child && element.bundle === tweetDetail.bundle){
-                    return <Tweet tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />
+                    return <Tweet tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} currentPage={currentPage} />
                 }
             })}
 

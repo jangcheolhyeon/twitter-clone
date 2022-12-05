@@ -228,12 +228,15 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const navi = useNavigate();
 
     const onTweetClick = () => {
-        if(setTweetDetail === null || setTweetDetail === undefined){
-            return ;
+        if(currentPage === "home"){
+            setTweetDetail(tictoc);
+            setCurrentPage("details");
+            navi('/details');
+        } else if(currentPage === "details"){
+            setTweetDetail(tictoc.retweetParentInfo);
+            setCurrentPage("detailsParent");
+            navi('/detailsParent')
         }
-        setTweetDetail(tictoc);
-        setCurrentPage("details");
-        navi('/details');
     }
 
     const onShareToggle = (event) => {
@@ -269,7 +272,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         }
 
     }
-
     return(
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen}/>}
@@ -366,7 +368,8 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
 
                     {tictoc.retweet && 
                         <div className="tictoc_retweet_content_container">
-                            <div className="retweet_content_container">
+                            {/* <div className="retweet_content_container"> */}
+                            <div className={currentPage === "details" ? "retweet_content_container tweet_home" : "retweet_content_container"} onClick={currentPage === "details" ? onTweetClick : undefined}>
                                 <div className="retweet_top">
                                     <img src={parentInfo.userImage} />
                                     <span>{parentInfo.displayName}</span>
