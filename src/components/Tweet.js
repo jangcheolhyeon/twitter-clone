@@ -273,6 +273,11 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
 
     }
 
+    let retweetParentInfo;
+    if(tictoc.retweet !== undefined && tictoc.retweet === true){
+        retweetParentInfo = usersProfile.filter(element => element.userId === tictoc.retweetParentInfo.userId)[0];
+    }
+
     return(
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen}/>}
@@ -355,6 +360,9 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                         {tictoc.parent && <span>{tictoc.text}</span>}
                         {tictoc.child && 
                             <div className="reply_content">
+                                {/* currentPage가 home 인경우는 x currentPage가 details일 경우에만 hover하고  */}
+                                {/* <span className="replying">Replying to <span className="user_email">@{parentInfo.email.split('@')[0]}</span></span>
+                                <span className="text">{tictoc.text}</span> */}
                                 <span className="replying">Replying to <span className="user_email">@{parentInfo.email.split('@')[0]}</span></span>
                                 <span className="text">{tictoc.text}</span>
                             </div>
@@ -369,12 +377,11 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
 
                     {tictoc.retweet && 
                         <div className="tictoc_retweet_content_container">
-                            {/* <div className="retweet_content_container"> */}
                             <div className={currentPage === "details" ? "retweet_content_container tweet_home" : "retweet_content_container"} onClick={currentPage === "details" ? onTweetClick : undefined}>
                                 <div className="retweet_top">
-                                    <img src={parentInfo.userImage} />
-                                    <span>{parentInfo.displayName}</span>
-                                    <span className="user_email">@{parentInfo.email.split('@')[0]}</span>
+                                    <img src={retweetParentInfo.userImage} />
+                                    <span>{retweetParentInfo.displayName}</span>
+                                    <span className="user_email">@{retweetParentInfo.email.split('@')[0]}</span>
                                 </div>
                                 <div className="retweet_content">
                                     <span>{tictoc.retweetText}</span>
