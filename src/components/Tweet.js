@@ -10,6 +10,7 @@ import ReplyMdoal from "components/ReplyModal";
 import RetweetModal from "components/RetweetModal";
 import { useNavigate } from "react-router-dom";
 import RecommendFriend from "./RecommendFriend";
+import DeleteModal from "./DeleteModal";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, }) => {
     const [newText, setNewText] = useState(tictoc.text);
@@ -36,19 +37,30 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const [shareActive, setShareActive] = useState(false);
     const shareRef = useRef();
     const [emailHover, setEmailHover] = useState(false);
-    const [isEmailHover, setIsEmailHover] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
     const timer = useRef();
 
 
     const onDeleteTweet = async(event) => {
-        event.stopPropagation();
         setToastAlert(true);
         setToastText('Your Tweet was Deleted');
+
+
 
         await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
         if(tictoc.attachmentUrl !== null || tictoc.attachmentUrl !== ""){
             await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
         }
+    }
+
+    const onDeleteModalCancel = (event) => {
+        event.stopPropagation();
+        setDeleteModal(false);
+    }  
+
+    const onDeleteModal = (event) => {
+        event.stopPropagation();
+        setDeleteModal(true);
     }
 
     const parentInfo = usersProfile.filter(element => {
@@ -293,6 +305,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen}/>}
             {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} />}
+            {deleteModal && <DeleteModal onDeleteTweet={onDeleteTweet} onDeleteModalCancel={onDeleteModalCancel} />}
             <div className={currentPage === 'home' && emailHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" ? onTweetClick : undefined}>
                 <div className="tweet_user_photo_container">
                     <img src={userPhoto} className="user_photo_image" />
@@ -303,7 +316,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                         <FontAwesomeIcon icon={faXmark} 
                         onMouseOver={() => { setXMarkHover(true) }}
                         onMouseOut={() => { setXMarkHover(false) }}
-                        onClick={onDeleteTweet}
+                        onClick={onDeleteModal}
                         className="x_mark_icon"
                         />
                         {xMarkHover && 
