@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { addDoc, collection } from "firebase/firestore";
@@ -9,6 +9,14 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 const TweetModal = ({ userObj, onTweetModalToggle, retweetState, parentBundle }) => {
     const [modalTweet, setModalTweet] = useState();
     const [attachment, setAttachment] = useState('');
+
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
+
+        return() => {
+            document.body.style.overflow = 'auto';
+        }
+    }, [])
 
     const onChangeModalTweet = (e) => {
         const {target : {value}} = e;

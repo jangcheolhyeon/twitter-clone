@@ -10,6 +10,14 @@ const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile, se
     const [modalTweet, setModalTweet] = useState();
     const [attachment, setAttachment] = useState('');
 
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
+
+        return() => {
+            document.body.style.overflow = 'auto';
+        }
+    }, [])
+
     const parentInfo = usersProfile.filter(element => {
         return element.userId === parentTweet.userId;
     })[0];

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faTimes, faImage } from "@fortawesome/free-solid-svg-icons";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
@@ -9,6 +9,14 @@ import { addDoc, collection, updateDoc } from "firebase/firestore";
 const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProfile, setRetweetModalOpen }) => {
     const [modalRetweet, setModalRetweet] = useState();
     const [attachment, setAttachment] = useState('');
+
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
+
+        return() => {
+            document.body.style.overflow = 'auto';
+        }
+    }, []);
 
     const onChangeModalRetweet = (event) => {
         setModalRetweet(event.target.value);
