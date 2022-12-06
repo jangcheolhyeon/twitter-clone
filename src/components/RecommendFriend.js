@@ -81,11 +81,6 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, emailHo
         }
     }
 
-    console.log("user", user);
-    console.log("userObj", userObj);
-    // user.userId userObj.uid
-    console.log("is logined user?", user.userId === userObj.uid);
-
     return(
         <li className="recommend_item">
             {emailHoverState ? (

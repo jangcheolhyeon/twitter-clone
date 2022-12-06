@@ -288,9 +288,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         replyParentInfo = usersProfile.filter(element => element.userId === tictoc.parentReplyInfo.userId)[0]
     }
 
-    console.log("replyParentInfo", replyParentInfo);
-
-
     return(
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen}/>}
@@ -373,9 +370,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                         {tictoc.parent && <span>{tictoc.text}</span>}
                         {tictoc.child && 
                             <div className="reply_content">
-                                {/* currentPage가 home 인경우는 x currentPage가 details일 경우에만 hover하고  */}
-                                {/* <span className="replying">Replying to <span className="user_email">@{replyParentInfo.email.split('@')[0]}</span></span>
-                                <span className="text">{tictoc.text}</span> */}
 
                                 <span className='replying'>Replying to 
                                     <span className="user_email" 
@@ -393,12 +387,8 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                         {emailHover && 
                             <div className="email_hover_container hover_container" 
                                 onClick={ (event) => event.stopPropagation() } 
-                                onMouseOver={() => { setEmailHover(true); }} 
-                                // onMouseOut={() => { setEmailHover(false); }} 
-                            >
+                                onMouseOver={() => { setEmailHover(true); }}                             >
                                 <div>
-                                    {/* <img src={replyParentInfo.userImage} />  
-                                    <button>Follow</button> */}
                                     <RecommendFriend user={replyParentInfo} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} emailHoverState={true} />
                                 </div>
 
