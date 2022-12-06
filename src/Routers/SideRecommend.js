@@ -14,7 +14,7 @@ const SideRecommend = ({ usersProfile, userObj, setUsersProfile }) => {
                     {usersProfile.filter(element => element.userId !== userObj.uid).map((element) => {
                         return(
                             <RecommendFriend 
-                                key={element.userId} user={element} usersProfile={usersProfile} userObj={userObj} setUsersProfile={setUsersProfile}
+                                key={element.userId} user={element} usersProfile={usersProfile} userObj={userObj} setUsersProfile={setUsersProfile} emailHoverState={false}
                             />
                         );
                     })}

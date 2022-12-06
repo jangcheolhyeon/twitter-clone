@@ -3,7 +3,7 @@ import { collection, doc, onSnapshot, query, updateDoc } from "firebase/firestor
 import React, { useEffect, useRef, useState } from "react";
 
 
-const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, }) => {
+const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, emailHoverState }) => {
     const [followingHover, setFollowingHover] = useState(false);
     const [followState, setFollowState] = useState(true);
 
@@ -81,25 +81,59 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, }) => {
         }
     }
 
+    console.log("user", user);
+    console.log("userObj", userObj);
+    // user.userId userObj.uid
+    console.log("is logined user?", user.userId === userObj.uid);
+
     return(
         <li className="recommend_item">
-            <div className="user_image_container">
-                <img src={user.userImage} />
-            </div>
-            <div className="user_display_name">
-                <span>{user.displayName}</span>
-            </div>
-            <div className="recommend_contaienr_follow_box">
-                {followState ? (
-                    followingHover ? (
-                        <button className="recommend_friend_follow_btn" onClick={() => {onFollowClick(user)}} onMouseOver={() => setFollowingHover(true)} onMouseOut={() => setFollowingHover(false)}>UnFollow</button>
+            {emailHoverState ? (
+                <div className="email_hover_top_container">
+                    <div className="email_hover_img_container">
+                        <img src={user.userImage} />
+                    </div>
+                    {user.userId === userObj.uid ? (
+                        <>
+                            <div className="email_hover_current_user">
+                                <button>me</button>
+                            </div>
+                        </>
                     ) : (
-                        <button className="recommend_friend_follow_btn" onClick={() => {onFollowClick(user)}} onMouseOver={() => setFollowingHover(true)} onMouseOut={() => setFollowingHover(false)}>Following</button>
-                    )
-                ) : (
-                    <button className="recommend_friend_unfollow_btn" onClick={() => {onFollowClick(user)}}>Follow</button>
-                )}
-            </div>
+                        <div className="recommend_contaienr_follow_box">
+                            {followState ? (
+                                followingHover ? (
+                                    <button className="recommend_friend_follow_btn" onClick={() => {onFollowClick(user)}} onMouseOver={() => setFollowingHover(true)} onMouseOut={() => setFollowingHover(false)}>UnFollow</button>
+                                ) : (
+                                    <button className="recommend_friend_follow_btn" onClick={() => {onFollowClick(user)}} onMouseOver={() => setFollowingHover(true)} onMouseOut={() => setFollowingHover(false)}>Following</button>
+                                )
+                            ) : (
+                                <button className="recommend_friend_unfollow_btn" onClick={() => {onFollowClick(user)}}>Follow</button>
+                            )}
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <>
+                    <div className="user_image_container">
+                        <img src={user.userImage} />
+                    </div>
+                    <div className="user_display_name">
+                        <span>{user.displayName}</span>
+                    </div>
+                    <div className="recommend_contaienr_follow_box">
+                        {followState ? (
+                            followingHover ? (
+                                <button className="recommend_friend_follow_btn" onClick={() => {onFollowClick(user)}} onMouseOver={() => setFollowingHover(true)} onMouseOut={() => setFollowingHover(false)}>UnFollow</button>
+                            ) : (
+                                <button className="recommend_friend_follow_btn" onClick={() => {onFollowClick(user)}} onMouseOver={() => setFollowingHover(true)} onMouseOut={() => setFollowingHover(false)}>Following</button>
+                            )
+                        ) : (
+                            <button className="recommend_friend_unfollow_btn" onClick={() => {onFollowClick(user)}}>Follow</button>
+                        )}
+                    </div>
+                </>
+            )}
         </li>
     );
 }

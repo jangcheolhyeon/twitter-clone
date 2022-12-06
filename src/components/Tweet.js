@@ -9,6 +9,7 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import ReplyMdoal from "components/ReplyModal";
 import RetweetModal from "components/RetweetModal";
 import { useNavigate } from "react-router-dom";
+import RecommendFriend from "./RecommendFriend";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, }) => {
     const [newText, setNewText] = useState(tictoc.text);
@@ -34,6 +35,9 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const retweetRef = useRef();
     const [shareActive, setShareActive] = useState(false);
     const shareRef = useRef();
+    const [emailHover, setEmailHover] = useState(false);
+    const [isEmailHover, setIsEmailHover] = useState(false);
+
 
     const onDeleteTweet = async(event) => {
         event.stopPropagation();
@@ -284,6 +288,8 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         replyParentInfo = usersProfile.filter(element => element.userId === tictoc.parentReplyInfo.userId)[0]
     }
 
+    console.log("replyParentInfo", replyParentInfo);
+
 
     return(
         <>
@@ -368,10 +374,43 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                         {tictoc.child && 
                             <div className="reply_content">
                                 {/* currentPage가 home 인경우는 x currentPage가 details일 경우에만 hover하고  */}
-                                {/* <span className="replying">Replying to <span className="user_email">@{parentInfo.email.split('@')[0]}</span></span>
+                                {/* <span className="replying">Replying to <span className="user_email">@{replyParentInfo.email.split('@')[0]}</span></span>
                                 <span className="text">{tictoc.text}</span> */}
-                                <span className="replying">Replying to <span className="user_email">@{replyParentInfo.email.split('@')[0]}</span></span>
+
+                                <span className='replying'>Replying to 
+                                    <span className="user_email" 
+                                        onMouseOver={() => { setEmailHover(true); }} 
+                                        onMouseOut={() => { setEmailHover(false); }}
+                                    >
+                                        @{replyParentInfo.email.split('@')[0]}
+                                    </span>
+                                </span>
+
                                 <span className="text">{tictoc.text}</span>
+                            </div>
+                        }
+                        
+                        {emailHover && 
+                            <div className="email_hover_container hover_container" 
+                                onClick={ (event) => event.stopPropagation() } 
+                                onMouseOver={() => { setEmailHover(true); }} 
+                                // onMouseOut={() => { setEmailHover(false); }} 
+                            >
+                                <div>
+                                    {/* <img src={replyParentInfo.userImage} />  
+                                    <button>Follow</button> */}
+                                    <RecommendFriend user={replyParentInfo} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} emailHoverState={true} />
+                                </div>
+
+                                <div className="email_hover_mid_container">
+                                    <span>{replyParentInfo.displayName}</span>
+                                    <span className="email_hover_container_gray_text">@{replyParentInfo.email.split('@')[0]}</span>
+                                </div>
+
+                                <div className="email_hover_bottom_container">
+                                    <span>{replyParentInfo.following.length}<span className="email_hover_container_gray_text">Following</span></span>
+                                    <span className="second_text">{replyParentInfo.follower.length}<span className="email_hover_container_gray_text">Followers</span></span>
+                                </div>
                             </div>
                         }
                     </div>
