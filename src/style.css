@@ -2,6 +2,10 @@ html {
   box-sizing:border-box;
 }
 
+li{
+  list-style: none;
+}
+
 body{
   background-color:black;
   margin : 0;
@@ -1322,6 +1326,10 @@ img{
   left:5px;
 }
 
+.user_tweet_content {
+  position: relative;
+}
+
 .user_tweet_content > .reply_content{
   display:flex;
   flex-direction: column;
@@ -1333,7 +1341,12 @@ img{
 }
 
 .user_tweet_content > .reply_content > .replying > .user_email{
-  color:blue;
+  color:#04AAFF;
+}
+
+.user_tweet_content > .reply_content > .replying > .user_email:hover{
+  border-bottom:0.1px solid #04AAFF;
+  cursor:pointer
 }
 
 .user_tweet_content > .reply_content > .text {
@@ -1341,6 +1354,71 @@ img{
   font-weight:bold;
 }
 
+.user_tweet_content > .email_hover_container {
+  width: 260px;
+  height: auto;
+  background-color: rgb(30, 32, 36);
+  position: absolute;
+  z-index: 1;
+  top:30px;
+  border-radius: 20px;
+  padding:20px;
+  cursor:default;
+  display:flex;
+  flex-direction: column;
+}
+
+.user_tweet_content > .email_hover_container .email_hover_container_gray_text{
+  color : rgb(100, 110, 119);
+  margin-left:5px;
+}
+
+.hover_container{
+  box-shadow: rgba(255, 255, 255, 0.24) 0px 3px 8px;
+}
+
+.email_hover_top_container{
+  display:flex;
+  margin-bottom:10px;
+}
+
+.email_hover_top_container img { 
+  width:60px;
+  height:60px;
+  border-radius: 30px;
+} 
+
+.email_hover_top_container > .email_hover_current_user{
+  margin-left:auto;
+}
+
+.email_hover_top_container > .email_hover_current_user > button{
+  padding:10px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  background: #04AAFF;
+  color:white;
+}
+
+
+.user_tweet_content > .email_hover_container > .email_hover_mid_container {
+  display:flex;
+  flex-direction: column;
+  margin-bottom:20px;
+}
+
+.user_tweet_container > .email_hover_container > .email_hover_bottom_container{
+  display:flex;
+  align-items: center;
+}
+
+.second_text{
+  margin-left:10px;
+}
+
+.email_hover_bottom_container > .email_hover_container_gray_text{
+  margin-left:5px;
+}
 
 /* retweet_content  */
 .retweet_content_container{
