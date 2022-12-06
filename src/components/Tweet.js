@@ -37,6 +37,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const shareRef = useRef();
     const [emailHover, setEmailHover] = useState(false);
     const [isEmailHover, setIsEmailHover] = useState(false);
+    const timer = useRef();
 
 
     const onDeleteTweet = async(event) => {
@@ -292,7 +293,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen}/>}
             {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} />}
-            <div className={currentPage === 'home' ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" ? onTweetClick : undefined}>
+            <div className={currentPage === 'home' && emailHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" ? onTweetClick : undefined}>
                 <div className="tweet_user_photo_container">
                     <img src={userPhoto} className="user_photo_image" />
                 </div>
@@ -374,7 +375,9 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                                 <span className='replying'>Replying to 
                                     <span className="user_email" 
                                         onMouseOver={() => { setEmailHover(true); }} 
-                                        onMouseOut={() => { setEmailHover(false); }}
+                                        onMouseOut={() => { timer.current = setTimeout(() => {
+                                            setEmailHover(false);
+                                        }, 500) }}
                                     >
                                         @{replyParentInfo.email.split('@')[0]}
                                     </span>
@@ -387,7 +390,12 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                         {emailHover && 
                             <div className="email_hover_container hover_container" 
                                 onClick={ (event) => event.stopPropagation() } 
-                                onMouseOver={() => { setEmailHover(true); }}                             >
+                                onMouseOver={() => {
+                                     clearTimeout(timer.current);
+                                    setEmailHover(true); 
+                                }}
+                                onMouseOut={() => { setEmailHover(false); }}
+                                >
                                 <div>
                                     <RecommendFriend user={replyParentInfo} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} emailHoverState={true} />
                                 </div>
