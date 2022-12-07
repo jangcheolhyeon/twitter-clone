@@ -8,6 +8,7 @@ import ToastNotification from 'components/ToastNotification';
 const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText }) => {
 
     useEffect(() => {
+        window.scrollTo({top:0, behavior:'smooth'});
         setCurrentPage("home");
     }, [])
 

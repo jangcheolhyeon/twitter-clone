@@ -80,6 +80,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     }
         
     useEffect(() => {
+        window.scrollTo({top:0, behavior:'smooth'});
         usersProfile.map(element => {
             if(element.userId === tictoc.userId){
                 setUserName(element.displayName);
