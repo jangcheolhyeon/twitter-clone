@@ -254,6 +254,10 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
             setTweetDetail(tictoc.retweetParentInfo);
             setCurrentPage("detailsParent");
             navi('/detailsParent')
+        } else if(currentPage === "profile"){
+            setTweetDetail(tictoc.retweetParentInfo);
+            setCurrentPage("details");
+            navi('/details');
         }
     }
 
@@ -302,12 +306,14 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         replyParentInfo = usersProfile.filter(element => element.userId === tictoc.parentReplyInfo.userId)[0]
     }
 
+    
+
     return(
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen}/>}
             {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} />}
             {deleteModal && <DeleteModal onDeleteTweet={onDeleteTweet} onDeleteModalCancel={onDeleteModalCancel} />}
-            <div className={currentPage === 'home' && emailHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" ? onTweetClick : undefined}>
+            <div className={currentPage === 'home' && emailHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" || currentPage === "profile" ? onTweetClick : undefined}>
                 <div className="tweet_user_photo_container">
                     <img src={userPhoto} className="user_photo_image" />
                 </div>
@@ -435,7 +441,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
 
                     {tictoc.retweet && 
                         <div className="tictoc_retweet_content_container">
-                            <div className={currentPage === "details" ? "retweet_content_container tweet_home" : "retweet_content_container"} onClick={currentPage === "details" ? onTweetClick : undefined}>
+                            <div className={currentPage === "details" || currentPage === "profile" ? "retweet_content_container tweet_home" : "retweet_content_container"} onClick={currentPage === "details" ? onTweetClick : undefined}>
                                 <div className="retweet_top">
                                     <img src={retweetParentInfo.userImage} />
                                     <span>{retweetParentInfo.displayName}</span>

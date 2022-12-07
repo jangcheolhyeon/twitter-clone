@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEllipsis, faUserPlus, faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import RecommendFriend from "components/RecommendFriend";
 import Tweet from "components/Tweet";
 
-const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setToastAlert, setToastText, setUsersProfile }) => {
+const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setToastAlert, setToastText, setUsersProfile, currentPage, setCurrentPage }) => {
+
     if(tictoc.length === 0){
         return null;
     }
@@ -13,7 +14,7 @@ const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setT
         <>
             {
                 tictoc.map((element) => {
-                    return <Tweet key={element.createdAt} tictoc={element} isOwner={true} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail}/>
+                    return <Tweet key={element.createdAt} tictoc={element} isOwner={true} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 })
             }
 
