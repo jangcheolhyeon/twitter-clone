@@ -49,6 +49,15 @@ const TopNavi = ({ currentPage, userObj }) => {
                     </div>
                 </div>
             }
+
+            {currentPage === 'detailsParent' &&
+                <div className="top_container">
+                    <div className="show_current_page">
+                        <FontAwesomeIcon icon={faArrowLeft} onClick={handlePreviousPage} />
+                        <span>Tweet</span>
+                    </div>
+                </div>
+            }
         </>
     )
 }
