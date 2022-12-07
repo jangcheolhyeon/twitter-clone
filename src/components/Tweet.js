@@ -9,8 +9,8 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import ReplyMdoal from "components/ReplyModal";
 import RetweetModal from "components/RetweetModal";
 import { useNavigate } from "react-router-dom";
-import RecommendFriend from "./RecommendFriend";
-import DeleteModal from "./DeleteModal";
+import DeleteModal from "components/DeleteModal";
+import UserInfoHover from "components/UserInfoHover";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, }) => {
     const [newText, setNewText] = useState(tictoc.text);
@@ -38,8 +38,9 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const shareRef = useRef();
     const [emailHover, setEmailHover] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
-    const timer = useRef();
-
+    const emailTimer = useRef();
+    const [userImgHover, setUserImgHover] = useState(false);
+    const userImgTimer = useRef();
 
     const onDeleteTweet = async(event) => {
         setToastAlert(true);
@@ -62,10 +63,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         event.stopPropagation();
         setDeleteModal(true);
     }
-
-    const parentInfo = usersProfile.filter(element => {
-        return element.userId === tictoc.userId;
-    })[0];
 
     const onChangeNewText = (e) => {
         setNewText(e.target.value);
@@ -306,16 +303,26 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         replyParentInfo = usersProfile.filter(element => element.userId === tictoc.parentReplyInfo.userId)[0]
     }
 
-    
+    const tweetWriteUser = usersProfile.filter(element => element.userId === tictoc.userId)[0];
 
     return(
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen}/>}
             {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} />}
             {deleteModal && <DeleteModal onDeleteTweet={onDeleteTweet} onDeleteModalCancel={onDeleteModalCancel} />}
-            <div className={currentPage === 'home' && emailHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" || currentPage === "profile" ? onTweetClick : undefined}>
+            <div className={currentPage === 'home' && emailHover === false && userImgHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" || currentPage === "profile" ? onTweetClick : undefined}>
                 <div className="tweet_user_photo_container">
-                    <img src={userPhoto} className="user_photo_image" />
+                    {/* <img src={userPhoto} className="user_photo_image" */}
+                    <img src={userPhoto} className={userImgHover ? 'user_photo_image activing_user_photo_image' : 'user_photo_image'}
+                        onMouseOver={() => { setUserImgHover(true); }} 
+                        onMouseOut={() => { userImgTimer.current = setTimeout(() => {
+                            setUserImgHover(false);
+                        }, 500) }}
+                    />
+
+                    {userImgHover && 
+                        <UserInfoHover userInfo={tweetWriteUser} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} timerRef={userImgTimer} setUserInfoHover={setUserImgHover} isUserImgHover={true}/>
+                    }
                 </div>
 
                 <div className="tweet_content">
@@ -343,7 +350,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                     </div>}
 
 
-                    <div className="tweet_userInfo_container">
+                    <div className={isOwner ? 'tweet_userInfo_container' : 'tweet_userInfo_container isNotOwner'}>
                         <div className="tweet_more_container">
                             <FontAwesomeIcon icon={faEllipsis} className='three-dots-icon'
                                 onMouseOver={() => { setThreedotsHover(true) }}
@@ -393,9 +400,10 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                             <div className="reply_content">
 
                                 <span className='replying'>Replying to 
-                                    <span className="user_email" 
+                                    {/* <span className="user_email"  */}
+                                    <span className={emailHover ? 'user_email activing_user_email' : 'user_email'}
                                         onMouseOver={() => { setEmailHover(true); }} 
-                                        onMouseOut={() => { timer.current = setTimeout(() => {
+                                        onMouseOut={() => { emailTimer.current = setTimeout(() => {
                                             setEmailHover(false);
                                         }, 500) }}
                                     >
@@ -408,28 +416,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                         }
                         
                         {emailHover && 
-                            <div className="email_hover_container hover_container" 
-                                onClick={ (event) => event.stopPropagation() } 
-                                onMouseOver={() => {
-                                     clearTimeout(timer.current);
-                                    setEmailHover(true); 
-                                }}
-                                onMouseOut={() => { setEmailHover(false); }}
-                                >
-                                <div>
-                                    <RecommendFriend user={replyParentInfo} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} emailHoverState={true} />
-                                </div>
-
-                                <div className="email_hover_mid_container">
-                                    <span>{replyParentInfo.displayName}</span>
-                                    <span className="email_hover_container_gray_text">@{replyParentInfo.email.split('@')[0]}</span>
-                                </div>
-
-                                <div className="email_hover_bottom_container">
-                                    <span>{replyParentInfo.following.length}<span className="email_hover_container_gray_text">Following</span></span>
-                                    <span className="second_text">{replyParentInfo.follower.length}<span className="email_hover_container_gray_text">Followers</span></span>
-                                </div>
-                            </div>
+                            <UserInfoHover userInfo={replyParentInfo} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} timerRef={emailTimer} setUserInfoHover={setEmailHover} isUserImgHover={false}/>
                         }
                     </div>
 
