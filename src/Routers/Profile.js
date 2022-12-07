@@ -9,10 +9,8 @@ import ProfileNaviTweets_Replies from './ProfileNaviTweets_Replies';
 import ProfileNaviMedia from './ProfileNaviMedia';
 import ProfileNaviLikes from './ProfileNaviLikes';
 import ModalUpdateProfile from 'components/ModalUpdateProfile';
-import { faCropSimple } from '@fortawesome/free-solid-svg-icons';
 
-
-const Profile = ({ userObj, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile }) => {
+const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const [userAttachment, setUserAttachment] = useState(userObj.photoURL);
     const [modalOpen, setModalOpen] = useState(false);
@@ -31,22 +29,10 @@ const Profile = ({ userObj, currentPage, refreshUserObj, usersProfile, setCurren
     const [followingCnt, setFollowingCnt] = useState(0);
 
     const getMyTweets = () => {    
-        const q = query(collection(db, "tictoc"), orderBy("createdAt", "desc"));
-        onSnapshot(q, (snapshot) => {
-            const comments = snapshot.docs.map((doc) => {
-                return {
-                    id : doc.id,
-                    ...doc.data(),
-                }
-            })
-
-            setMyTweetList(comments.filter((element) => {
-                return element.userId === userObj.uid;
-            }));
-
-            setTweets(comments);
-
-        })
+        setMyTweetList(messages.filter(element => {
+            return element.userId === userObj.uid;
+        }))
+        setTweets(messages);
 
     };
 

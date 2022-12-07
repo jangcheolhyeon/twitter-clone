@@ -5,41 +5,29 @@ import { faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { db, storageService } from "fbase";
 import { v4 } from "uuid";
-import { addDoc, collection, onSnapshot, query } from "firebase/firestore";
+import { addDoc, collection, } from "firebase/firestore";
 
-const Details = ({ tweetDetail, currentPage, setCurrentPage, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail}) => {
+const Details = ({ messages, tweetDetail, currentPage, setCurrentPage, userObj, usersProfile, setToastAlert, setToastText, setTweetDetail}) => {
     const [activeTweetReply, setActiveTweetReply] = useState(false);
     const [replyTweet, setReplyTweet] = useState();
     const [attachment, setAttachment] = useState('');
-    const [commentList, setCommentList] = useState([]);
 
     const parentInfo = usersProfile.filter(element => {
         return element.userId === tweetDetail.userId;
     })[0];
     
     let parentTweet;
-    if(commentList.length !== 0){
-        parentTweet = commentList.filter(element => {
+
+    if(messages.length !== 0){
+        parentTweet = messages.filter(element => {
             return element.id === tweetDetail.id
         })[0]
     }
-    
-    setCurrentPage('details');
 
     useEffect(() => {
         if(tweetDetail === undefined){
             return null;
         }
-        const q = query(collection(db, "tictoc"));
-        onSnapshot(q, (snapshot) => {
-            const comments = snapshot.docs.map((doc) => {
-                return {
-                    id : doc.id,
-                    ...doc.data(),
-                }
-            })
-            setCommentList(comments);
-        })
         setCurrentPage('details');
     }, [])
 
@@ -89,11 +77,11 @@ const Details = ({ tweetDetail, currentPage, setCurrentPage, userObj, usersProfi
     const onChangeReplyTweet = (e) => {
         const {target : {value}} = e;
         setReplyTweet(value);
-    }
+    }    
 
     return(
         <div className="container">
-            <Tweet tictoc={tweetDetail} setTweetDetail={setTweetDetail} isOwner={tweetDetail.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+            <Tweet tictoc={tweetDetail} messages={messages} setTweetDetail={setTweetDetail} isOwner={tweetDetail.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
             {activeTweetReply ? (
                 <div className="detail_tweet_write_container_active">
                     <div className="tweet_write_active_img_container">
@@ -139,9 +127,9 @@ const Details = ({ tweetDetail, currentPage, setCurrentPage, userObj, usersProfi
                 </div>
             )}
 
-            {commentList.map((element) => {
+            {messages.map((element) => {
                 if(element.child && element.bundle === tweetDetail.bundle){
-                    return <Tweet tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} currentPage={currentPage} />
+                    return <Tweet tictoc={element} isOwner={element.userId === userObj.uid} messages={messages} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} currentPage={currentPage} />
                 }
             })}
 

@@ -1,6 +1,6 @@
 import { db } from "fbase";
-import { collection, doc, onSnapshot, query, updateDoc } from "firebase/firestore";
-import React, { useEffect, useRef, useState } from "react";
+import { doc, updateDoc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 
 
 const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, emailHoverState }) => {
@@ -8,21 +8,6 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, emailHo
     const [followState, setFollowState] = useState(true);
 
     let currentUser;
-
-    const getUsersInfo = () => {
-        const q = query(collection(db, 'usersInfo'));
-        onSnapshot(q, (snapshot) => {
-            const newUsersInfo = snapshot.docs.map((doc) => {
-                return {
-                    id : doc.id,
-                    ...doc.data(),
-                }
-            });
-            setUsersProfile(newUsersInfo);
-        })
-
-        currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
-    }
 
     useEffect(() => {
         if(usersProfile === undefined || usersProfile === null || usersProfile.length === 0){
@@ -55,7 +40,7 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, emailHo
 
     const onFollowClick = async(user) => {
         setFollowState(prev => !prev);
-        getUsersInfo();
+        currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
 
         if(followState){
             await updateDoc(doc(db, "usersInfo", `${currentUser.id}`), {

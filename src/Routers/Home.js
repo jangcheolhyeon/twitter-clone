@@ -1,30 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, } from 'react';
 import { db } from 'fbase';
-import { collection, query, orderBy, onSnapshot, updateDoc, doc, where, addDoc } from "firebase/firestore"; 
+import { collection, addDoc } from "firebase/firestore"; 
 import Tweet from 'components/Tweet';
 import TweetFactory from 'components/TweetFactory';
 import ToastNotification from 'components/ToastNotification';
 
-const Home = ({ userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText }) => {
-    const [messages, setMessages] = useState([]);
-    const [defaultMessages, setDefaultMessages] = useState([]);
+const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText }) => {
 
     useEffect(() => {
-        const q = query(collection(db, 'tictoc'), orderBy("bundle", "asc"), orderBy("createdAt", "asc"));
-        onSnapshot(q, (snapshot) => {
-            const newMessages = snapshot.docs.map((doc) => {
-                return {
-                    id : doc.id,
-                    ...doc.data(),
-                }
-            })
-            setMessages(newMessages);
-            setDefaultMessages(newMessages);
-        })
-
-
         setCurrentPage("home");
-    }, []);
+    }, [])
 
     useEffect(() => {
         let currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
