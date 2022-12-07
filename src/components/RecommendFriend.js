@@ -69,13 +69,13 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, emailHo
     return(
         <li className="recommend_item">
             {emailHoverState ? (
-                <div className="email_hover_top_container">
-                    <div className="email_hover_img_container">
+                <div className="user_info_hover_top_container">
+                    <div className="user_info_hover_img_container">
                         <img src={user.userImage} />
                     </div>
                     {user.userId === userObj.uid ? (
                         <>
-                            <div className="email_hover_current_user">
+                            <div className="user_info_hover_current_user">
                                 <button>me</button>
                             </div>
                         </>

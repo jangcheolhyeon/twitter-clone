@@ -361,12 +361,18 @@ img{
 
 .tweet > .tweet_user_photo_container{
   padding-top: 20px;
+  position: relative;
 }
 
-.tweet > .tweet_user_photo_container > img{
+.tweet > .tweet_user_photo_container > .user_photo_image{
   width:50px;
   height:50px;
   border-radius: 25px;
+  cursor:pointer;
+}
+
+.tweet > .tweet_user_photo_container > .activing_user_photo_image{
+  filter: brightness(50%);
 }
 
 .tweet_content {
@@ -378,6 +384,10 @@ img{
 .tweet > .tweet_content > .tweet_userInfo_container {
   margin-left:15px;
   position: relative;
+}
+
+.isNotOwner{
+  margin-top:30px;
 }
 
 .tweet > .tweet_content > .tweet_userInfo_container > .user_name{
@@ -696,8 +706,8 @@ img{
 .container > .my_profile_info_container > .user_email{
   font-weight:lighter;
   color:rgb(100, 110, 119);
-
 }
+
 
 .container > .my_profile_info_container > .follow_follower_info{
   margin-top:15px;
@@ -1349,12 +1359,16 @@ img{
   cursor:pointer
 }
 
+.user_tweet_content > .reply_content > .replying > .activing_user_email{
+  border-bottom:0.1px solid #04AAFF;
+}
+
 .user_tweet_content > .reply_content > .text {
   margin-top:10px;
   font-weight:bold;
 }
 
-.user_tweet_content > .email_hover_container {
+.user_info_hover_container {
   width: 260px;
   height: auto;
   background-color: rgb(30, 32, 36);
@@ -1368,46 +1382,55 @@ img{
   flex-direction: column;
 }
 
-.user_tweet_content > .email_hover_container .email_hover_container_gray_text{
+.hover_email{
+  top: 30px;
+}
+
+.hover_user_img{
+  top: 80px;
+}
+
+.user_info_hover_container .user_info_hover_container_gray_text{
   color : rgb(100, 110, 119);
   margin-left:5px;
 }
 
-.hover_container{
+.user_info_hover_container{
   box-shadow: rgba(255, 255, 255, 0.24) 0px 3px 8px;
 }
 
-.email_hover_top_container{
+.user_info_hover_top_container{
   display:flex;
   margin-bottom:10px;
 }
 
-.email_hover_top_container img { 
+.user_info_hover_top_container img { 
   width:60px;
   height:60px;
   border-radius: 30px;
 } 
 
-.email_hover_top_container > .email_hover_current_user{
+.user_info_hover_top_container > .user_info_hover_current_user{
   margin-left:auto;
 }
 
-.email_hover_top_container > .email_hover_current_user > button{
+.user_info_hover_top_container > .user_info_hover_current_user > button{
   padding:10px 15px;
   border-radius: 20px;
   font-weight: bold;
   background: #04AAFF;
   color:white;
+  border:none;
 }
 
 
-.user_tweet_content > .email_hover_container > .email_hover_mid_container {
+.user_info_hover_container > .user_info_hover_mid_container {
   display:flex;
   flex-direction: column;
   margin-bottom:20px;
 }
 
-.user_tweet_container > .email_hover_container > .email_hover_bottom_container{
+.user_info_hover_container > .user_info_hover_bottom_container{
   display:flex;
   align-items: center;
 }
@@ -1416,7 +1439,7 @@ img{
   margin-left:10px;
 }
 
-.email_hover_bottom_container > .email_hover_container_gray_text{
+.user_info_hover_bottom_container > .user_info_hover_container_gray_text{
   margin-left:5px;
 }
 
