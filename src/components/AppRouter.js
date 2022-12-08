@@ -10,6 +10,7 @@ import { db } from 'fbase';
 import TopNavi from 'Routers/TopNavi';
 import SideRecommend from 'Routers/SideRecommend';
 import Details from 'Routers/Details';
+import ToastNotification from './ToastNotification';
 
 
 const AppRouter = () => {
@@ -52,6 +53,7 @@ const AppRouter = () => {
                     pin : '',
                     follower : [],
                     following : [],
+                    backgroundImg : '',
                 });
                 setInit(true);
             } else{
@@ -84,6 +86,10 @@ const AppRouter = () => {
             <Router>
                 {init ? (
                     <>
+                    {isLoggedIn && toastAlert &&
+                        <ToastNotification text={toastText} setToastAlert={setToastAlert}/>
+                    }
+
                     {isLoggedIn && <TopNavi currentPage={currentPage} userObj={userObj}/>}
                     {isLoggedIn && <Navigation userObj={userObj} retweetState={reTweetState} parentBundle={parentBundle} setUserObj={setUserObj}/>}
                         <Routes>

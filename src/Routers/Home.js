@@ -24,6 +24,7 @@ const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, s
                 pin : '',
                 follower:[],
                 following:[],
+                backgroundImg : null,
             }];
             setUsersProfile(newUsersProfile);
         }
@@ -39,6 +40,7 @@ const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, s
             pin : '',
             follower:[],
             following:[],
+            backgroundImg : null,
         })
     }
 
@@ -58,9 +60,9 @@ const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, s
                         })}
                     </div>
 
-                    {toastAlert &&
+                    {/* {toastAlert &&
                         <ToastNotification text={toastText} setToastAlert={setToastAlert}/>
-                    }
+                    } */}
                 </div>
             </div>
         </>

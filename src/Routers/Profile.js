@@ -13,6 +13,7 @@ import ModalUpdateProfile from 'components/ModalUpdateProfile';
 const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile, setTweetDetail }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const [userAttachment, setUserAttachment] = useState(userObj.photoURL);
+    const [userBackgroundAttachment, setUserBackgroundAttachment] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [myTweetList, setMyTweetList] = useState(null);
     const [tweets, setTweets] = useState([]);
@@ -43,6 +44,7 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
     const onDisplayNameClick = async(event) => {
         event.preventDefault();
         onUpdateUserImg();
+        onUpdateUserBackground();
         if(newDisplayName !== userObj.displayName){
             await updateProfile(authService.currentUser, {displayName: newDisplayName});
             const currentUserId = usersProfile.filter(element => element.userId === userObj.uid)[0];
@@ -75,7 +77,8 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
         }
         
         let currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
-        
+        setUserBackgroundAttachment(currentUser.backgroundImg);
+
         getMyTweets();
         if(!currentUser && usersProfile.length !== 0){
             let newUsersProfile = [...usersProfile, {
@@ -156,6 +159,17 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
         reader.readAsDataURL(theFile);
     }
 
+    const onUserBackgroundAttachment = (e) => {
+        const {target : {files}} = e;
+        const theFile = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent) => {
+            const {currentTarget : {result}} = finishedEvent;
+            setUserBackgroundAttachment(result);
+        }
+        reader.readAsDataURL(theFile);
+    }
+
     const onUpdateUserImg = async() => {
         let attachmentUrl = "";
 
@@ -170,8 +184,26 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
             });
             refreshUserObj();
         }
+
     }
 
+    const onUpdateUserBackground = async() => {
+        let backAttachmentUrl = "";
+
+        const backAttachmentRef = ref(storageService, `${userObj.uid}/${v4()}`);
+        const backResponse = await uploadString(backAttachmentRef, userBackgroundAttachment, "data_url" );
+        backAttachmentUrl = await getDownloadURL(backResponse.ref);
+
+        if(userBackgroundAttachment !== userObj.backgroundImg){
+            await updateProfile(authService.currentUser, {backgroundImg: backAttachmentUrl});
+            await updateDoc(doc(db, 'usersInfo', `${usersProfile.filter(element => element.userId === userObj.uid)[0].id}`), {
+                backgroundImg : backAttachmentUrl,
+            });
+            refreshUserObj();
+        }
+
+    }
+    
     const handleTraceClick = (key) => {        
         let newCurrentNavi = {
             Tweets : false,
@@ -210,14 +242,17 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
 
     return(
         <>
-            { modalOpen && <ModalUpdateProfile userAttachment={userAttachment} onUserAttachment={onUserAttachment} newDisplayName={newDisplayName} onChangeDisplayName={onChangeDisplayName} onDisplayNameClick={onDisplayNameClick} setModalOpen={setModalOpen} /> }
+            { modalOpen && <ModalUpdateProfile userAttachment={userAttachment} onUserAttachment={onUserAttachment} onUserBackgroundAttachment={onUserBackgroundAttachment} newDisplayName={newDisplayName} onChangeDisplayName={onChangeDisplayName} onDisplayNameClick={onDisplayNameClick} setModalOpen={setModalOpen} userBackgroundAttachment={userBackgroundAttachment} />}
             <div className='container'>
                 <div className='background_container'>
+                    {userBackgroundAttachment && (
+                        <img src={userBackgroundAttachment} />
+                    )}
                 </div>
 
                 <div className='my_profile_container'>
                     <div className='my_profile_container_top'>
-                        <img src={userAttachment} />
+                        <img src={userObj.photoURL} />
                         <button onClick={handleUpdateProfile}>Set up profile</button>
                     </div>
                 </div>
