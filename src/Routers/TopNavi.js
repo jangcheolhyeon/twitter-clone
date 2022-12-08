@@ -9,21 +9,6 @@ const TopNavi = ({ currentPage, userObj }) => {
     }
     return(
         <>
-            {/* {currentPage === "home" ? (
-                <div className="top_container">
-                    <div className="show_current_page">
-                        <span>HOME</span>
-                    </div>
-                </div>
-            ) : (
-                <div className="top_container">
-                    <div className="show_current_page">
-                        <FontAwesomeIcon icon={faArrowLeft} onClick={handlePreviousPage} />
-                        <span>{userObj.displayName}</span>
-                    </div>
-                </div>
-            )} */}
-
             {currentPage === "home" &&
                 <div className="top_container">
                     <div className="show_current_page">
