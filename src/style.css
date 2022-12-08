@@ -649,8 +649,13 @@ img{
 
 .container > .background_container{
   width:100%;
-  height:200px;
+  height:300px;
   background-color: rgb(49, 52, 55);
+}
+
+.container > .background_container > img{
+  width:100%;
+  height:300px;
 }
 
 .container > .my_profile_container{
@@ -917,7 +922,7 @@ img{
 /* update profile modal */
 
 .modal_update_profile_background{
-  position: absolute;
+  position: fixed;
   background-color: rgba(255,255,255,0.5);
   z-index: 2;
   top:0;
@@ -979,7 +984,7 @@ img{
   transform: translate(-50%, -50%);
 }
 
-.modal_update_user_img > .modal_update_camera{
+.modal_update_camera, .modal_update_background{
   position:absolute;
   background-color:black;
   border-radius:50px;
@@ -996,11 +1001,20 @@ img{
   cursor:pointer;
 }
 
-.modal_update_user_img > .modal_update_camera > label > svg{
+/* .modal_update_user_img > .modal_update_camera > label > svg{
   position: absolute;
   top:50%;
   left:50%;
   transform: translate(-50%, -50%);
+  cursor:pointer;
+} */
+
+.modal_update_container > div > label > svg{
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  cursor:pointer;
 }
 
 .modal_update_input_user_img{
@@ -1008,6 +1022,10 @@ img{
 }
 
 .modal_update_user_img > .modal_update_camera:hover{
+  background-color:rgb(79, 77, 77);
+}
+
+.update_background_img_container > .modal_update_background:hover{
   background-color:rgb(79, 77, 77);
 }
 
@@ -1081,6 +1099,19 @@ img{
   margin: 0 auto;
 }
 
+.update_background_img_container{
+  position: relative;
+  border:1px solid white;
+  margin:0 auto;
+  width:500px;
+  height:270px;
+} 
+
+.update_background_img_container > img{
+  width:100%;
+  height:100%;
+}
+
 .update_display_name_text{
   border:1px solid rgb(67, 64, 64);
   width:70%;
@@ -1115,6 +1146,7 @@ img{
   align-items: center;
   font-size:15px;
   border-radius: 5px;
+  z-index: 5;
 }
 
 
