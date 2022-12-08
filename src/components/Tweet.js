@@ -312,7 +312,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
             {deleteModal && <DeleteModal onDeleteTweet={onDeleteTweet} onDeleteModalCancel={onDeleteModalCancel} />}
             <div className={currentPage === 'home' && emailHover === false && userImgHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" || currentPage === "profile" ? onTweetClick : undefined}>
                 <div className="tweet_user_photo_container">
-                    {/* <img src={userPhoto} className="user_photo_image" */}
                     <img src={userPhoto} className={userImgHover ? 'user_photo_image activing_user_photo_image' : 'user_photo_image'}
                         onMouseOver={() => { setUserImgHover(true); }} 
                         onMouseOut={() => { userImgTimer.current = setTimeout(() => {
@@ -400,7 +399,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                             <div className="reply_content">
 
                                 <span className='replying'>Replying to 
-                                    {/* <span className="user_email"  */}
                                     <span className={emailHover ? 'user_email activing_user_email' : 'user_email'}
                                         onMouseOver={() => { setEmailHover(true); }} 
                                         onMouseOut={() => { emailTimer.current = setTimeout(() => {

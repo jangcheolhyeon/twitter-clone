@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { addDoc, collection, query } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db, storageService } from "fbase";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
