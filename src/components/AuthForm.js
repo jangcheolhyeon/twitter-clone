@@ -7,7 +7,7 @@ import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 
-const AuthForm = ({ userObj, usersProfile, setUserObj }) => {
+const AuthForm = ({ }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [createNewAccount, setCreateNewAccount] = useState(false);
