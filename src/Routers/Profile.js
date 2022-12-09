@@ -14,6 +14,7 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const [userAttachment, setUserAttachment] = useState(userObj.photoURL);
     const [userBackgroundAttachment, setUserBackgroundAttachment] = useState(null);
+    const [changedUserBackgroundAttachment, setChangedUserBackgroundAttachment] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [myTweetList, setMyTweetList] = useState(null);
     const [tweets, setTweets] = useState([]);
@@ -41,7 +42,7 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
         sortTweetList();
     }, [tweets])
 
-    const onDisplayNameClick = async(event) => {
+    const onChangeUserProfile = async(event) => {
         event.preventDefault();
         onUpdateUserImg();
         onUpdateUserBackground();
@@ -76,8 +77,9 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
             setUserAttachment(userObj.photoURL);
         }
         
-        let currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
+        currentUser = usersProfile.filter(element => element.userId === userObj.uid)[0];
         setUserBackgroundAttachment(currentUser.backgroundImg);
+        setChangedUserBackgroundAttachment(currentUser.backgroundImg);
 
         getMyTweets();
         if(!currentUser && usersProfile.length !== 0){
@@ -93,7 +95,7 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
             setUsersProfile(newUsersProfile);
         }
         setCurrentPage('profile');
-
+        console.log("useEffect currentUSer", currentUser);
     }, []);
     
     useEffect(() => {
@@ -201,7 +203,7 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
             });
             refreshUserObj();
         }
-
+        setChangedUserBackgroundAttachment(userBackgroundAttachment);
     }
     
     const handleTraceClick = (key) => {        
@@ -240,13 +242,18 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
 
     if(usersProfile.length === 0) return null;
 
+    console.log("userObj", userObj);
+    console.log("currentUSer", currentUser);
+
     return(
         <>
-            { modalOpen && <ModalUpdateProfile userAttachment={userAttachment} onUserAttachment={onUserAttachment} onUserBackgroundAttachment={onUserBackgroundAttachment} newDisplayName={newDisplayName} onChangeDisplayName={onChangeDisplayName} onDisplayNameClick={onDisplayNameClick} setModalOpen={setModalOpen} userBackgroundAttachment={userBackgroundAttachment} />}
+            { modalOpen && <ModalUpdateProfile userAttachment={userAttachment} onUserAttachment={onUserAttachment} onUserBackgroundAttachment={onUserBackgroundAttachment} newDisplayName={newDisplayName} onChangeDisplayName={onChangeDisplayName} onChangeUserProfile={onChangeUserProfile} setModalOpen={setModalOpen} userBackgroundAttachment={userBackgroundAttachment} />}
             <div className='container'>
                 <div className='background_container'>
                     {userBackgroundAttachment && (
-                        <img src={userBackgroundAttachment} />
+                        // <img src={userBackgroundAttachment} />
+                        // <img src={currentUser.backgroundImg} />
+                        <img src={changedUserBackgroundAttachment} />
                     )}
                 </div>
 

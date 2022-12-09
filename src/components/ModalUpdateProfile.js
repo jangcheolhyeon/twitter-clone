@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faCamera, faLeftLong, faXmark, faImage } from "@fortawesome/free-solid-svg-icons";
 
-const ModalUpdateProfile = ({ userAttachment, onUserAttachment, onUserBackgroundAttachment, newDisplayName, onChangeDisplayName, onDisplayNameClick, setModalOpen, userBackgroundAttachment }) => {
+const ModalUpdateProfile = ({ userAttachment, onUserAttachment, onUserBackgroundAttachment, newDisplayName, onChangeDisplayName, onChangeUserProfile, setModalOpen, userBackgroundAttachment, }) => {
     const [cameraHover, setCameraHover] = useState(false);
     const [backgroundIconHover, setBackgroundIconHover] = useState(false);
     const [nextPage, setNextPage] = useState(false);
@@ -122,7 +122,7 @@ const ModalUpdateProfile = ({ userAttachment, onUserAttachment, onUserBackground
                             <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChangeDisplayName} />
                         </div>
                         <div className="modal_update_skip_btn">
-                            <button onClick={onDisplayNameClick}>SAVE</button>
+                            <button onClick={onChangeUserProfile}>SAVE</button>
                         </div>
                     </>
                 )}
@@ -145,7 +145,7 @@ const ModalUpdateProfile = ({ userAttachment, onUserAttachment, onUserBackground
                             <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChangeDisplayName} />
                         </div>
                         <div className="modal_update_skip_btn">
-                            <button onClick={onDisplayNameClick}>SAVE</button>
+                            <button onClick={onChangeUserProfile}>SAVE</button>
                         </div>
                     </>
                 ) : (
