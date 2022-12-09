@@ -92,7 +92,7 @@ const TweetModal = ({ userObj, onTweetModalToggle, retweetState, parentBundle })
 
                 <div className="tweet_modal_content_container">
                     <div className="user_img_container">
-                        <img src={userObj.photoURL} /> 
+                        <img src={userObj.photoURL} alt='user Image' /> 
                     </div>
                     <div className="user_tweet_container">
                         <div>
@@ -101,7 +101,7 @@ const TweetModal = ({ userObj, onTweetModalToggle, retweetState, parentBundle })
 
                         {attachment && (
                             <div className="factoryForm__attachment">
-                                <img src={attachment} style={{ backgroundImage : attachment }} />
+                                <img src={attachment} style={{ backgroundImage : attachment }} alt='attachment' />
 
                                 <div className="factoryForm__clear" onClick={onClearImage}>
                                     <FontAwesomeIcon icon={faTimes} />

@@ -4,9 +4,9 @@ import { faXmark, faTimes, faImage } from "@fortawesome/free-solid-svg-icons";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { db, storageService } from "fbase";
 import { v4 } from "uuid";
-import { addDoc, collection, updateDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 
-const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProfile, setRetweetModalOpen }) => {
+const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProfile, setRetweetModalOpen, updateCountNumber }) => {
     const [modalRetweet, setModalRetweet] = useState();
     const [attachment, setAttachment] = useState('');
 
@@ -71,6 +71,7 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
             retweetText : retweetContent.text,
         }
 
+        updateCountNumber();
         await addDoc(collection(db, 'tictoc'), tweetObj);
         
         setModalRetweet('');
@@ -92,7 +93,7 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
 
                     <div className="tweet_modal_content_container">
                         <div className="user_img_container">
-                            <img src={userObj.photoURL} /> 
+                            <img src={userObj.photoURL} alt='user Image'/> 
                         </div>
                         <div className="user_tweet_container">
                             <div>
@@ -101,7 +102,7 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
 
                             {attachment && (
                                 <div className="factoryForm__attachment">
-                                    <img src={attachment} style={{ backgroundImage : attachment }} />
+                                    <img src={attachment} alt='attachment' style={{ backgroundImage : attachment }} />
 
                                     <div className="factoryForm__clear" onClick={onClearImage}>
                                         <FontAwesomeIcon icon={faTimes} />
@@ -113,7 +114,7 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
 
                     <div className="retweet_content_container">
                         <div className="retweet_top">
-                            <img src={parentInfo.userImage} />
+                            <img src={parentInfo.userImage} alt='retweet user Image' />
                             <span>{parentInfo.displayName}</span>
                             <span className="user_email">@{parentInfo.email.split('@')[0]}</span>
                         </div>
@@ -123,7 +124,7 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
 
                         {retweetContent.attachmentUrl && (
                             <div className="retweet_img">
-                                <img src={retweetContent.attachmentUrl} style={{ backgroundImage : retweetContent.attachmentUrl }} />
+                                <img src={retweetContent.attachmentUrl} alt='retweet attachment' style={{ backgroundImage : retweetContent.attachmentUrl }} />
                             </div>
                         )}
                     </div>

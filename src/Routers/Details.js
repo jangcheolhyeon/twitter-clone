@@ -70,6 +70,7 @@ const Details = ({ messages, tweetDetail, currentPage, setCurrentPage, userObj, 
         }
 
         await addDoc(collection(db, 'tictoc'), replyTweetObj);
+
         setAttachment('');
         setReplyTweet('');
     }
@@ -85,7 +86,7 @@ const Details = ({ messages, tweetDetail, currentPage, setCurrentPage, userObj, 
             {activeTweetReply ? (
                 <div className="detail_tweet_write_container_active">
                     <div className="tweet_write_active_img_container">
-                        <img src={userObj.photoURL} />
+                        <img src={userObj.photoURL} alt='user image' />
                     </div>
                     
                     <div className="tweet_write_active_content_container">
@@ -96,7 +97,7 @@ const Details = ({ messages, tweetDetail, currentPage, setCurrentPage, userObj, 
 
                         {attachment && (
                             <div className="reply_attachment">
-                                <img src={attachment} style={{ backgroundImage : attachment }} />
+                                <img src={attachment} alt='attachment' style={{ backgroundImage : attachment }} />
 
                                 <div className="reply_clear" onClick={onClearImage}>
                                     <FontAwesomeIcon icon={faTimes} />
@@ -118,7 +119,7 @@ const Details = ({ messages, tweetDetail, currentPage, setCurrentPage, userObj, 
             ) : (
                 <div className="detail_tweet_write_container" onClick={() => {setActiveTweetReply(true)}}>
                     <div className="detail_tweet_write_content">
-                        <img src={userObj.photoURL} />
+                        <img src={userObj.photoURL} alt='user image' />
                         <div>
                             <span>Tweet your reply</span>
                         </div>

@@ -6,7 +6,7 @@ import { db, storageService } from "fbase";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
-const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile, setReplyModalOpen }) => {
+const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile, setReplyModalOpen, updateCountNumber }) => {
     const [modalTweet, setModalTweet] = useState();
     const [attachment, setAttachment] = useState('');
 
@@ -67,6 +67,7 @@ const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile, se
             parentReplyInfoDetail: parentTweet,
         }
 
+        updateCountNumber();
         await addDoc(collection(db, 'tictoc'), replyTweetObj);
         setModalTweet('');
         setReplyModalOpen(false);
@@ -81,14 +82,14 @@ const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile, se
 
                 <div className="parent_tweet_info">
                     <div className="parent_img_container">
-                        <img src={parentInfo.userImage} />
+                        <img src={parentInfo.userImage} alt='tweet userImage' />
                     </div>
                     <div className="parent_text_contaienr">
                         <span className="user_name">{parentInfo.displayName}</span>
                         <span className="user_tweet">{parentTweet.text}</span>
                         {parentTweet.attachmentUrl && (
                             <div className="reply_attachment">
-                                <img src={parentTweet.attachmentUrl} style={{ backgroundImage : attachment }} />
+                                <img src={parentTweet.attachmentUrl} alt='tweet attachment' style={{ backgroundImage : attachment }} />
                             </div>
                         )}
                         <span className="user_reply_info">Replying to <span className="user_email">{parentInfo.email}</span></span>
@@ -97,7 +98,7 @@ const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile, se
 
                 <div className="tweet_modal_content_container">
                     <div className="user_img_container">
-                        <img src={userObj.photoURL} /> 
+                        <img src={userObj.photoURL} alt='user image' /> 
                     </div>
 
                     <div className="user_tweet_container">
@@ -107,7 +108,7 @@ const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile, se
 
                         {attachment && (
                             <div className="reply_attachment">
-                                <img src={attachment} style={{ backgroundImage : attachment }} />
+                                <img src={attachment} alt='attachment' style={{ backgroundImage : attachment }} />
 
                                 <div className="reply_clear" onClick={onClearImage}>
                                     <FontAwesomeIcon icon={faTimes} />

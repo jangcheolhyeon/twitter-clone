@@ -71,7 +71,7 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, emailHo
             {emailHoverState ? (
                 <div className="user_info_hover_top_container">
                     <div className="user_info_hover_img_container">
-                        <img src={user.userImage} />
+                        <img src={user.userImage} alt='user Image' />
                     </div>
                     {user.userId === userObj.uid ? (
                         <>
@@ -96,7 +96,7 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, emailHo
             ) : (
                 <>
                     <div className="user_image_container">
-                        <img src={user.userImage} />
+                        <img src={user.userImage} alt='user Image' />
                     </div>
                     <div className="user_display_name">
                         <span>{user.displayName}</span>

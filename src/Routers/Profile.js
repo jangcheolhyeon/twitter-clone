@@ -1,6 +1,6 @@
 import { updateProfile } from 'firebase/auth';
-import React, { useEffect, useRef, useState } from 'react';
-import { collection, getDocs, query, where, orderBy, updateDoc, doc, onSnapshot } from "firebase/firestore";
+import React, { useEffect, useState } from 'react';
+import { updateDoc, doc } from "firebase/firestore";
 import { authService, db, storageService } from 'fbase';
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
@@ -18,7 +18,6 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
     const [modalOpen, setModalOpen] = useState(false);
     const [myTweetList, setMyTweetList] = useState(null);
     const [tweets, setTweets] = useState([]);
-    const [defaultMessages, setDefaultMessages] = useState(null);
     const [currentNavi, setCurrentNavi] = useState({
         Tweets : true,
         TweetsReplies : false,
@@ -36,11 +35,32 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
         }))
         setTweets(messages);
 
-    };
+    }
+
+    const sortTweetList = () => {
+        if(usersProfile.length === 0) return null;
+        if(myTweetList === null) return null;
+        
+        let isPin = usersProfile.filter(element => element.userId === userObj.uid)[0];
+
+        if(isPin.pin.length !== 0){
+            let pinIndex = myTweetList.findIndex(element => element.id === isPin.pin);
+            let changeMessages = [...myTweetList];
+            
+            changeMessages.splice(pinIndex, 1);
+            let pinContent = myTweetList.filter(element => element.id === isPin.pin)[0];
+            changeMessages.unshift(pinContent);
+            setMyTweetList(changeMessages);
+        } else if(isPin.pin.length ===0){
+            getMyTweets();
+        }
+    }
+
+
 
     useEffect(() => {
         sortTweetList();
-    }, [tweets])
+    }, [tweets, sortTweetList])
 
     const onChangeUserProfile = async(event) => {
         event.preventDefault();
@@ -95,39 +115,16 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
             setUsersProfile(newUsersProfile);
         }
         setCurrentPage('profile');
-        console.log("useEffect currentUSer", currentUser);
     }, []);
     
     useEffect(() => {
         getMyTweets();
         sortTweetList();
-    }, [currentPage])
+    }, [currentPage, getMyTweets, sortTweetList])
 
     useEffect(() => {
-        setDefaultMessages(myTweetList); 
         sortTweetList();
-    }, [usersProfile])
-
-
-    const sortTweetList = () => {
-        if(usersProfile.length === 0) return null;
-        if(myTweetList === null) return null;
-        
-        setDefaultMessages(myTweetList); 
-        let isPin = usersProfile.filter(element => element.userId === userObj.uid)[0];
-
-        if(isPin.pin.length !== 0){
-            let pinIndex = myTweetList.findIndex(element => element.id === isPin.pin);
-            let changeMessages = [...myTweetList];
-            
-            changeMessages.splice(pinIndex, 1);
-            let pinContent = myTweetList.filter(element => element.id === isPin.pin)[0];
-            changeMessages.unshift(pinContent);
-            setMyTweetList(changeMessages);
-        } else if(isPin.pin.length ===0){
-            getMyTweets();
-        }
-    }
+    }, [usersProfile, sortTweetList])
 
     const onChangeDisplayName = (event) => {
         const {target : {value}} = event;
@@ -242,17 +239,12 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
 
     if(usersProfile.length === 0) return null;
 
-    console.log("userObj", userObj);
-    console.log("currentUSer", currentUser);
-
     return(
         <>
             { modalOpen && <ModalUpdateProfile userAttachment={userAttachment} onUserAttachment={onUserAttachment} onUserBackgroundAttachment={onUserBackgroundAttachment} newDisplayName={newDisplayName} onChangeDisplayName={onChangeDisplayName} onChangeUserProfile={onChangeUserProfile} setModalOpen={setModalOpen} userBackgroundAttachment={userBackgroundAttachment} />}
             <div className='container'>
                 <div className='background_container'>
                     {userBackgroundAttachment && (
-                        // <img src={userBackgroundAttachment} />
-                        // <img src={currentUser.backgroundImg} />
                         <img src={changedUserBackgroundAttachment} />
                     )}
                 </div>

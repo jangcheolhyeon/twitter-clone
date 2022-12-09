@@ -6,7 +6,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faImage } from "@fortawesome/free-solid-svg-icons";
 
-const TweetFactory = ({ userObj, retweetState, parentBundle }) => {
+const TweetFactory = ({ userObj, retweetState, parentBundle, updateCountNumber }) => {
     const [message, setMessage] = useState('');
     const [attachment, setAttachment] = useState('');
 
@@ -49,6 +49,7 @@ const TweetFactory = ({ userObj, retweetState, parentBundle }) => {
             isDeleted : false,
         }
 
+        updateCountNumber();
         await addDoc(collection(db, 'tictoc'), tweetObj);
 
         setMessage('');
@@ -76,7 +77,7 @@ const TweetFactory = ({ userObj, retweetState, parentBundle }) => {
         <>
             <form className="factoryForm" onSubmit={onSubmit}>
                 <div className="user_image_container">
-                    <img src={userObj.photoURL} />
+                    <img src={userObj.photoURL} alt='user image' />
                 </div>
 
                 <div className="tweet_input_container">
@@ -84,7 +85,7 @@ const TweetFactory = ({ userObj, retweetState, parentBundle }) => {
 
                     {attachment && (
                         <div className="factoryForm__attachment">
-                            <img src={attachment} style={{ backgroundImage : attachment }} />
+                            <img src={attachment} style={{ backgroundImage : attachment }} alt='attachment' />
 
                             <div className="factoryForm__clear" onClick={onClearImage}>
                                 <FontAwesomeIcon icon={faTimes} />

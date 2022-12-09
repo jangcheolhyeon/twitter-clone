@@ -6,7 +6,6 @@ import { faCamera, faLeftLong, faXmark, faImage } from "@fortawesome/free-solid-
 const ModalUpdateProfile = ({ userAttachment, onUserAttachment, onUserBackgroundAttachment, newDisplayName, onChangeDisplayName, onChangeUserProfile, setModalOpen, userBackgroundAttachment, }) => {
     const [cameraHover, setCameraHover] = useState(false);
     const [backgroundIconHover, setBackgroundIconHover] = useState(false);
-    const [nextPage, setNextPage] = useState(false);
     const pageIndex = ['page1', 'page2', 'page3'];
     const [currentPageIndex, setCurrentPageIndex] = useState(pageIndex[0]);
 
@@ -39,7 +38,7 @@ const ModalUpdateProfile = ({ userAttachment, onUserAttachment, onUserBackground
                         </div>
 
                         <div className="modal_update_user_img modal_update_container">
-                            <img src={userAttachment} />
+                            <img src={userAttachment} alt='attachment' />
                             <div className="modal_update_camera" 
                                 onMouseOver={() => {setCameraHover(true)}}
                                 onMouseOut={() => {setCameraHover(false)}}
@@ -80,7 +79,7 @@ const ModalUpdateProfile = ({ userAttachment, onUserAttachment, onUserBackground
                         </div>
 
                         <div className="update_background_img_container modal_update_container">
-                            {userBackgroundAttachment && <img src={userBackgroundAttachment} />}
+                            {userBackgroundAttachment && <img src={userBackgroundAttachment} alt='user background Image' />}
                             <div className="modal_update_background"
                                 onMouseOver={() => {setBackgroundIconHover(true)}}
                                 onMouseOut={() => {setBackgroundIconHover(false)}}
@@ -127,68 +126,6 @@ const ModalUpdateProfile = ({ userAttachment, onUserAttachment, onUserBackground
                     </>
                 )}
 
-                {/* {nextPage ? (
-                    <>
-                        <div className="modal_update_display_name_top">
-                            <FontAwesomeIcon icon={faLeftLong} onClick={() => setModalOpen(false)} />
-                            <FontAwesomeIcon icon={faTwitter} />
-                        </div>
-                        <div className="modal_update_content">
-                            <span className="modal_upload_header">
-                                Update your nickname
-                            </span>
-                            <span className="modal_upload_text">
-                                Have a favorite name? Upload it now.
-                            </span>
-                        </div>
-                        <div className="update_display_name_text">
-                            <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChangeDisplayName} />
-                        </div>
-                        <div className="modal_update_skip_btn">
-                            <button onClick={onChangeUserProfile}>SAVE</button>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div className="modal_update_display_name_top">
-                            <FontAwesomeIcon icon={faXmark} onClick={() => {setModalOpen(false)}} />
-                            <FontAwesomeIcon icon={faTwitter} />
-                        </div>
-                        <div className="modal_update_content">
-                            <span className="modal_upload_header">
-                                Pick a profile picture
-                            </span>
-                            <span className="modal_upload_text">
-                                Have a favorite selfie? Upload it now.
-                            </span>
-                            
-                            <div className="modal_update_skip_btn">
-                            <button onClick={() => {setNextPage(true)}}>Next</button>
-                        </div>
-                        </div>
-                        <div className="modal_update_user_img">
-                            <img src={userAttachment} />
-                            <div className="modal_update_camera">
-                                <label htmlFor="attach-file">
-                                    <FontAwesomeIcon icon={faCamera} 
-                                        onMouseOver={() => {setCameraHover(true)}}
-                                        onMouseOut={() => {setCameraHover(false)}}
-                                    />
-                                </label>
-                                <input type="file" id="attach-file" accept='image/*' onChange={onUserAttachment} className="modal_update_input_user_img" />
-
-                                {cameraHover && 
-                                    <div className="modal_update_img_hover">
-                                        <span>add</span>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                        <div className="modal_update_skip_btn">
-                            <button onClick={() => {setNextPage(true)}}>Next</button>
-                        </div>
-                    </>
-                )} */}
             </div>
         </div>
     )

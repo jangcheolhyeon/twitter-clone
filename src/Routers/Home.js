@@ -3,9 +3,8 @@ import { db } from 'fbase';
 import { collection, addDoc } from "firebase/firestore"; 
 import Tweet from 'components/Tweet';
 import TweetFactory from 'components/TweetFactory';
-import ToastNotification from 'components/ToastNotification';
 
-const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText }) => {
+const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, updateCountNumber }) => {
 
     useEffect(() => {
         window.scrollTo({top:0, behavior:'smooth'});
@@ -30,6 +29,9 @@ const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, s
         }
 
     }, [userObj])
+    
+    console.log("tweet", messages);
+    console.log("usersProfile", usersProfile);
 
     const insertUser = async() => {
         await addDoc(collection(db, 'usersInfo'), {
@@ -51,18 +53,14 @@ const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, s
             <div className="container">
                 <div className="content_container">
                     <div className="write_tweet_container">
-                        <TweetFactory userObj={userObj} setRetweetState={setRetweetState} retweetState={reTweetState} parentBundle={parentBundle} />
+                        <TweetFactory userObj={userObj} setRetweetState={setRetweetState} retweetState={reTweetState} parentBundle={parentBundle} updateCountNumber={updateCountNumber} />
                     </div>
 
                     <div className='tictoc_container'>
                         {messages.map((element) => {
-                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setUsersProfile={setUsersProfile} />
+                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setUsersProfile={setUsersProfile} updateCountNumber={updateCountNumber} />
                         })}
                     </div>
-
-                    {/* {toastAlert &&
-                        <ToastNotification text={toastText} setToastAlert={setToastAlert}/>
-                    } */}
                 </div>
             </div>
         </>

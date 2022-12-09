@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Auth from 'Routers/Auth';
 import Home from 'Routers/Home';
@@ -37,6 +37,7 @@ const AppRouter = () => {
             })
             setMessages(newMessages);
         })
+
     }, []);
 
     useEffect(() => {
@@ -80,7 +81,7 @@ const AppRouter = () => {
     const refreshUserObj = () => {
         setUserObj(getAuth().currentUser);
     }
-    
+
     return(
         <>
             <Router>
@@ -91,13 +92,13 @@ const AppRouter = () => {
                     }
 
                     {isLoggedIn && <TopNavi currentPage={currentPage} userObj={userObj}/>}
-                    {isLoggedIn && <Navigation userObj={userObj} retweetState={reTweetState} parentBundle={parentBundle} setUserObj={setUserObj}/>}
+                    {isLoggedIn && <Navigation userObj={userObj} retweetState={reTweetState} parentBundle={parentBundle} setUserObj={setUserObj} />}
                         <Routes>
                             {isLoggedIn ? (
                                 <>
                                     <Route path='/' element={<Home userObj={userObj} setUserObj={setUserObj} messages={messages} usersProfile={usersProfile} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} reTweetState={reTweetState} setRetweetState={setRetweetState} parentBundle={parentBundle} setParentBundle={setParentBundle} setTweetDetail={setTweetDetail} toastAlert={toastAlert} setToastAlert={setToastAlert} toastText={toastText} setToastText={setToastText} />} />
                                     <Route path='/profile' element={<Profile messages={messages} refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} />} />
-                                    <Route path='/details' element={<Details messages={messages} tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} usersProfile={usersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText} />} />
+                                    <Route path='/details' element={<Details messages={messages} tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} usersProfile={usersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText}/>} />
                                     <Route path='/detailsParent' element={<Details messages={messages} tweetDetail={tweetDetail} current={currentPage} currentPage={currentPage} setCurrentPage={setCurrentPage} usersProfile={usersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText} />} />
                                 </>
                             ) : (

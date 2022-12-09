@@ -12,13 +12,11 @@ import { useNavigate } from "react-router-dom";
 import DeleteModal from "components/DeleteModal";
 import UserInfoHover from "components/UserInfoHover";
 
-const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, }) => {
-    const [newText, setNewText] = useState(tictoc.text);
+const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, updateCountNumber }) => {
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
     const [replyList, setReplyList] = useState([]);
     const [replyState, setReplyState] = useState(false);
-    const [retweetList, setRetweetList] = useState([]);
     const [likeState, setLikeState] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
     const [enrollDate, setEnrollDate] = useState();
@@ -46,8 +44,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         setToastAlert(true);
         setToastText('Your Tweet was Deleted');
 
-
-
         await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
         if(tictoc.attachmentUrl !== null || tictoc.attachmentUrl !== ""){
             await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
@@ -62,18 +58,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const onDeleteModal = (event) => {
         event.stopPropagation();
         setDeleteModal(true);
-    }
-
-    const onChangeNewText = (e) => {
-        setNewText(e.target.value);
-    }
-
-    const onUpdateTweetText = async(event) => {
-        event.preventDefault();
-
-        await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
-            text : newText
-        } );
     }
         
     useEffect(() => {
@@ -94,7 +78,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                 }
             })
             setReplyList(comments.filter(element => {return element.child === true}));
-            setRetweetList(comments.filter(element => {return element.retweet === true}));
         })
 
         setLikeState(likeStateInit());
@@ -307,12 +290,12 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
 
     return(
         <>
-            {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen}/>}
-            {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} />}
+            {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen} updateCountNumber={updateCountNumber} />}
+            {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} updateCountNumber={updateCountNumber} />}
             {deleteModal && <DeleteModal onDeleteTweet={onDeleteTweet} onDeleteModalCancel={onDeleteModalCancel} />}
             <div className={currentPage === 'home' && emailHover === false && userImgHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" || currentPage === "profile" ? onTweetClick : undefined}>
                 <div className="tweet_user_photo_container">
-                    <img src={userPhoto} className={userImgHover ? 'user_photo_image activing_user_photo_image' : 'user_photo_image'}
+                    <img src={userPhoto} alt="user image" className={userImgHover ? 'user_photo_image activing_user_photo_image' : 'user_photo_image'}
                         onMouseOver={() => { setUserImgHover(true); }} 
                         onMouseOut={() => { userImgTimer.current = setTimeout(() => {
                             setUserImgHover(false);
@@ -356,7 +339,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                                 onMouseOut={() => { setThreedotsHover(false) }}
                                 onClick={onThreedotsToggle}
                                 ref={dotsRef}
-                                />
+                            />
                                 {threedotsHover && 
                                     (
                                         <div className="action_hover">
@@ -420,7 +403,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
 
                     {tictoc.attachmentUrl && 
                         <div className="user_tweet_image_container">
-                            <img src={tictoc.attachmentUrl} />
+                            <img src={tictoc.attachmentUrl} alt="writer image" />
                         </div>
                     }
 
@@ -428,7 +411,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                         <div className="tictoc_retweet_content_container">
                             <div className={currentPage === "details" || currentPage === "profile" ? "retweet_content_container tweet_home" : "retweet_content_container"} onClick={currentPage === "details" ? onTweetClick : undefined}>
                                 <div className="retweet_top">
-                                    <img src={retweetParentInfo.userImage} />
+                                    <img src={retweetParentInfo.userImage} alt='retweet user Image' />
                                     <span>{retweetParentInfo.displayName}</span>
                                     <span className="user_email">@{retweetParentInfo.email.split('@')[0]}</span>
                                 </div>
@@ -438,7 +421,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
 
                                 {tictoc.retweetAttachment && (
                                     <div className="retweet_img">
-                                        <img src={tictoc.retweetAttachment} style={{ backgroundImage : tictoc.retweetAttachment }} />
+                                        <img src={tictoc.retweetAttachment} style={{ backgroundImage : tictoc.retweetAttachment }} alt='retweet user Image' />
                                     </div>
                                 )}
                             </div>

@@ -7,7 +7,7 @@ import TweetModal from "components/TweetModal";
 import { getAuth, signOut } from "firebase/auth";
 
 
-const Navigation = ({ userObj, retweetState, parentBundle }) => {
+const Navigation = ({ userObj, retweetState, parentBundle,  }) => {
     const iconColor = "white";
     const iconSize = "2x";
     const [tweetModal, setTweetModal] = useState(false);

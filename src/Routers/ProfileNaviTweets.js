@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faEllipsis, faUserPlus, faCommentDots } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 import RecommendFriend from "components/RecommendFriend";
 import Tweet from "components/Tweet";
 

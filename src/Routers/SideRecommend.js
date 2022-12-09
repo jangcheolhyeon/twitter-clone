@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import RecommendFriend from "components/RecommendFriend";
 
 const SideRecommend = ({ usersProfile, userObj, setUsersProfile }) => {
