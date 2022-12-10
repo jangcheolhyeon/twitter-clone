@@ -4,7 +4,7 @@ import { collection, addDoc } from "firebase/firestore";
 import Tweet from 'components/Tweet';
 import TweetFactory from 'components/TweetFactory';
 
-const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, updateCountNumber }) => {
+const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, updateCountNumber, setProfileLoading }) => {
 
     useEffect(() => {
         window.scrollTo({top:0, behavior:'smooth'});
@@ -29,9 +29,6 @@ const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, s
         }
 
     }, [userObj])
-    
-    console.log("tweet", messages);
-    console.log("usersProfile", usersProfile);
 
     const insertUser = async() => {
         await addDoc(collection(db, 'usersInfo'), {
@@ -50,19 +47,27 @@ const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, s
 
     return(
         <>
-            <div className="container">
-                <div className="content_container">
-                    <div className="write_tweet_container">
-                        <TweetFactory userObj={userObj} setRetweetState={setRetweetState} retweetState={reTweetState} parentBundle={parentBundle} updateCountNumber={updateCountNumber} />
-                    </div>
+        {usersProfile.length === 0 ? (
+            <div className='container'>
+    
+            </div>
+        ) : (
+            <>
+                <div className="container">
+                    <div className="content_container">
+                        <div className="write_tweet_container">
+                            <TweetFactory userObj={userObj} setRetweetState={setRetweetState} retweetState={reTweetState} parentBundle={parentBundle} updateCountNumber={updateCountNumber} />
+                        </div>
 
-                    <div className='tictoc_container'>
-                        {messages.map((element) => {
-                            return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setUsersProfile={setUsersProfile} updateCountNumber={updateCountNumber} />
-                        })}
+                        <div className='tictoc_container'>
+                            {messages.map((element) => {
+                                return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setUsersProfile={setUsersProfile} updateCountNumber={updateCountNumber} />
+                            })}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
+        )}
         </>
     );
 }

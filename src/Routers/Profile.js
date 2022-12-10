@@ -60,7 +60,7 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
 
     useEffect(() => {
         sortTweetList();
-    }, [tweets, sortTweetList])
+    }, [tweets])
 
     const onChangeUserProfile = async(event) => {
         event.preventDefault();
@@ -115,16 +115,24 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
             setUsersProfile(newUsersProfile);
         }
         setCurrentPage('profile');
+
     }, []);
+
+    // useEffect(() => {
+    //     setProfileLoading(false);
+    //     return () => {
+    //         setProfileLoading(true);
+    //     }
+    // }, [])
     
     useEffect(() => {
         getMyTweets();
         sortTweetList();
-    }, [currentPage, getMyTweets, sortTweetList])
+    }, [currentPage])
 
     useEffect(() => {
         sortTweetList();
-    }, [usersProfile, sortTweetList])
+    }, [usersProfile,])
 
     const onChangeDisplayName = (event) => {
         const {target : {value}} = event;
@@ -232,64 +240,66 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
         setModalOpen((prev) => !prev);
     }
 
-     
-    if(myTweetList === null) {
-        return null;
-    }
-
-    if(usersProfile.length === 0) return null;
-
     return(
         <>
-            { modalOpen && <ModalUpdateProfile userAttachment={userAttachment} onUserAttachment={onUserAttachment} onUserBackgroundAttachment={onUserBackgroundAttachment} newDisplayName={newDisplayName} onChangeDisplayName={onChangeDisplayName} onChangeUserProfile={onChangeUserProfile} setModalOpen={setModalOpen} userBackgroundAttachment={userBackgroundAttachment} />}
-            <div className='container'>
-                <div className='background_container'>
-                    {userBackgroundAttachment && (
-                        <img src={changedUserBackgroundAttachment} />
-                    )}
+            {myTweetList === null || usersProfile.length === 0 ? (
+                <div className='container'>
                 </div>
+            ) : (
+                <>
+                    { modalOpen && <ModalUpdateProfile userAttachment={userAttachment} onUserAttachment={onUserAttachment} onUserBackgroundAttachment={onUserBackgroundAttachment} newDisplayName={newDisplayName} onChangeDisplayName={onChangeDisplayName} onChangeUserProfile={onChangeUserProfile} setModalOpen={setModalOpen} userBackgroundAttachment={userBackgroundAttachment} />}
+                    <div className='container'>
+                        <div className='background_container'>
+                            {userBackgroundAttachment && (
+                                <img src={changedUserBackgroundAttachment} />
+                            )}
+                        </div>
 
-                <div className='my_profile_container'>
-                    <div className='my_profile_container_top'>
-                        <img src={userObj.photoURL} />
-                        <button onClick={handleUpdateProfile}>Set up profile</button>
-                    </div>
-                </div>
+                        <div className='my_profile_container'>
+                            <div className='my_profile_container_top'>
+                                <img src={userObj.photoURL} />
+                                <button onClick={handleUpdateProfile}>Set up profile</button>
+                            </div>
+                        </div>
 
-                <div className='my_profile_info_container'>
-                    <span className='user_name'>{userObj.displayName}</span>
-                    <span className='user_email'>{userObj.email}</span>
-                    <div className='follow_follower_info'>
-                        <span>
-                            <span className='number'>{followingCnt}</span> Following
-                        </span>
-                        <span>
-                            <span className='number'>{followersCnt}</span> Followers
-                        </span>
-                    </div>
-                </div>
-                
-                <div className='my_trace_navi'>
-                    <div className={currentNavi.Tweets ? "my_trace_box tweets tweets_active" : "my_trace_box tweets"} onClick={() => handleTraceClick('Tweets')}>
-                        <span>Tweets</span>
-                    </div>
-                    <div className={currentNavi.TweetsReplies ? 'my_trace_box tweets_replies tweets_replies_active' : 'my_trace_box tweets_replies'} onClick={() => handleTraceClick('TweetsReplies')}>
-                        <span>Tweets & replies</span>
-                    </div>
-                    <div className={currentNavi.Media ? 'my_trace_box media media_active' : 'my_trace_box media'} onClick={() => handleTraceClick('Media')}>
-                        <span>Media</span>
-                    </div>
-                    <div className={currentNavi.Likes ? 'my_trace_box likes likes_active' : 'my_trace_box likes'} onClick={() => handleTraceClick('Likes')}>
-                        <span>Likes</span>
-                    </div>
-                </div>
+                        <div className='my_profile_info_container'>
+                            <span className='user_name'>{userObj.displayName}</span>
+                            <span className='user_email'>{userObj.email}</span>
+                            <div className='follow_follower_info'>
+                                <span>
+                                    <span className='number'>{followingCnt}</span> Following
+                                </span>
+                                <span>
+                                    <span className='number'>{followersCnt}</span> Followers
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div className='my_trace_navi'>
+                            <div className={currentNavi.Tweets ? "my_trace_box tweets tweets_active" : "my_trace_box tweets"} onClick={() => handleTraceClick('Tweets')}>
+                                <span>Tweets</span>
+                            </div>
+                            <div className={currentNavi.TweetsReplies ? 'my_trace_box tweets_replies tweets_replies_active' : 'my_trace_box tweets_replies'} onClick={() => handleTraceClick('TweetsReplies')}>
+                                <span>Tweets & replies</span>
+                            </div>
+                            <div className={currentNavi.Media ? 'my_trace_box media media_active' : 'my_trace_box media'} onClick={() => handleTraceClick('Media')}>
+                                <span>Media</span>
+                            </div>
+                            <div className={currentNavi.Likes ? 'my_trace_box likes likes_active' : 'my_trace_box likes'} onClick={() => handleTraceClick('Likes')}>
+                                <span>Likes</span>
+                            </div>
+                        </div>
 
-                {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} tictoc={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} />}
-                {currentNavi.TweetsReplies && <ProfileNaviTweets_Replies usersProfile={usersProfile} userObj={userObj} setUsersProfile={setUsersProfile} />}
-                {currentNavi.Media && <ProfileNaviMedia usersProfile={usersProfile} userObj={userObj} />}
-                {currentNavi.Likes && <ProfileNaviLikes userObj={userObj} tweets={tweets} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />}
-            </div>
+                    {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} tictoc={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} />}
+                    {currentNavi.TweetsReplies && <ProfileNaviTweets_Replies usersProfile={usersProfile} userObj={userObj} setUsersProfile={setUsersProfile} />}
+                    {currentNavi.Media && <ProfileNaviMedia usersProfile={usersProfile} userObj={userObj} />}
+                    {currentNavi.Likes && <ProfileNaviLikes userObj={userObj} tweets={tweets} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />}
+                    </div>
+                </>
+            )}
         </>
+
+
     );
 }
 
