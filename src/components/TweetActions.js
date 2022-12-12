@@ -1,8 +1,8 @@
 import React from "react";
-import ActionComment from "./TweetAction/ActionComment";
-import ActionLike from "./TweetAction/ActionLike";
-import ActionRetweet from "./TweetAction/ActionRetweet";
-import ActionShare from "./TweetAction/ActionShare";
+import ActionComment from "components/TweetAction/ActionComment";
+import ActionLike from "components/TweetAction/ActionLike";
+import ActionRetweet from "components/TweetAction/ActionRetweet";
+import ActionShare from "components/TweetAction/ActionShare";
 
 const TweetActions = ({ tictoc, userObj, onReplyModalToggle, retweetHover, setRetweetHover, retweetActive, setRetweetActive, onRetweetModalToggle, setToastAlert, setToastText }) => {
     return(

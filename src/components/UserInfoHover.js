@@ -1,5 +1,5 @@
 import React from "react";
-import RecommendFriend from "./RecommendFriend";
+import RecommendFriend from "components/RecommendFriend";
 
 const UserInfoHover = ({ userInfo, userObj, usersProfile, setUsersProfile, timerRef, setUserInfoHover, isUserImgHover }) => {
 

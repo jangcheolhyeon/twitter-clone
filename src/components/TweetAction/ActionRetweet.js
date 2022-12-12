@@ -4,8 +4,6 @@ import { db } from "fbase";
 import { doc, updateDoc } from "firebase/firestore";
 import { faRetweet } from "@fortawesome/free-solid-svg-icons";
 
-
-
 const ActionRetweet = ({ tictoc, userObj, retweetHover, setRetweetHover, retweetActive, setRetweetActive, onRetweetModalToggle, setToastAlert, setToastText }) => {
     const retweetRef = useRef();
     const [replyState, setReplyState] = useState(false);
@@ -34,7 +32,6 @@ const ActionRetweet = ({ tictoc, userObj, retweetHover, setRetweetHover, retweet
             onRetweetToggle(event);
         }
     }
-
 
     const replyStateInit = () => {
         if(tictoc.reply_users.includes(userObj.uid)){

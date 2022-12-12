@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import UserInfoHover from "./UserInfoHover";
+import UserInfoHover from "components/UserInfoHover";
 
 const ReplyingTweet = ({ tictoc, emailHover, setEmailHover, userObj, usersProfile, setUsersProfile }) => {
     const emailTimer = useRef();

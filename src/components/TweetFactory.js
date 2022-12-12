@@ -6,7 +6,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faImage } from "@fortawesome/free-solid-svg-icons";
 
-const TweetFactory = ({ userObj, retweetState, parentBundle, updateCountNumber }) => {
+const TweetFactory = ({ userObj, retweetState, parentBundle }) => {
     const [message, setMessage] = useState('');
     const [attachment, setAttachment] = useState('');
 
@@ -49,7 +49,6 @@ const TweetFactory = ({ userObj, retweetState, parentBundle, updateCountNumber }
             isDeleted : false,
         }
 
-        updateCountNumber();
         await addDoc(collection(db, 'tictoc'), tweetObj);
 
         setMessage('');

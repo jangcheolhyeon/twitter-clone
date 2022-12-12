@@ -4,10 +4,10 @@ import { updateDoc, doc } from "firebase/firestore";
 import { authService, db, storageService } from 'fbase';
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
-import ProfileNaviTweets from './ProfileNaviTweets';
-import ProfileNaviTweets_Replies from './ProfileNaviTweets_Replies';
-import ProfileNaviMedia from './ProfileNaviMedia';
-import ProfileNaviLikes from './ProfileNaviLikes';
+import ProfileNaviTweets from 'Routers/ProfileNaviTweets';
+import ProfileNaviTweets_Replies from 'Routers/ProfileNaviTweets_Replies';
+import ProfileNaviMedia from 'Routers/ProfileNaviMedia';
+import ProfileNaviLikes from 'Routers/ProfileNaviLikes';
 import ModalUpdateProfile from 'components/ModalUpdateProfile';
 
 const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile, setTweetDetail }) => {
@@ -117,13 +117,6 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
         setCurrentPage('profile');
 
     }, []);
-
-    // useEffect(() => {
-    //     setProfileLoading(false);
-    //     return () => {
-    //         setProfileLoading(true);
-    //     }
-    // }, [])
     
     useEffect(() => {
         getMyTweets();

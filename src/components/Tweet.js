@@ -1,22 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { doc, deleteDoc, updateDoc, query, collection, onSnapshot } from 'firebase/firestore';
-import { deleteObject, ref } from "firebase/storage";
-import { storageService, db } from 'fbase';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { faRetweet, faCommentDots, faArrowUpFromBracket, faThumbtack } from "@fortawesome/free-solid-svg-icons";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
 import ReplyMdoal from "components/ReplyModal";
 import RetweetModal from "components/RetweetModal";
 import { useNavigate } from "react-router-dom";
-import DeleteModal from "components/DeleteModal";
-import UserInfoHover from "components/UserInfoHover";
-import UserImg from "./UserImg";
-import DeleteTweet from "./DeleteTweet";
-import TweetThreeDots from "./TweetThreeDots";
-import ReplyingTweet from "./ReplyingTweet";
-import RetweetTweet from "./RetweetTweet";
-import TweetActions from "./TweetActions";
+import UserImg from "components/UserImg";
+import DeleteTweet from "components/DeleteTweet";
+import TweetThreeDots from "components/TweetThreeDots";
+import ReplyingTweet from "components/ReplyingTweet";
+import RetweetTweet from "components/RetweetTweet";
+import TweetActions from "components/TweetActions";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, updateCountNumber }) => {
     const [userName, setUserName] = useState();
@@ -83,11 +76,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     
     const userInfo = usersProfile.filter(element => element.userId === userObj.uid)[0];
 
-    let retweetParentInfo;
-    if(tictoc.retweet !== undefined && tictoc.retweet === true){
-        retweetParentInfo = usersProfile.filter(element => element.userId === tictoc.retweetParentInfo.userId)[0];
-    }
-
     return(
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen} updateCountNumber={updateCountNumber} />}
@@ -129,10 +117,11 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                     }
 
                     {tictoc.retweet &&  
-                        <RetweetTweet currentPage={currentPage} onTweetClick={onTweetClick} retweetParentInfo={retweetParentInfo} tictoc={tictoc} />
+                        <RetweetTweet currentPage={currentPage} onTweetClick={onTweetClick} tictoc={tictoc} usersProfile={usersProfile} />
                     }
 
                     <div className="action_container">
+
                         <TweetActions 
                             tictoc={tictoc} 
                             userObj={userObj} 
@@ -145,130 +134,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                             setToastText={setToastText}
                             onRetweetModalToggle={onRetweetModalToggle}
                         />
-                        {/* <div className="action_comment_container" 
-                            onMouseOver={() => { setCommentHover(true) }}
-                            onMouseOut={() => { setCommentHover(false) }}
-                            onClick={onReplyModalToggle}
-                        >
-                            {commentHover ? (
-                                <FontAwesomeIcon icon={faCommentDots} className="icons comment_dots_hover" />
-                            ) : (
-                                <FontAwesomeIcon icon={faCommentDots} className="icons" />
-                            )}
-                            <span>{replyList.filter(element => { return element.parentReplyInfoDetail.id === tictoc.id }).length}</span>
-                            {commentHover && 
-                                (
-                                    <div className="action_hover"> 
-                                        Reply
-                                    </div>
-                                )
-                            }
-                        </div>
-                        
-                        <div className="action_retweet_container" ref={retweetRef} onClick={onRetweetToggle}
-                            onMouseOver={() => { setRetweetHover(true) }}
-                            onMouseOut={() => { setRetweetHover(false) }}
-                            
-                        >
-                            {retweetHover ? (
-                                <FontAwesomeIcon icon={faRetweet} className={replyState ? "icons retweet_hover" : "icons retweet_hover"}/>
-                            ) : (
-                                <>
-                                {replyState ? (
-                                        <FontAwesomeIcon icon={faRetweet} className={replyState ? "icons retweet_hover retweet_state" : "icons retweet_state" } />
-                                    ) : (
-                                        <FontAwesomeIcon icon={faRetweet} className={replyState ? "icons retweet_hover" : "icons" } />
-                                    )}
-                                </>
-                            )}
 
-                            <span className={replyState && "retweet_state_num"}>{tictoc.reply_users.length}</span>
-                            
-                            {retweetHover &&
-                                (
-                                    <div className="action_hover"> 
-                                        {replyState ? "undo retweet" : "retweet"}
-                                    </div>
-                                )
-                            }
-
-                            {retweetActive && (
-                                <div className="tictoc_active_box">
-                                    <ul>
-                                        {replyState ? (
-                                            <li onMouseDown={onClickReply}
-                                            >Undo Retweet</li>
-                                        ) : (
-                                            <li onMouseDown={onClickReply}
-                                            >Retweet</li>
-                                        )}
-                                        <li onClick={onRetweetModalToggle}>Quote Tweet</li>
-                                    </ul>
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="action_like_container"
-                            onMouseOver={() => { setLikeHover(true) }}
-                            onMouseOut={() => { setLikeHover(false) }}
-                        >
-                            {likeState ? (
-                                <>
-                                    {likeHover ? (
-                                        <FontAwesomeIcon icon={faHeart} className="icons hearted heart_hover" onClick={onClickLike} />
-                                    ) : (
-                                        <FontAwesomeIcon icon={faHeart} className="icons hearted" onClick={onClickLike} />
-                                    )}
-                                    <span className="hearted">{likeCount}</span>
-                                    {likeHover && (
-                                        <div className="action_hover">
-                                            UnLike
-                                        </div>
-                                    )}
-                                </>
-                            ) : (
-                                <>
-                                    {likeHover ? (
-                                        <FontAwesomeIcon icon={faHeart} className="icons heart_hover" onClick={onClickLike} />
-                                    ) : (
-                                        <FontAwesomeIcon icon={faHeart} className="icons" onClick={onClickLike} />
-                                    )}
-                                    <span>{likeCount}</span>
-                                    {likeHover && (
-                                        <div className="action_hover">
-                                            Like
-                                        </div>
-                                    )}
-                                </>
-                            )}
-                        </div>
-
-                        <div className="action_share_container"
-                            onMouseOver={() => { setShareHover(true) }}
-                            onMouseOut={() => { setShareHover(false) }}
-                        >
-                            {shareHover ? (
-                                <FontAwesomeIcon icon={faArrowUpFromBracket} className="icons share_icon share_hover" ref={shareRef} onClick={onShareToggle}/>
-                            ) : (
-                                <FontAwesomeIcon icon={faArrowUpFromBracket} className="icons share_icon" ref={shareRef} onClick={onShareToggle}/>
-                            )}
-
-                            {shareHover && (
-                                <div className="action_hover">
-                                    share
-                                </div>
-                            )}
-
-                            {shareActive && (
-                                <div className="tictoc_active_box">
-                                    <ul>
-                                        <li onMouseDown={() => onClickCopyLink('www.abc.com')}>Copy link to Tweet</li>
-                                        <li>share Tweet</li>
-                                        <li>BookMark</li>
-                                    </ul>
-                                </div>
-                            )}
-                        </div> */}
                     </div>
                 </div>
             </div>

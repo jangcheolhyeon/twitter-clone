@@ -1,6 +1,11 @@
 import React from "react";
 
-const RetweetTweet = ({ currentPage, onTweetClick, retweetParentInfo, tictoc,  }) => {
+const RetweetTweet = ({ currentPage, onTweetClick, tictoc, usersProfile }) => {
+    let retweetParentInfo;
+    if(tictoc.retweet !== undefined && tictoc.retweet === true){
+        retweetParentInfo = usersProfile.filter(element => element.userId === tictoc.retweetParentInfo.userId)[0];
+    }
+
     return(
         <>
             <div className="tictoc_retweet_content_container">
