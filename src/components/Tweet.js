@@ -13,6 +13,7 @@ import DeleteModal from "components/DeleteModal";
 import UserInfoHover from "components/UserInfoHover";
 import UserImg from "./UserImg";
 import DeleteTweet from "./DeleteTweet";
+import TweetThreeDots from "./TweetThreeDots";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, updateCountNumber }) => {
     const [userName, setUserName] = useState();
@@ -22,14 +23,11 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const [likeState, setLikeState] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
     const [enrollDate, setEnrollDate] = useState();
-    const [threedotsHover, setThreedotsHover] = useState(false);
     const [commentHover, setCommentHover] = useState(false);
     const [replyModalOpen, setReplyModalOpen] = useState(false);
     const [retweetHover, setRetweetHover] = useState(false);
     const [likeHover, setLikeHover] = useState(false);
     const [shareHover, setShareHover] = useState(false);
-    const [threedotsActive, setThreedotsActive] = useState(false);
-    const dotsRef = useRef();
     const [retweetModalOpen, setRetweetModalOpen] = useState(false);
     const [retweetActive, setRetweetActive] = useState(false);
     const retweetRef = useRef();
@@ -172,23 +170,23 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     }, [retweetActive])
 
 
-    const onThreedotsToggle = (event) => {
-        event.stopPropagation();
-        setThreedotsActive((prev) => !prev);
-    }
+    // const onThreedotsToggle = (event) => {
+    //     event.stopPropagation();
+    //     setThreedotsActive((prev) => !prev);
+    // }
 
-    const threedotsOutSide = (event) => {
-        if(threedotsActive && !event.path.includes(dotsRef.current)){
-            onThreedotsToggle(event);
-        }
-    }
+    // const threedotsOutSide = (event) => {
+    //     if(threedotsActive && !event.path.includes(dotsRef.current)){
+    //         onThreedotsToggle(event);
+    //     }
+    // }
 
-    useEffect(() => {
-        document.addEventListener("mousedown", threedotsOutSide);
-        return () => {
-            document.removeEventListener("mousedown", threedotsOutSide);
-        }
-    }, [threedotsActive])
+    // useEffect(() => {
+    //     document.addEventListener("mousedown", threedotsOutSide);
+    //     return () => {
+    //         document.removeEventListener("mousedown", threedotsOutSide);
+    //     }
+    // }, [threedotsActive])
 
     const onReplyModalToggle = (event) => {
         event.stopPropagation();
@@ -240,20 +238,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     
     const userInfo = usersProfile.filter(element => element.userId === userObj.uid)[0];
 
-    const handlePinActive = async() => {
-        if(userInfo.pin === tictoc.id){
-            await updateDoc(doc(db, "usersInfo", `${userInfo.id}`), {
-                pin : ""
-            });            
-        }
-        else{
-            await updateDoc(doc(db, "usersInfo", `${userInfo.id}`), {
-                pin : tictoc.id
-            });
-        }
-
-    }
-
     let retweetParentInfo;
     if(tictoc.retweet !== undefined && tictoc.retweet === true){
         retweetParentInfo = usersProfile.filter(element => element.userId === tictoc.retweetParentInfo.userId)[0];
@@ -293,42 +277,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
 
                     <div className={isOwner ? 'tweet_userInfo_container' : 'tweet_userInfo_container isNotOwner'}>
                         <div className="tweet_more_container">
-                            <FontAwesomeIcon icon={faEllipsis} className='three-dots-icon'
-                                onMouseOver={() => { setThreedotsHover(true) }}
-                                onMouseOut={() => { setThreedotsHover(false) }}
-                                onClick={onThreedotsToggle}
-                                ref={dotsRef}
-                            />
-                                {threedotsHover && 
-                                    (
-                                        <div className="action_hover">
-                                            more
-                                        </div>
-                                    )
-                                }
-
-                                {threedotsActive && 
-                                    (
-                                        <div className="tictoc_active_box threedots_active_container" >
-                                            <ul>
-                                                {isOwner ? 
-                                                    (
-                                                        <>
-                                                            <li onMouseDown={handlePinActive}>Pin to your profile</li>
-                                                            <li>change who can reply</li>
-                                                        </>
-                                                    )
-                                                    :
-                                                    (<>
-                                                        <li>Follow</li>
-                                                        <li>Block</li>
-                                                        <li>Mute</li>
-                                                    </>)
-                                                }
-                                            </ul>
-                                        </div>
-                                    )
-                                }
+                            <TweetThreeDots isOwner={isOwner} userInfo={userInfo} tictoc={tictoc} />
                         </div>
 
                         <span className="user_name">{userName}</span>
