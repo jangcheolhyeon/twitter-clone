@@ -16,16 +16,16 @@ import DeleteTweet from "./DeleteTweet";
 import TweetThreeDots from "./TweetThreeDots";
 import ReplyingTweet from "./ReplyingTweet";
 import RetweetTweet from "./RetweetTweet";
+import TweetActions from "./TweetActions";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, updateCountNumber }) => {
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
-    const [replyList, setReplyList] = useState([]);
+    // const [replyList, setReplyList] = useState([]);
     const [replyState, setReplyState] = useState(false);
     const [likeState, setLikeState] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
     const [enrollDate, setEnrollDate] = useState();
-    const [commentHover, setCommentHover] = useState(false);
     const [replyModalOpen, setReplyModalOpen] = useState(false);
     const [retweetHover, setRetweetHover] = useState(false);
     const [likeHover, setLikeHover] = useState(false);
@@ -47,16 +47,16 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
             } 
         });
 
-        const q = query(collection(db, "tictoc"));
-        onSnapshot(q, (snapshot) => {
-            const comments = snapshot.docs.map((doc) => {
-                return {
-                    id : doc.id,
-                    ...doc.data(),
-                }
-            })
-            setReplyList(comments.filter(element => {return element.child === true}));
-        })
+        // const q = query(collection(db, "tictoc"));
+        // onSnapshot(q, (snapshot) => {
+        //     const comments = snapshot.docs.map((doc) => {
+        //         return {
+        //             id : doc.id,
+        //             ...doc.data(),
+        //         }
+        //     })
+        //     setReplyList(comments.filter(element => {return element.child === true}));
+        // })
 
         setLikeState(likeStateInit());
         setLikeCount(tictoc.like_users.length);
@@ -270,30 +270,13 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                         </div>
                     }
 
-                    {tictoc.retweet &&  <RetweetTweet currentPage={currentPage} onTweetClick={onTweetClick} retweetParentInfo={retweetParentInfo} tictoc={tictoc} />
-
-                        // <div className="tictoc_retweet_content_container">
-                        //     <div className={currentPage === "details" || currentPage === "profile" ? "retweet_content_container tweet_home" : "retweet_content_container"} onClick={currentPage === "details" ? onTweetClick : undefined}>
-                        //         <div className="retweet_top">
-                        //             <img src={retweetParentInfo.userImage} alt='retweet user Image' />
-                        //             <span>{retweetParentInfo.displayName}</span>
-                        //             <span className="user_email">@{retweetParentInfo.email.split('@')[0]}</span>
-                        //         </div>
-                        //         <div className="retweet_content">
-                        //             <span>{tictoc.retweetText}</span>
-                        //         </div>
-
-                        //         {tictoc.retweetAttachment && (
-                        //             <div className="retweet_img">
-                        //                 <img src={tictoc.retweetAttachment} style={{ backgroundImage : tictoc.retweetAttachment }} alt='retweet user Image' />
-                        //             </div>
-                        //         )}
-                        //     </div>
-                        // </div>
+                    {tictoc.retweet &&  
+                        <RetweetTweet currentPage={currentPage} onTweetClick={onTweetClick} retweetParentInfo={retweetParentInfo} tictoc={tictoc} />
                     }
 
                     <div className="action_container">
-                        <div className="action_comment_container" 
+                        <TweetActions tictoc={tictoc} onReplyModalToggle={onReplyModalToggle} />
+                        {/* <div className="action_comment_container" 
                             onMouseOver={() => { setCommentHover(true) }}
                             onMouseOut={() => { setCommentHover(false) }}
                             onClick={onReplyModalToggle}
@@ -416,7 +399,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                                     </ul>
                                 </div>
                             )}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
