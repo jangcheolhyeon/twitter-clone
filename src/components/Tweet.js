@@ -11,6 +11,7 @@ import RetweetModal from "components/RetweetModal";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "components/DeleteModal";
 import UserInfoHover from "components/UserInfoHover";
+import UserImg from "./UserImg";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, updateCountNumber }) => {
     const [userName, setUserName] = useState();
@@ -38,7 +39,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const [deleteModal, setDeleteModal] = useState(false);
     const emailTimer = useRef();
     const [userImgHover, setUserImgHover] = useState(false);
-    const userImgTimer = useRef();
 
     const onDeleteTweet = async(event) => {
         setToastAlert(true);
@@ -286,7 +286,12 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         replyParentInfo = usersProfile.filter(element => element.userId === tictoc.parentReplyInfo.userId)[0]
     }
 
-    const tweetWriteUser = usersProfile.filter(element => element.userId === tictoc.userId)[0];
+    // const tweetWriteUser = usersProfile.filter(element => element.userId === tictoc.userId)[0];
+
+    const onClickCopyLink = (text) => {
+        console.log("click");
+        navigator.clipboard.writeText(text);
+    }
 
     return(
         <>
@@ -294,7 +299,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
             {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} updateCountNumber={updateCountNumber} />}
             {deleteModal && <DeleteModal onDeleteTweet={onDeleteTweet} onDeleteModalCancel={onDeleteModalCancel} />}
             <div className={currentPage === 'home' && emailHover === false && userImgHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" || currentPage === "profile" ? onTweetClick : undefined}>
-                <div className="tweet_user_photo_container">
+                {/* <div className="tweet_user_photo_container">
                     <img src={userPhoto} alt="user image" className={userImgHover ? 'user_photo_image activing_user_photo_image' : 'user_photo_image'}
                         onMouseOver={() => { setUserImgHover(true); }} 
                         onMouseOut={() => { userImgTimer.current = setTimeout(() => {
@@ -305,7 +310,8 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                     {userImgHover && 
                         <UserInfoHover userInfo={tweetWriteUser} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} timerRef={userImgTimer} setUserInfoHover={setUserImgHover} isUserImgHover={true}/>
                     }
-                </div>
+                </div> */}
+                <UserImg tictoc={tictoc} userImgHover={userImgHover} userPhoto={userPhoto} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} setUserInfoHover={setUserImgHover} />
 
                 <div className="tweet_content">
                     {isOwner && <div className="close_tweet">
@@ -546,7 +552,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                             {shareActive && (
                                 <div className="tictoc_active_box">
                                     <ul>
-                                        <li>Copy link to Tweet</li>
+                                        <li onMouseDown={() => onClickCopyLink('www.abc.com')}>Copy link to Tweet</li>
                                         <li>share Tweet</li>
                                         <li>BookMark</li>
                                     </ul>
