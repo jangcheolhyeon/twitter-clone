@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteModal from "components/DeleteModal";
 import UserInfoHover from "components/UserInfoHover";
 import UserImg from "./UserImg";
+import DeleteTweet from "./DeleteTweet";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, updateCountNumber }) => {
     const [userName, setUserName] = useState();
@@ -21,7 +22,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const [likeState, setLikeState] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
     const [enrollDate, setEnrollDate] = useState();
-    const [xMarkHover, setXMarkHover] = useState(false);
     const [threedotsHover, setThreedotsHover] = useState(false);
     const [commentHover, setCommentHover] = useState(false);
     const [replyModalOpen, setReplyModalOpen] = useState(false);
@@ -36,29 +36,8 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const [shareActive, setShareActive] = useState(false);
     const shareRef = useRef();
     const [emailHover, setEmailHover] = useState(false);
-    const [deleteModal, setDeleteModal] = useState(false);
     const emailTimer = useRef();
     const [userImgHover, setUserImgHover] = useState(false);
-
-    const onDeleteTweet = async(event) => {
-        setToastAlert(true);
-        setToastText('Your Tweet was Deleted');
-
-        await deleteDoc(doc(db, "tictoc", `${tictoc.id}`));
-        if(tictoc.attachmentUrl !== null || tictoc.attachmentUrl !== ""){
-            await deleteObject(ref(storageService, `${tictoc.attachmentUrl}`));
-        }
-    }
-
-    const onDeleteModalCancel = (event) => {
-        event.stopPropagation();
-        setDeleteModal(false);
-    }  
-
-    const onDeleteModal = (event) => {
-        event.stopPropagation();
-        setDeleteModal(true);
-    }
         
     useEffect(() => {
         window.scrollTo({top:0, behavior:'smooth'});
@@ -286,8 +265,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         replyParentInfo = usersProfile.filter(element => element.userId === tictoc.parentReplyInfo.userId)[0]
     }
 
-    // const tweetWriteUser = usersProfile.filter(element => element.userId === tictoc.userId)[0];
-
     const onClickCopyLink = (text) => {
         console.log("click");
         navigator.clipboard.writeText(text);
@@ -297,37 +274,13 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen} updateCountNumber={updateCountNumber} />}
             {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} updateCountNumber={updateCountNumber} />}
-            {deleteModal && <DeleteModal onDeleteTweet={onDeleteTweet} onDeleteModalCancel={onDeleteModalCancel} />}
             <div className={currentPage === 'home' && emailHover === false && userImgHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" || currentPage === "profile" ? onTweetClick : undefined}>
-                {/* <div className="tweet_user_photo_container">
-                    <img src={userPhoto} alt="user image" className={userImgHover ? 'user_photo_image activing_user_photo_image' : 'user_photo_image'}
-                        onMouseOver={() => { setUserImgHover(true); }} 
-                        onMouseOut={() => { userImgTimer.current = setTimeout(() => {
-                            setUserImgHover(false);
-                        }, 500) }}
-                    />
 
-                    {userImgHover && 
-                        <UserInfoHover userInfo={tweetWriteUser} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} timerRef={userImgTimer} setUserInfoHover={setUserImgHover} isUserImgHover={true}/>
-                    }
-                </div> */}
                 <UserImg tictoc={tictoc} userImgHover={userImgHover} userPhoto={userPhoto} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} setUserInfoHover={setUserImgHover} />
 
                 <div className="tweet_content">
                     {isOwner && <div className="close_tweet">
-                        <FontAwesomeIcon icon={faXmark} 
-                        onMouseOver={() => { setXMarkHover(true) }}
-                        onMouseOut={() => { setXMarkHover(false) }}
-                        onClick={onDeleteModal}
-                        className="x_mark_icon"
-                        />
-                        {xMarkHover && 
-                            (
-                                <div className="action_hover"> 
-                                    remove
-                                </div>
-                            )
-                        }
+                        <DeleteTweet tictoc={tictoc} setToastAlert={setToastAlert} setToastText={setToastText} setCurrentPage={setCurrentPage} />
 
                         {Boolean(userInfo.pin.length) && userInfo.pin === tictoc.id && <>
                             <div className="tweet_pin">
