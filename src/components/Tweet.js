@@ -21,8 +21,6 @@ import TweetActions from "./TweetActions";
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, updateCountNumber }) => {
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
-    // const [replyList, setReplyList] = useState([]);
-    const [replyState, setReplyState] = useState(false);
     const [likeState, setLikeState] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
     const [enrollDate, setEnrollDate] = useState();
@@ -32,7 +30,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const [shareHover, setShareHover] = useState(false);
     const [retweetModalOpen, setRetweetModalOpen] = useState(false);
     const [retweetActive, setRetweetActive] = useState(false);
-    const retweetRef = useRef();
     const [shareActive, setShareActive] = useState(false);
     const shareRef = useRef();
     const [emailHover, setEmailHover] = useState(false);
@@ -47,21 +44,8 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
             } 
         });
 
-        // const q = query(collection(db, "tictoc"));
-        // onSnapshot(q, (snapshot) => {
-        //     const comments = snapshot.docs.map((doc) => {
-        //         return {
-        //             id : doc.id,
-        //             ...doc.data(),
-        //         }
-        //     })
-        //     setReplyList(comments.filter(element => {return element.child === true}));
-        // })
-
         setLikeState(likeStateInit());
         setLikeCount(tictoc.like_users.length);
-
-        setReplyState(replyStateInit());
         
         const time = new Date(tictoc.createdAt);
         setEnrollDate((time.getMonth()+1) + "." + (time.getDate()));
@@ -75,43 +59,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
             } 
         });
     }, [usersProfile])
-
-    const replyStateInit = () => {
-        if(tictoc.reply_users.includes(userObj.uid)){
-            return true;
-        }
-
-        return false;
-    }
-
-    const onClickReply = async(event) => {
-        event.stopPropagation();
-        if(tictoc.isDeleted) {
-            return ;
-        }
-
-        if(replyState){
-            await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
-                reply_users : tictoc.reply_users.filter((element) => { return element !== userObj.uid})
-            })
-
-            setReplyState((prev) => {
-                return prev - 1;
-            })
-            
-        } else {
-            await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
-                reply_users : [...tictoc.reply_users, userObj.uid]
-            })
-
-            setReplyState((prev) => {
-                return prev + 1;
-            })
-            
-            setToastAlert(true);
-            setToastText('Keep it up! Retweet suceess!');
-        }
-    }
 
     const likeStateInit = () => {
         if(tictoc.like_users.includes(userObj.uid)){
@@ -151,25 +98,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         setLikeState((prev) => !prev);
     }
 
-    const onRetweetToggle = (event) => {
-        event.stopPropagation();
-        setRetweetHover(false);
-        setRetweetActive((prev) => !prev);
-    }
-
-    const reTweetOutSide = (event) => {
-        if(retweetActive && !event.path.includes(retweetRef.current)){
-            onRetweetToggle(event);
-        }
-    }
-
-    useEffect(() => {
-        document.addEventListener("mousedown", reTweetOutSide);
-        return () => {
-            document.removeEventListener("mousedown", reTweetOutSide);
-        }
-    }, [retweetActive])
-
     const onReplyModalToggle = (event) => {
         event.stopPropagation();
         setReplyModalOpen((prev) => !prev);
@@ -181,6 +109,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         setRetweetActive(false);
         setRetweetHover(false);
     }
+
     
     const navi = useNavigate();
 
@@ -230,6 +159,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         navigator.clipboard.writeText(text);
     }
 
+
     return(
         <>
             {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen} updateCountNumber={updateCountNumber} />}
@@ -275,7 +205,18 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                     }
 
                     <div className="action_container">
-                        <TweetActions tictoc={tictoc} onReplyModalToggle={onReplyModalToggle} />
+                        <TweetActions 
+                            tictoc={tictoc} 
+                            userObj={userObj} 
+                            onReplyModalToggle={onReplyModalToggle} 
+                            retweetHover={retweetHover} 
+                            setRetweetHover={setRetweetHover} 
+                            retweetActive={retweetActive} 
+                            setRetweetActive={setRetweetActive} 
+                            setToastAlert={setToastAlert}
+                            setToastText={setToastText}
+                            onRetweetModalToggle={onRetweetModalToggle}
+                        />
                         {/* <div className="action_comment_container" 
                             onMouseOver={() => { setCommentHover(true) }}
                             onMouseOut={() => { setCommentHover(false) }}
