@@ -43,13 +43,10 @@ const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, s
         })
     }
 
-    if(usersProfile.length === 0) return;
-
     return(
         <>
         {usersProfile.length === 0 ? (
             <div className='container'>
-    
             </div>
         ) : (
             <>
