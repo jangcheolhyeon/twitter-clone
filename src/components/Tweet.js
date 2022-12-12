@@ -14,6 +14,7 @@ import UserInfoHover from "components/UserInfoHover";
 import UserImg from "./UserImg";
 import DeleteTweet from "./DeleteTweet";
 import TweetThreeDots from "./TweetThreeDots";
+import ReplyingTweet from "./ReplyingTweet";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, updateCountNumber }) => {
     const [userName, setUserName] = useState();
@@ -34,7 +35,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const [shareActive, setShareActive] = useState(false);
     const shareRef = useRef();
     const [emailHover, setEmailHover] = useState(false);
-    const emailTimer = useRef();
     const [userImgHover, setUserImgHover] = useState(false);
         
     useEffect(() => {
@@ -169,25 +169,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         }
     }, [retweetActive])
 
-
-    // const onThreedotsToggle = (event) => {
-    //     event.stopPropagation();
-    //     setThreedotsActive((prev) => !prev);
-    // }
-
-    // const threedotsOutSide = (event) => {
-    //     if(threedotsActive && !event.path.includes(dotsRef.current)){
-    //         onThreedotsToggle(event);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     document.addEventListener("mousedown", threedotsOutSide);
-    //     return () => {
-    //         document.removeEventListener("mousedown", threedotsOutSide);
-    //     }
-    // }, [threedotsActive])
-
     const onReplyModalToggle = (event) => {
         event.stopPropagation();
         setReplyModalOpen((prev) => !prev);
@@ -243,12 +224,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         retweetParentInfo = usersProfile.filter(element => element.userId === tictoc.retweetParentInfo.userId)[0];
     }
 
-    
-    let replyParentInfo;
-    if(tictoc.child !== undefined && tictoc.child === true){
-        replyParentInfo = usersProfile.filter(element => element.userId === tictoc.parentReplyInfo.userId)[0]
-    }
-
     const onClickCopyLink = (text) => {
         console.log("click");
         navigator.clipboard.writeText(text);
@@ -285,28 +260,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                     </div>
 
                     <div className="user_tweet_content">
-                        {tictoc.parent && <span>{tictoc.text}</span>}
-                        {tictoc.child && 
-                            <div className="reply_content">
-
-                                <span className='replying'>Replying to 
-                                    <span className={emailHover ? 'user_email activing_user_email' : 'user_email'}
-                                        onMouseOver={() => { setEmailHover(true); }} 
-                                        onMouseOut={() => { emailTimer.current = setTimeout(() => {
-                                            setEmailHover(false);
-                                        }, 500) }}
-                                    >
-                                        @{replyParentInfo.email.split('@')[0]}
-                                    </span>
-                                </span>
-
-                                <span className="text">{tictoc.text}</span>
-                            </div>
-                        }
-                        
-                        {emailHover && 
-                            <UserInfoHover userInfo={replyParentInfo} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} timerRef={emailTimer} setUserInfoHover={setEmailHover} isUserImgHover={false}/>
-                        }
+                        <ReplyingTweet tictoc={tictoc} emailHover={emailHover} setEmailHover={setEmailHover} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} />
                     </div>
 
                     {tictoc.attachmentUrl && 
