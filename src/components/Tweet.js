@@ -24,11 +24,8 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const [enrollDate, setEnrollDate] = useState();
     const [replyModalOpen, setReplyModalOpen] = useState(false);
     const [retweetHover, setRetweetHover] = useState(false);
-    const [shareHover, setShareHover] = useState(false);
     const [retweetModalOpen, setRetweetModalOpen] = useState(false);
     const [retweetActive, setRetweetActive] = useState(false);
-    const [shareActive, setShareActive] = useState(false);
-    const shareRef = useRef();
     const [emailHover, setEmailHover] = useState(false);
     const [userImgHover, setUserImgHover] = useState(false);
         
@@ -65,7 +62,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
         setRetweetActive(false);
         setRetweetHover(false);
     }
-
     
     const navi = useNavigate();
 
@@ -84,24 +80,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
             navi('/details');
         }
     }
-
-    const onShareToggle = (event) => {
-        event.stopPropagation();
-        setShareActive((prev) => !prev);
-    }
-
-    const shareOutSide = (event) => {
-        if(shareActive && !event.path.includes(shareRef.current)){
-            onShareToggle(event);
-        }
-    }
-
-    useEffect(() => {
-        document.addEventListener("mousedown", shareOutSide);
-        return () => {
-            document.removeEventListener("mousedown", shareOutSide);
-        }
-    }, [shareActive])
     
     const userInfo = usersProfile.filter(element => element.userId === userObj.uid)[0];
 
@@ -109,12 +87,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     if(tictoc.retweet !== undefined && tictoc.retweet === true){
         retweetParentInfo = usersProfile.filter(element => element.userId === tictoc.retweetParentInfo.userId)[0];
     }
-
-    const onClickCopyLink = (text) => {
-        console.log("click");
-        navigator.clipboard.writeText(text);
-    }
-
 
     return(
         <>
