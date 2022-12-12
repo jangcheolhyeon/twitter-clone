@@ -21,12 +21,9 @@ import TweetActions from "./TweetActions";
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, updateCountNumber }) => {
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
-    const [likeState, setLikeState] = useState(false);
-    const [likeCount, setLikeCount] = useState(0);
     const [enrollDate, setEnrollDate] = useState();
     const [replyModalOpen, setReplyModalOpen] = useState(false);
     const [retweetHover, setRetweetHover] = useState(false);
-    const [likeHover, setLikeHover] = useState(false);
     const [shareHover, setShareHover] = useState(false);
     const [retweetModalOpen, setRetweetModalOpen] = useState(false);
     const [retweetActive, setRetweetActive] = useState(false);
@@ -43,9 +40,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                 setUserPhoto(element.userImage);
             } 
         });
-
-        setLikeState(likeStateInit());
-        setLikeCount(tictoc.like_users.length);
         
         const time = new Date(tictoc.createdAt);
         setEnrollDate((time.getMonth()+1) + "." + (time.getDate()));
@@ -59,44 +53,6 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
             } 
         });
     }, [usersProfile])
-
-    const likeStateInit = () => {
-        if(tictoc.like_users.includes(userObj.uid)){
-            return true;
-        }
-        
-        return false;
-    }
-
-    const onClickLike = async(event) => {
-        event.stopPropagation();
-        if(tictoc.isDeleted) {
-            return ;
-        }
-
-        if(likeState){
-            await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
-                like_users : tictoc.like_users.filter((element) => element !== userObj.uid),
-            })
-
-            setLikeCount((prev) => {
-                return prev - 1;
-            })
-
-        } else {
-            await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
-                like_users : [...tictoc.like_users, userObj.uid],
-            });
-
-            setLikeCount((prev) => {
-                return prev + 1;
-            })
-
-            setToastAlert(true);
-            setToastText('Keep it up! The more Tweets you like, the better your timeline will be.');
-        }
-        setLikeState((prev) => !prev);
-    }
 
     const onReplyModalToggle = (event) => {
         event.stopPropagation();
