@@ -15,6 +15,7 @@ import UserImg from "./UserImg";
 import DeleteTweet from "./DeleteTweet";
 import TweetThreeDots from "./TweetThreeDots";
 import ReplyingTweet from "./ReplyingTweet";
+import RetweetTweet from "./RetweetTweet";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, updateCountNumber }) => {
     const [userName, setUserName] = useState();
@@ -269,25 +270,26 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                         </div>
                     }
 
-                    {tictoc.retweet && 
-                        <div className="tictoc_retweet_content_container">
-                            <div className={currentPage === "details" || currentPage === "profile" ? "retweet_content_container tweet_home" : "retweet_content_container"} onClick={currentPage === "details" ? onTweetClick : undefined}>
-                                <div className="retweet_top">
-                                    <img src={retweetParentInfo.userImage} alt='retweet user Image' />
-                                    <span>{retweetParentInfo.displayName}</span>
-                                    <span className="user_email">@{retweetParentInfo.email.split('@')[0]}</span>
-                                </div>
-                                <div className="retweet_content">
-                                    <span>{tictoc.retweetText}</span>
-                                </div>
+                    {tictoc.retweet &&  <RetweetTweet currentPage={currentPage} onTweetClick={onTweetClick} retweetParentInfo={retweetParentInfo} tictoc={tictoc} />
 
-                                {tictoc.retweetAttachment && (
-                                    <div className="retweet_img">
-                                        <img src={tictoc.retweetAttachment} style={{ backgroundImage : tictoc.retweetAttachment }} alt='retweet user Image' />
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                        // <div className="tictoc_retweet_content_container">
+                        //     <div className={currentPage === "details" || currentPage === "profile" ? "retweet_content_container tweet_home" : "retweet_content_container"} onClick={currentPage === "details" ? onTweetClick : undefined}>
+                        //         <div className="retweet_top">
+                        //             <img src={retweetParentInfo.userImage} alt='retweet user Image' />
+                        //             <span>{retweetParentInfo.displayName}</span>
+                        //             <span className="user_email">@{retweetParentInfo.email.split('@')[0]}</span>
+                        //         </div>
+                        //         <div className="retweet_content">
+                        //             <span>{tictoc.retweetText}</span>
+                        //         </div>
+
+                        //         {tictoc.retweetAttachment && (
+                        //             <div className="retweet_img">
+                        //                 <img src={tictoc.retweetAttachment} style={{ backgroundImage : tictoc.retweetAttachment }} alt='retweet user Image' />
+                        //             </div>
+                        //         )}
+                        //     </div>
+                        // </div>
                     }
 
                     <div className="action_container">
