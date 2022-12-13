@@ -1,10 +1,4 @@
-import { updateProfile } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { updateDoc, doc } from "firebase/firestore";
-import { authService, db, storageService } from 'fbase';
-import { v4 } from "uuid";
-import { getDownloadURL, ref, uploadString } from "@firebase/storage";
-import ModalUpdateProfile from 'components/Profile/ModalUpdateProfile';
 import UserHistory from 'components/Profile/UserHistory';
 import UpdateUserProfile from 'components/Profile/UpdateUserProfile';
 

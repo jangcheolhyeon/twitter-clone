@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import ProfileNaviLikes from "./ProfileNaviLikes";
-import ProfileNaviMedia from "./ProfileNaviMedia";
-import ProfileNaviTweets from "./ProfileNaviTweets";
-import ProfileNaviTweets_Replies from "./ProfileNaviTweets_Replies";
+import ProfileNaviLikes from "components/Profile/ProfileNaviLikes";
+import ProfileNaviMedia from "components/Profile/ProfileNaviMedia";
+import ProfileNaviTweets from "components/Profile/ProfileNaviTweets";
+import ProfileNaviTweets_Replies from "components/Profile/ProfileNaviTweets_Replies";
 
 const UserHistory = ({ usersProfile, userObj, myTweetList, setToastAlert, setToastText, setUsersProfile, currentPage, setCurrentPage, setTweetDetail, tweets }) => {
     const [currentNavi, setCurrentNavi] = useState({

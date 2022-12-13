@@ -4,7 +4,7 @@ import { db, storageService } from "fbase";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import DeleteModal from "components/TweetAction/DeleteModal";
+import DeleteModal from "components/TweetAction/DeleteConfirmModal";
 import { useNavigate } from "react-router-dom";
 
 

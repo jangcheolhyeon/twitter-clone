@@ -4,7 +4,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
-import ModalUpdateProfile from "./ModalUpdateProfile";
+import ModalUpdateProfile from "components/Profile/ModalUpdateProfile";
 
 const UpdateUserProfile = ({ userObj, usersProfile, setUsersProfile, userBackgroundAttachment, setUserBackgroundAttachment, setChangedUserBackgroundAttachment, newDisplayName, setNewDisplayName, refreshUserObj }) => {   
     const [modalOpen, setModalOpen] = useState(false);

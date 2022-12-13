@@ -4,7 +4,7 @@ import { collection, addDoc } from "firebase/firestore";
 import Tweet from 'components/Tweet';
 import TweetFactory from 'components/Home/TweetFactory';
 
-const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, updateCountNumber, setProfileLoading }) => {
+const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, updateCountNumber, }) => {
 
     useEffect(() => {
         window.scrollTo({top:0, behavior:'smooth'});

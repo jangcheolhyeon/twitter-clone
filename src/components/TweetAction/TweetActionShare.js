@@ -28,7 +28,6 @@ const ActionShare = () => {
 
 
     const onClickCopyLink = (text) => {
-        console.log("click");
         navigator.clipboard.writeText(text);
         setShareHover(false);
     }
