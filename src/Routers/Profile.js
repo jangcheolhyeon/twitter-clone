@@ -9,6 +9,7 @@ import ProfileNaviTweets_Replies from 'components/Profile/ProfileNaviTweets_Repl
 import ProfileNaviMedia from 'components/Profile/ProfileNaviMedia';
 import ProfileNaviLikes from 'components/Profile/ProfileNaviLikes';
 import ModalUpdateProfile from 'components/Profile/ModalUpdateProfile';
+import UserHistory from 'components/Profile/UserHistory';
 
 const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile, setTweetDetail }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
@@ -18,12 +19,7 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
     const [modalOpen, setModalOpen] = useState(false);
     const [myTweetList, setMyTweetList] = useState(null);
     const [tweets, setTweets] = useState([]);
-    const [currentNavi, setCurrentNavi] = useState({
-        Tweets : true,
-        TweetsReplies : false,
-        Media : false,
-        Likes : false
-    });
+
     let currentUser;
 
     const [followersCnt, setFollowersCnt] = useState(0);
@@ -55,8 +51,6 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
             getMyTweets();
         }
     }
-
-
 
     useEffect(() => {
         sortTweetList();
@@ -203,31 +197,6 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
         }
         setChangedUserBackgroundAttachment(userBackgroundAttachment);
     }
-    
-    const handleTraceClick = (key) => {        
-        let newCurrentNavi = {
-            Tweets : false,
-            TweetsReplies : false,
-            Media : false,
-            Likes : false
-        };
-
-        switch(key){
-            case 'Tweets' :
-                newCurrentNavi.Tweets = true
-                break;
-            case 'TweetsReplies' :
-                newCurrentNavi.TweetsReplies = true
-                break;
-            case 'Media' :
-                newCurrentNavi.Media = true
-                break;
-            case 'Likes' :
-                newCurrentNavi.Likes = true
-                break;
-        }
-        setCurrentNavi(newCurrentNavi);
-    }
 
     const handleUpdateProfile = () => {
         setModalOpen((prev) => !prev);
@@ -268,7 +237,20 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
                             </div>
                         </div>
                         
-                        <div className='my_trace_navi'>    
+
+                        <UserHistory 
+                            usersProfile={usersProfile} 
+                            userObj={userObj} 
+                            myTweetList={myTweetList}
+                            setToastAlert={setToastAlert}
+                            setToastText={setToastText}
+                            setUsersProfile={setUsersProfile}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            setTweetDetail={setTweetDetail}
+                            tweets={tweets}                        
+                        />
+                        {/* <div className='my_trace_navi'>    
                             <div className={currentNavi.Tweets ? "my_trace_box tweets tweets_active" : "my_trace_box tweets"} onClick={() => handleTraceClick('Tweets')}>
                                 <span>Tweets</span>
                             </div>
@@ -283,10 +265,11 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
                             </div>
                         </div>
 
-                    {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} tictoc={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} />}
-                    {currentNavi.TweetsReplies && <ProfileNaviTweets_Replies usersProfile={usersProfile} userObj={userObj} setUsersProfile={setUsersProfile} />}
-                    {currentNavi.Media && <ProfileNaviMedia usersProfile={usersProfile} userObj={userObj} />}
-                    {currentNavi.Likes && <ProfileNaviLikes userObj={userObj} tweets={tweets} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />}
+                        {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} tictoc={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} />}
+                        {currentNavi.TweetsReplies && <ProfileNaviTweets_Replies usersProfile={usersProfile} userObj={userObj} setUsersProfile={setUsersProfile} />}
+                        {currentNavi.Media && <ProfileNaviMedia usersProfile={usersProfile} userObj={userObj} />}
+                        {currentNavi.Likes && <ProfileNaviLikes userObj={userObj} tweets={tweets} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />} */}
+                    
                     </div>
                 </>
             )}
