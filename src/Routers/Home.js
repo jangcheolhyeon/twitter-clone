@@ -2,7 +2,7 @@ import React, { useEffect, } from 'react';
 import { db } from 'fbase';
 import { collection, addDoc } from "firebase/firestore"; 
 import Tweet from 'components/Tweet';
-import TweetFactory from 'components/TweetFactory';
+import TweetFactory from 'components/Home/TweetFactory';
 
 const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, setCurrentPage, reTweetState, setRetweetState, parentBundle, setTweetDetail, toastAlert, setToastAlert, toastText, setToastText, updateCountNumber, setProfileLoading }) => {
 

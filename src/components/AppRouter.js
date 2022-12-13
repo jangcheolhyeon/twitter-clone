@@ -4,13 +4,13 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Auth from 'Routers/Auth';
 import Home from 'Routers/Home';
 import Profile from 'Routers/Profile';
-import Navigation from 'components/Navigation';
+import Navigation from 'components/Navigation/Navigation';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from 'fbase';
-import TopNavi from 'Routers/TopNavi';
-import SideRecommend from 'Routers/SideRecommend';
+import TopNavi from 'components/Navigation/TopNavi';
+import SideRecommend from 'components/Navigation/SideRecommend';
 import Details from 'Routers/Details';
-import ToastNotification from 'components/ToastNotification';
+import ToastNotification from 'components/Navigation/ToastNotification';
 
 
 const AppRouter = () => {

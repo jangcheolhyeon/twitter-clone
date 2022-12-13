@@ -1,5 +1,5 @@
 import React from "react";
-import RecommendFriend from "components/RecommendFriend";
+import RecommendFriend from "components/Navigation/RecommendFriend";
 import Tweet from "components/Tweet";
 
 const ProfileNaviTweets = ({ usersProfile, userObj, tictoc, setTweetDetail, setToastAlert, setToastText, setUsersProfile, currentPage, setCurrentPage }) => {

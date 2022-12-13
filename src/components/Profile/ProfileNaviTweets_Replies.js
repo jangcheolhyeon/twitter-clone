@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEllipsis, faUserPlus, faCommentDots } from "@fortawesome/free-solid-svg-icons";
-import RecommendFriend from "components/RecommendFriend";
+import RecommendFriend from "components/Navigation/RecommendFriend";
 
 const ProfileNaviTweets_Replies = ( { usersProfile, userObj, setUsersProfile } ) => {
     return(

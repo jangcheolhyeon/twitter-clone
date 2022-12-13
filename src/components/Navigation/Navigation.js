@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faUser, faUserCircle, faHouse, faEllipsis } from "@fortawesome/free-solid-svg-icons";
-import TweetModal from "components/TweetModal";
+import TweetModal from "components/Navigation/TweetModal";
 import { getAuth, signOut } from "firebase/auth";
 
 

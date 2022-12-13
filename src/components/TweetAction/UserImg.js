@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import UserInfoHover from "components/UserInfoHover";
+import UserInfoHover from "components/TweetAction/UserInfoHover";
 
 const UserImg = ({ tictoc, userImgHover, userPhoto, userObj, usersProfile, setUsersProfile, setUserInfoHover }) => {
     const timerRef = useRef();

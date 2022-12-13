@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
-import ReplyMdoal from "components/ReplyModal";
-import RetweetModal from "components/RetweetModal";
+import ReplyMdoal from "components/TweetAction/ReplyingModal";
+import RetweetModal from "components/TweetAction/RetweetModal";
 import { useNavigate } from "react-router-dom";
-import UserImg from "components/UserImg";
-import DeleteTweet from "components/DeleteTweet";
-import TweetThreeDots from "components/TweetThreeDots";
-import ReplyingTweet from "components/ReplyingTweet";
-import RetweetTweet from "components/RetweetTweet";
-import TweetActions from "components/TweetActions";
+import UserImg from "components/TweetAction/UserImg";
+import DeleteTweet from "components/TweetAction/DeleteTweet";
+import TweetThreeDots from "components/TweetAction/TweetThreeDots";
+import ReplyingTweet from "components/TweetAction/ReplyingTweet";
+import RetweetTweet from "components/TweetAction/RetweetTweet";
+import TweetActions from "components/Profile/TweetActions";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, updateCountNumber }) => {
     const [userName, setUserName] = useState();

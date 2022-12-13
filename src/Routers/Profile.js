@@ -4,11 +4,11 @@ import { updateDoc, doc } from "firebase/firestore";
 import { authService, db, storageService } from 'fbase';
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
-import ProfileNaviTweets from 'Routers/ProfileNaviTweets';
-import ProfileNaviTweets_Replies from 'Routers/ProfileNaviTweets_Replies';
-import ProfileNaviMedia from 'Routers/ProfileNaviMedia';
-import ProfileNaviLikes from 'Routers/ProfileNaviLikes';
-import ModalUpdateProfile from 'components/ModalUpdateProfile';
+import ProfileNaviTweets from 'components/Profile/ProfileNaviTweets';
+import ProfileNaviTweets_Replies from 'components/Profile/ProfileNaviTweets_Replies';
+import ProfileNaviMedia from 'components/Profile/ProfileNaviMedia';
+import ProfileNaviLikes from 'components/Profile/ProfileNaviLikes';
+import ModalUpdateProfile from 'components/Profile/ModalUpdateProfile';
 
 const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile, setTweetDetail }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
@@ -268,7 +268,7 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
                             </div>
                         </div>
                         
-                        <div className='my_trace_navi'>
+                        <div className='my_trace_navi'>    
                             <div className={currentNavi.Tweets ? "my_trace_box tweets tweets_active" : "my_trace_box tweets"} onClick={() => handleTraceClick('Tweets')}>
                                 <span>Tweets</span>
                             </div>

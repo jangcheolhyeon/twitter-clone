@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { faImage, faTimes, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark, faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { addDoc, collection } from "firebase/firestore";
 import { db, storageService } from "fbase";
-import { v4 } from "uuid";
+import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { useEffect, useState } from "react";
+import { v4 } from "uuid";
 
 const ReplyModal = ({ userObj, onReplyModalToggle, parentTweet, usersProfile, setReplyModalOpen }) => {
     const [modalTweet, setModalTweet] = useState();
