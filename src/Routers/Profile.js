@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import UserHistory from 'components/Profile/UserHistory';
+import UserHistory from 'components/Profile/UserHistoryInProfile';
 import UpdateUserProfile from 'components/Profile/UpdateUserProfile';
 
 const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile, setTweetDetail }) => {
