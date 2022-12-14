@@ -1,7 +1,7 @@
 import Tweet from "components/Tweet";
 import React, { useEffect, useState } from "react";
 
-const ProfileNaviLikes = ({ userObj, tweets, usersProfile, setToastAlert, setToastText }) => {
+const ShowLikeTweetInProfile = ({ userObj, tweets, usersProfile, setToastAlert, setToastText }) => {
     const [myLikeList, setMyLikeList] = useState([]);
 
     useEffect(() => {
@@ -34,4 +34,4 @@ const ProfileNaviLikes = ({ userObj, tweets, usersProfile, setToastAlert, setToa
     )
 }
 
-export default ProfileNaviLikes;
+export default ShowLikeTweetInProfile;

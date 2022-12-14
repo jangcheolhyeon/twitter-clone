@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import ProfileNaviLikes from "components/Profile/ShowLikeTweetInProfile";
-import ProfileNaviMedia from "components/Profile/ShowMediaInProfile";
-import ProfileNaviTweets from "components/Profile/ShowMyTweetInProfile";
-import ProfileNaviTweets_Replies from "components/Profile/ShowMyTweetsNReplies";
+import ShowLikeTweetInProfile from "components/Profile/ShowLikeTweetInProfile";
+import ShowMediaInProfile from "components/Profile/ShowMediaInProfile";
+import ShowMyTweetInProfile from "components/Profile/ShowMyTweetInProfile";
+import ShowMyTweetsNReplies from "components/Profile/ShowMyTweetsNReplies";
 
 const UserHistory = ({ usersProfile, userObj, myTweetList, setToastAlert, setToastText, setUsersProfile, currentPage, setCurrentPage, setTweetDetail, tweets }) => {
     const [currentNavi, setCurrentNavi] = useState({
@@ -56,10 +56,10 @@ const UserHistory = ({ usersProfile, userObj, myTweetList, setToastAlert, setToa
             </div>
             
 
-            {currentNavi.Tweets && <ProfileNaviTweets usersProfile={usersProfile} userObj={userObj} tictoc={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} />}
-            {currentNavi.TweetsReplies && <ProfileNaviTweets_Replies usersProfile={usersProfile} userObj={userObj} setUsersProfile={setUsersProfile} />}
-            {currentNavi.Media && <ProfileNaviMedia usersProfile={usersProfile} userObj={userObj} />}
-            {currentNavi.Likes && <ProfileNaviLikes userObj={userObj} tweets={tweets} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />}
+            {currentNavi.Tweets && <ShowMyTweetInProfile usersProfile={usersProfile} userObj={userObj} tictoc={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} />}
+            {currentNavi.TweetsReplies && <ShowMyTweetsNReplies usersProfile={usersProfile} userObj={userObj} myTweetList={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} />}
+            {currentNavi.Media && <ShowMediaInProfile usersProfile={usersProfile} userObj={userObj} myTweetList={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} />}
+            {currentNavi.Likes && <ShowLikeTweetInProfile userObj={userObj} tweets={tweets} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} />}
         </>
     );
 }
