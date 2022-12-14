@@ -5,6 +5,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { db, storageService } from "fbase";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import TweetModalFooter from "components/TweetAction/TweetModalFooter";
 
 const TweetModal = ({ userObj, onTweetModalToggle, retweetState, parentBundle }) => {
     const [modalTweet, setModalTweet] = useState();
@@ -111,14 +112,8 @@ const TweetModal = ({ userObj, onTweetModalToggle, retweetState, parentBundle })
                     </div>
                 </div>
 
-                <div className="tweet_modal_container_footer">
-                    <label htmlFor="attach-file">
-                        <FontAwesomeIcon icon={faImage} />
-                    </label>
-                    <input type="file" id="attach-file" accept="image/*" onChange={onFileChange} />
+                <TweetModalFooter onFileChange={onFileChange} onTweetBtn={onTweetBtn} division={"TweetModal"} />
 
-                    <button onClick={onTweetBtn}>Tweet</button>
-                </div>  
             </div>
         </div>
     )

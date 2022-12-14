@@ -5,6 +5,7 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { db, storageService } from "fbase";
 import { v4 } from "uuid";
 import { addDoc, collection } from "firebase/firestore";
+import TweetModalFooter from "./TweetModalFooter";
 
 const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProfile, setRetweetModalOpen }) => {
     const [modalRetweet, setModalRetweet] = useState();
@@ -128,15 +129,8 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
                         )}
                     </div>
                     
-
-                    <div className="tweet_modal_container_footer">
-                        <label htmlFor="retweet_modal2">
-                            <FontAwesomeIcon icon={faImage} />
-                        </label>
-                        <input type="file" id="retweet_modal2" accept="image/*" onChange={onFileChange} />
-
-                        <button onClick={onRetweetBtn}>Tweet</button>
-                    </div>  
+                    <TweetModalFooter onFileChange={onFileChange} onTweetBtn={onRetweetBtn} division={"RetweetModal"} />
+                
                 </div>
             </div>
         </>
