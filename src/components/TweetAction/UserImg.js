@@ -3,8 +3,8 @@ import UserInfoHover from "components/TweetAction/UserInfoHover";
 
 const UserImg = ({ tictoc, userImgHover, userPhoto, userObj, usersProfile, setUsersProfile, setUserInfoHover }) => {
     const timerRef = useRef();
-
     const tweetWriteUser = usersProfile.filter(element => element.userId === tictoc.userId)[0];
+    
     return(
         <>
             <div className="tweet_user_photo_container">

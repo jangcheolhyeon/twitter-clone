@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
-import ReplyMdoal from "components/TweetAction/ReplyingModal";
-import RetweetModal from "components/TweetAction/RetweetModal";
+import ReplyingModal from "components/TweetAction/ReplyingModal";
+import RetweetingModal from "components/TweetAction/RetweetingModal";
 import { useNavigate } from "react-router-dom";
 import UserImg from "components/TweetAction/UserImg";
 import DeleteTweet from "components/TweetAction/DeleteTweet";
 import TweetThreeDots from "components/TweetAction/TweetThreeDots";
-import ReplyingTweet from "components/TweetAction/ReplyingTweet";
-import RetweetTweet from "components/TweetAction/RetweetTweet";
+import ReplyTweetInTweetList from "components/TweetAction/ReplyTweetInTweetList";
+import RetweetTweetInTweetList from "components/TweetAction/RetweetTweetInTweetList";
 import TweetActions from "components/Profile/TweetActions";
 
 const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage }) => {
@@ -78,8 +78,8 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
 
     return(
         <>
-            {replyModalOpen && <ReplyMdoal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen} />}
-            {retweetModalOpen && <RetweetModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} />}
+            {replyModalOpen && <ReplyingModal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen} />}
+            {retweetModalOpen && <RetweetingModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} />}
             <div className={currentPage === 'home' && emailHover === false && userImgHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" || currentPage === "profile" ? onTweetClick : undefined}>
 
                 <UserImg tictoc={tictoc} userImgHover={userImgHover} userPhoto={userPhoto} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} setUserInfoHover={setUserImgHover} />
@@ -107,7 +107,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                     </div>
 
                     <div className="user_tweet_content">
-                        <ReplyingTweet tictoc={tictoc} emailHover={emailHover} setEmailHover={setEmailHover} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} />
+                        <ReplyTweetInTweetList tictoc={tictoc} emailHover={emailHover} setEmailHover={setEmailHover} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} />
                     </div>
 
                     {tictoc.attachmentUrl && 
@@ -117,7 +117,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                     }
 
                     {tictoc.retweet &&  
-                        <RetweetTweet currentPage={currentPage} onTweetClick={onTweetClick} tictoc={tictoc} usersProfile={usersProfile} />
+                        <RetweetTweetInTweetList currentPage={currentPage} onTweetClick={onTweetClick} tictoc={tictoc} usersProfile={usersProfile} />
                     }
 
                     <div className="action_container">

@@ -7,7 +7,7 @@ import { v4 } from "uuid";
 import { addDoc, collection } from "firebase/firestore";
 import TweetModalFooter from "./TweetModalFooter";
 
-const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProfile, setRetweetModalOpen }) => {
+const RetweetingModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProfile, setRetweetModalOpen }) => {
     const [modalRetweet, setModalRetweet] = useState();
     const [attachment, setAttachment] = useState('');
 
@@ -137,4 +137,4 @@ const RetweetModal = ({ userObj, onRetweetModalToggle, retweetContent, usersProf
     );
 }
 
-export default RetweetModal;
+export default RetweetingModal;

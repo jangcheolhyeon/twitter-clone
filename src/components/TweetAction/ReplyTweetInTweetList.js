@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import UserInfoHover from "components/TweetAction/UserInfoHover";
 
-const ReplyingTweet = ({ tictoc, emailHover, setEmailHover, userObj, usersProfile, setUsersProfile }) => {
+const ReplyTweetInTweetList = ({ tictoc, emailHover, setEmailHover, userObj, usersProfile, setUsersProfile }) => {
     const emailTimer = useRef();
     let replyParentInfo;
     if(tictoc.child !== undefined && tictoc.child === true){
@@ -34,4 +34,4 @@ const ReplyingTweet = ({ tictoc, emailHover, setEmailHover, userObj, usersProfil
     );
 }
 
-export default ReplyingTweet;
+export default ReplyTweetInTweetList;

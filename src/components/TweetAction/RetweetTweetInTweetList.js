@@ -1,6 +1,6 @@
 import React from "react";
 
-const RetweetTweet = ({ currentPage, onTweetClick, tictoc, usersProfile }) => {
+const RetweetTweetInTweetList = ({ currentPage, onTweetClick, tictoc, usersProfile }) => {
     let retweetParentInfo;
     if(tictoc.retweet !== undefined && tictoc.retweet === true){
         retweetParentInfo = usersProfile.filter(element => element.userId === tictoc.retweetParentInfo.userId)[0];
@@ -30,4 +30,4 @@ const RetweetTweet = ({ currentPage, onTweetClick, tictoc, usersProfile }) => {
     );
 }
 
-export default RetweetTweet;
+export default RetweetTweetInTweetList;
