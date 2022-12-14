@@ -1,9 +1,11 @@
+import EmailHoverInTweet from "components/TweetAction/EmailHoverInTweet";
+import FollowAction from "components/TweetAction/FollowAction";
 import { db } from "fbase";
 import { doc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 
 
-const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, emailHoverState }) => {
+const RecommendFriend = ({ user, userObj, usersProfile, emailHoverState }) => {
     const [followingHover, setFollowingHover] = useState(false);
     const [followState, setFollowState] = useState(true);
 
@@ -69,49 +71,25 @@ const RecommendFriend = ({ user, userObj, usersProfile, setUsersProfile, emailHo
     return(
         <li className="recommend_item">
             {emailHoverState ? (
-                <div className="user_info_hover_top_container">
-                    <div className="user_info_hover_img_container">
-                        <img src={user.userImage} alt='user Image' />
-                    </div>
-                    {user.userId === userObj.uid ? (
-                        <>
-                            <div className="user_info_hover_current_user">
-                                <button>me</button>
-                            </div>
-                        </>
-                    ) : (
-                        <div className="recommend_contaienr_follow_box">
-                            {followState ? (
-                                followingHover ? (
-                                    <button className="recommend_friend_follow_btn" onClick={() => {onFollowClick(user)}} onMouseOver={() => setFollowingHover(true)} onMouseOut={() => setFollowingHover(false)}>UnFollow</button>
-                                ) : (
-                                    <button className="recommend_friend_follow_btn" onClick={() => {onFollowClick(user)}} onMouseOver={() => setFollowingHover(true)} onMouseOut={() => setFollowingHover(false)}>Following</button>
-                                )
-                            ) : (
-                                <button className="recommend_friend_unfollow_btn" onClick={() => {onFollowClick(user)}}>Follow</button>
-                            )}
-                        </div>
-                    )}
-                </div>
+                <EmailHoverInTweet 
+                    user={user} 
+                    userObj={userObj} 
+                    followState={followState} 
+                    followingHover={followingHover} 
+                    setFollowingHover={setFollowingHover} 
+                    onFollowClick={onFollowClick} 
+                />
             ) : (
                 <>
                     <div className="user_image_container">
                         <img src={user.userImage} alt='user Image' />
                     </div>
+
                     <div className="user_display_name">
                         <span>{user.displayName}</span>
                     </div>
-                    <div className="recommend_contaienr_follow_box">
-                        {followState ? (
-                            followingHover ? (
-                                <button className="recommend_friend_follow_btn" onClick={() => {onFollowClick(user)}} onMouseOver={() => setFollowingHover(true)} onMouseOut={() => setFollowingHover(false)}>UnFollow</button>
-                            ) : (
-                                <button className="recommend_friend_follow_btn" onClick={() => {onFollowClick(user)}} onMouseOver={() => setFollowingHover(true)} onMouseOut={() => setFollowingHover(false)}>Following</button>
-                            )
-                        ) : (
-                            <button className="recommend_friend_unfollow_btn" onClick={() => {onFollowClick(user)}}>Follow</button>
-                        )}
-                    </div>
+
+                    <FollowAction user={user} followState={followState} followingHover={followingHover} onFollowClick={onFollowClick} setFollowingHover={setFollowingHover} />
                 </>
             )}
         </li>
