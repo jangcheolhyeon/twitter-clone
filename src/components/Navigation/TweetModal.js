@@ -73,7 +73,6 @@ const TweetModal = ({ userObj, onTweetModalToggle, retweetState, parentBundle })
             reply_users : [],
             like_users : [],
             parent : true,
-            isDeleted : false,
         }
         await addDoc(collection(db, 'tictoc'), tweetObj);
 

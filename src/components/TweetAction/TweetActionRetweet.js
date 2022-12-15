@@ -43,9 +43,6 @@ const ActionRetweet = ({ tictoc, userObj, retweetHover, setRetweetHover, retweet
 
     const onClickReply = async(event) => {
         event.stopPropagation();
-        if(tictoc.isDeleted) {
-            return ;
-        }
 
         if(replyState){
             await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {

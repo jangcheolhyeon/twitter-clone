@@ -62,7 +62,6 @@ const RetweetingModal = ({ userObj, onRetweetModalToggle, retweetContent, usersP
             bundle : Number(`${retweetContent.bundle}`),
             attachmentUrl,
             parent : true,
-            isDeleted : false,
             reply_users : [],
             like_users : [],
             retweet:true,

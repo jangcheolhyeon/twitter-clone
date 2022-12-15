@@ -16,9 +16,6 @@ const ActionLike = ({ tictoc, userObj, setToastAlert, setToastText}) => {
 
     const onClickLike = async(event) => {
         event.stopPropagation();
-        if(tictoc.isDeleted) {
-            return ;
-        }
 
         if(likeState){
             await updateDoc(doc(db, "tictoc", `${tictoc.id}`), {
