@@ -18,7 +18,7 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
             return element.userId === userObj.uid;
         }))
         setTweets(messages);
-
+        
     }
 
     const sortTweetList = () => {
