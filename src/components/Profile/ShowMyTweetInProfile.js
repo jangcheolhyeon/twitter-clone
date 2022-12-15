@@ -6,12 +6,13 @@ const ShowMyTweetInProfile = ({ usersProfile, userObj, tictoc, setTweetDetail, s
     const [myTweets, setMyTweets] = useState();
     
     useEffect(() => {
+        console.log("showMyTweetUseEffect", tictoc);
         setMyTweets(tictoc.filter(element => {
             if(element.parent === true){
                 return element;
             }
         }));
-    }, [])
+    }, [tictoc])
     
     return(
         <>
