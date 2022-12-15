@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 import { collection, addDoc } from "firebase/firestore"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faImage } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faImage, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const TweetFactory = ({ userObj, retweetState, parentBundle }) => {
     const [message, setMessage] = useState('');
@@ -75,7 +75,11 @@ const TweetFactory = ({ userObj, retweetState, parentBundle }) => {
         <>
             <form className="factoryForm" onSubmit={onSubmit}>
                 <div className="user_image_container">
-                    <img src={userObj.photoURL} alt='user image' />
+                    {userObj.photoURL ? (
+                        <img src={userObj.photoURL} alt="user image" />
+                    ) : (
+                        <FontAwesomeIcon icon={faCircleUser} />
+                    )}  
                 </div>
 
                 <div className="tweet_input_container">

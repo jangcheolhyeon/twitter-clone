@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import UserHistory from 'components/Profile/UserHistoryInProfile';
 import UpdateUserProfile from 'components/Profile/UpdateUserProfile';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile, setTweetDetail }) => {
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
@@ -103,7 +105,11 @@ const Profile = ({ userObj, messages, currentPage, refreshUserObj, usersProfile,
 
                         <div className='my_profile_container'>
                             <div className='my_profile_container_top'>
-                                <img src={userObj.photoURL} />
+                                {userObj.photoURL ? (
+                                    <img src={userObj.photoURL} />
+                                ) : (
+                                    <FontAwesomeIcon icon={faCircleUser} />
+                                )}
                                 <UpdateUserProfile 
                                     userObj={userObj} 
                                     usersProfile={usersProfile}

@@ -1,7 +1,7 @@
 import React,{ useEffect, useState } from "react";
 import Tweet from "components/Tweet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { db, storageService } from "fbase";
 import { v4 } from "uuid";
@@ -119,7 +119,11 @@ const Details = ({ messages, tweetDetail, currentPage, setCurrentPage, userObj, 
             ) : (
                 <div className="detail_tweet_write_container" onClick={() => {setActiveTweetReply(true)}}>
                     <div className="detail_tweet_write_content">
-                        <img src={userObj.photoURL} alt='user image' />
+                        {userObj.photoURL ? (
+                            <img src={userObj.photoURL} alt='user image' />
+                        ) : (
+                            <FontAwesomeIcon icon={faCircleUser} />
+                        )} 
                         <div>
                             <span>Tweet your reply</span>
                         </div>

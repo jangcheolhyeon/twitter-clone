@@ -1,3 +1,5 @@
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EmailHoverInTweet from "components/TweetAction/EmailHoverInTweet";
 import FollowAction from "components/TweetAction/FollowAction";
 import { db } from "fbase";
@@ -82,7 +84,11 @@ const RecommendFriend = ({ user, userObj, usersProfile, emailHoverState }) => {
             ) : (
                 <>
                     <div className="user_image_container">
-                        <img src={user.userImage} alt='user Image' />
+                        {user.userImage ? (
+                            <img src={user.userImage} alt="user Image" />
+                        ) : (
+                            <FontAwesomeIcon icon={faCircleUser} />
+                        )}
                     </div>
 
                     <div className="user_display_name">

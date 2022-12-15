@@ -258,6 +258,12 @@ nav{
   border-radius:30px;
 }
 
+.factoryForm > .user_image_container > svg{
+  width:50px;
+  height:50px;
+  border-radius:30px;
+}
+
 .factoryForm > .tweet_input_container{
   width:100%;
   margin-top:10px;
@@ -623,6 +629,12 @@ nav{
   border-radius: 25px;
 }
 
+.recommend_item > .user_image_container > svg{
+  width:50px;
+  height:50px;
+  border-radius: 25px;
+}
+
 .recommend_contaienr_follow_box{
   margin-left:auto;
 }
@@ -674,6 +686,17 @@ nav{
 }
 
 .my_profile_container > .my_profile_container_top > img{
+  width:140px;
+  height:140px;
+  border:px solid black;
+  border-radius: 70px;
+  position: absolute;
+  left:30px;
+  bottom:0px;
+  top:-70px;
+}
+
+.my_profile_container > .my_profile_container_top > svg{
   width:140px;
   height:140px;
   border:px solid black;
@@ -1029,6 +1052,12 @@ nav{
 .modal_update_user_img > img{
   width:200px;
   height:200px;
+  border-radius: 200px;
+}
+
+.modal_update_user_img > svg{
+  width: 200px;
+  height: 200px;
   border-radius: 200px;
 }
 
@@ -1439,6 +1468,12 @@ nav{
   border-radius: 30px;
 } 
 
+.user_info_hover_top_container svg{
+  width:60px;
+  height:60px;
+  border-radius: 30px;
+}
+
 .user_info_hover_top_container > .user_info_hover_current_user{
   margin-left:auto;
 }
@@ -1551,6 +1586,12 @@ nav{
 }
 
 .container > .detail_tweet_write_container > .detail_tweet_write_content > img {
+  width:50px;
+  height:50px;
+  border-radius: 30px;
+}
+
+.container > .detail_tweet_write_container > .detail_tweet_write_content > svg {
   width:50px;
   height:50px;
   border-radius: 30px;

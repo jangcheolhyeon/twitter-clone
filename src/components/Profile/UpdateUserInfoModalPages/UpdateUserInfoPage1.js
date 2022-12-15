@@ -1,5 +1,5 @@
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCamera, faXmark, faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
@@ -21,7 +21,11 @@ const UpdateUserInfoPage1 = ({ setModalOpen, userAttachment, cameraHover, setCam
             </div>
 
             <div className="modal_update_user_img modal_update_container">
-                <img src={userAttachment} alt='attachment' />
+                {userAttachment ? (
+                    <img src={userAttachment} alt="attachment" />
+                ) : (
+                    <FontAwesomeIcon icon={faCircleUser} />
+                )}
                 <div className="modal_update_camera" 
                     onMouseOver={() => {setCameraHover(true)}}
                     onMouseOut={() => {setCameraHover(false)}}
