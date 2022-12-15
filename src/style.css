@@ -579,7 +579,6 @@ nav{
 
 .recommend_container_content{
   background-color:rgb(30, 32, 36);
-  /* height:calc(100% - 80px); */
   border-radius: 16px;
   position:fixed;
   width:18%;
@@ -801,8 +800,6 @@ nav{
 
 .container > .my_trace_content{
   border-bottom:0.1px solid lightslategray;
-  /* height:20%; */
-  /* height: 6%; */
   padding:10px 20px;
 }
 
@@ -825,7 +822,6 @@ nav{
 
 .container > .my_trace_content > .setup_container{
   display: flex;
-  /* height: calc(100% - 18%); */
   align-items: center;
   justify-content: space-between;
   margin-bottom:20px;
@@ -866,11 +862,9 @@ nav{
   background-color:lightslategray;
 }
 
-/* .container > .my_trace_content >  */
 
 .container > .profile_follow_recommend{
   padding: 10px 20px;
-  /* margin-bottom:10px; */
   border-bottom : 0.1px solid lightslategray;
 }
 
@@ -1011,14 +1005,6 @@ nav{
   transform: translate(-50%, -50%);
   cursor:pointer;
 }
-
-/* .modal_update_user_img > .modal_update_camera > label > svg{
-  position: absolute;
-  top:50%;
-  left:50%;
-  transform: translate(-50%, -50%);
-  cursor:pointer;
-} */
 
 .modal_update_container > div > label > svg{
   position: absolute;

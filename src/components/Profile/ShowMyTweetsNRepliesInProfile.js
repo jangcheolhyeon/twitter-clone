@@ -5,7 +5,6 @@ import RecommendFriend from "components/Navigation/RecommendFriend";
 import Tweet from "components/Tweet";
 
 const ShowMyTweetsNReplies = ({ userObj, usersProfile, setUsersProfile, myTweetList, setToastAlert, setToastText, currentPage, setCurrentPage, setTweetDetail }) => {
-    console.log("myTweetList", myTweetList);
     return(
         <>
             {myTweetList.length === 0 || myTweetList === null ? (
