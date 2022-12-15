@@ -9,6 +9,7 @@ li{
 body{
   background-color:black;
   margin : 0;
+  margin-bottom:10px;
   padding : 0;
   color:white;
   box-sizing:border-box;
@@ -20,6 +21,11 @@ img{
 
 .App{
   display: flex;
+  margin-bottom:10px;
+}
+
+nav{
+  height:0;
 }
 
 
@@ -228,6 +234,7 @@ img{
   border-left:0.1px solid lightslategray;
   border-right:0.1px solid lightslategray;
   width:33%;
+  height: 100%;
 }
 
 .factoryForm{
@@ -794,7 +801,8 @@ img{
 
 .container > .my_trace_content{
   border-bottom:0.1px solid lightslategray;
-  height:20%;
+  /* height:20%; */
+  /* height: 6%; */
   padding:10px 20px;
 }
 
@@ -802,7 +810,7 @@ img{
   display:flex;
   justify-content: space-between;
   align-items: center;
-  height:18%;
+  margin: 15px 10px;
 }
 
 .container > .my_trace_content > .my_trace_content_top > span{
@@ -817,9 +825,10 @@ img{
 
 .container > .my_trace_content > .setup_container{
   display: flex;
-  height: calc(100% - 18%);
+  /* height: calc(100% - 18%); */
   align-items: center;
   justify-content: space-between;
+  margin-bottom:20px;
 }
 
 .container > .my_trace_content > .setup_container > .setup_box{
@@ -861,7 +870,8 @@ img{
 
 .container > .profile_follow_recommend{
   padding: 10px 20px;
-  margin-bottom:10px;
+  /* margin-bottom:10px; */
+  border-bottom : 0.1px solid lightslategray;
 }
 
 .container > .profile_follow_recommend > span{
@@ -1914,4 +1924,19 @@ img{
   margin-bottom:5px;
   background-color:red;
   color:white;
+}
+
+.profile_tweet_replies{
+  margin-top:60px;
+  text-align: center;
+  border-bottom:0.1px solid lightslategray;
+}
+
+.profile_empty_my_tweet_container{
+  padding:30px;
+  border-bottom:0.1px solid lightslategray;
+}
+
+.profile_empty_my_tweet_container > h1{
+  text-align: center;
 }
