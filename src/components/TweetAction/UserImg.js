@@ -3,10 +3,10 @@ import UserInfoHover from "components/TweetAction/UserInfoHover";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
-const UserImg = ({ tictoc, userImgHover, userPhoto, userObj, usersProfile, setUsersProfile, setUserInfoHover }) => {
+const UserImg = ({ tictoc, userImgHover, userPhoto, userObj, usersProfile, setUsersProfile, setUserInfoHover, lastTweet }) => {
     const timerRef = useRef();
     const tweetWriteUser = usersProfile.filter(element => element.userId === tictoc.userId)[0];
-    
+
     return(
         <>
             <div className="tweet_user_photo_container">
@@ -31,7 +31,7 @@ const UserImg = ({ tictoc, userImgHover, userPhoto, userObj, usersProfile, setUs
                 )}
 
                 {userImgHover && 
-                    <UserInfoHover userInfo={tweetWriteUser} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} timerRef={timerRef} setUserInfoHover={setUserInfoHover} isUserImgHover={true}/>
+                    <UserInfoHover userInfo={tweetWriteUser} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} timerRef={timerRef} setUserInfoHover={setUserInfoHover} isUserImgHover={true} lastTweet={lastTweet} isAttachmentUrl={tictoc.attachmentUrl} />
                 }
             </div>    
         </>

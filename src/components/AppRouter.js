@@ -81,16 +81,16 @@ const AppRouter = () => {
     const refreshUserObj = () => {
         setUserObj(getAuth().currentUser);
     }
-
+    
     return(
         <>
             <Router>
                 {init ? (
                     <>
-                    {isLoggedIn && toastAlert &&
-                        <ToastNotification text={toastText} setToastAlert={setToastAlert}/>
-                    }
-
+                        {isLoggedIn && toastAlert &&
+                            <ToastNotification text={toastText} setToastAlert={setToastAlert}/>
+                        }
+                        
                         {isLoggedIn && <TopNavi currentPage={currentPage} userObj={userObj}/>}
                         {isLoggedIn && <Navigation userObj={userObj} retweetState={reTweetState} parentBundle={parentBundle} setUserObj={setUserObj} />}
                             <Routes>

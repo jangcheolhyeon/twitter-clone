@@ -1,12 +1,13 @@
 import React, { useRef } from "react";
 import UserInfoHover from "components/TweetAction/UserInfoHover";
 
-const ReplyTweetInTweetList = ({ tictoc, emailHover, setEmailHover, userObj, usersProfile, setUsersProfile }) => {
+const ReplyTweetInTweetList = ({ tictoc, emailHover, setEmailHover, userObj, usersProfile, setUsersProfile, lastTweet }) => {
     const emailTimer = useRef();
     let replyParentInfo;
     if(tictoc.child !== undefined && tictoc.child === true){
         replyParentInfo = usersProfile.filter(element => element.userId === tictoc.parentReplyInfo.userId)[0]
     }
+
     return(
         <>
             {tictoc.parent && <span>{tictoc.text}</span>}
@@ -28,7 +29,7 @@ const ReplyTweetInTweetList = ({ tictoc, emailHover, setEmailHover, userObj, use
             }
             
             {emailHover && 
-                <UserInfoHover userInfo={replyParentInfo} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} timerRef={emailTimer} setUserInfoHover={setEmailHover} isUserImgHover={false}/>
+                <UserInfoHover userInfo={replyParentInfo} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} timerRef={emailTimer} setUserInfoHover={setEmailHover} isUserImgHover={false} lastTweet={lastTweet} isAttachmentUrl={tictoc.attachmentUrl} />
             }
         </>
     );

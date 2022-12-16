@@ -50,15 +50,15 @@ const Home = ({ messages, userObj, usersProfile, setUsersProfile, currentPage, s
             </div>
         ) : (
             <>
-                <div className="container">
+                <div className="container home_container">
                     <div className="content_container">
                         <div className="write_tweet_container">
                             <TweetFactory userObj={userObj} setRetweetState={setRetweetState} retweetState={reTweetState} parentBundle={parentBundle} updateCountNumber={updateCountNumber} />
                         </div>
 
                         <div className='tictoc_container'>
-                            {messages.map((element) => {
-                                return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setUsersProfile={setUsersProfile} updateCountNumber={updateCountNumber} />
+                            {messages.map((element, index) => {
+                                return <Tweet key={element.id} tictoc={element} isOwner={element.userId === userObj.uid} userObj={userObj} usersProfile={usersProfile} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setUsersProfile={setUsersProfile} updateCountNumber={updateCountNumber} lastTweet={messages.length === (index + 1)} />
                             })}
                         </div>
                     </div>

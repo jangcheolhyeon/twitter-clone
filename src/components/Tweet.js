@@ -11,7 +11,7 @@ import ReplyTweetInTweetList from "components/TweetAction/ReplyTweetInTweetList"
 import RetweetTweetInTweetList from "components/TweetAction/RetweetTweetInTweetList";
 import TweetActions from "components/Profile/TweetActions";
 
-const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage }) => {
+const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToastAlert, setToastText, setTweetDetail, currentPage, setCurrentPage, lastTweet }) => {
     const [userName, setUserName] = useState();
     const [userPhoto, setUserPhoto] = useState(); 
     const [enrollDate, setEnrollDate] = useState();
@@ -21,7 +21,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
     const [retweetActive, setRetweetActive] = useState(false);
     const [emailHover, setEmailHover] = useState(false);
     const [userImgHover, setUserImgHover] = useState(false);
-        
+
     useEffect(() => {
         window.scrollTo({top:0, behavior:'smooth'});
         usersProfile.map(element => {
@@ -82,7 +82,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
             {retweetModalOpen && <RetweetingModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} />}
             <div className={currentPage === 'home' && emailHover === false && userImgHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" || currentPage === "profile" ? onTweetClick : undefined}>
 
-                <UserImg tictoc={tictoc} userImgHover={userImgHover} userPhoto={userPhoto} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} setUserInfoHover={setUserImgHover} />
+                <UserImg tictoc={tictoc} userImgHover={userImgHover} userPhoto={userPhoto} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} setUserInfoHover={setUserImgHover} lastTweet={lastTweet}/>
 
                 <div className="tweet_content">
                     {isOwner && <div className="close_tweet">
@@ -107,7 +107,7 @@ const Tweet = ({ tictoc, isOwner, userObj, usersProfile, setUsersProfile, setToa
                     </div>
 
                     <div className="user_tweet_content">
-                        <ReplyTweetInTweetList tictoc={tictoc} emailHover={emailHover} setEmailHover={setEmailHover} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} />
+                        <ReplyTweetInTweetList tictoc={tictoc} emailHover={emailHover} setEmailHover={setEmailHover} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} lastTweet={lastTweet} />
                     </div>
 
                     {tictoc.attachmentUrl && 
