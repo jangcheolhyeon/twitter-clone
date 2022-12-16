@@ -235,7 +235,13 @@ nav{
   border-right:0.1px solid lightslategray;
   width:33%;
   height: 100%;
+  /* padding-bottom:100px; */
+  /* margin-bottom: 120px; */
 }
+
+/* .home_container{
+  margin-bottom: 120px;
+} */
 
 .factoryForm{
   display:flex;
@@ -355,8 +361,9 @@ nav{
 
 .tweet{
   border-bottom:0.1px solid lightslategray;
-  padding:10px;
-  padding-bottom:15px;
+  /* padding:10px;
+  padding-bottom:15px; */
+  padding: 15px 15px 20px 15px;
   display:flex;
 }
 
@@ -477,8 +484,8 @@ nav{
 
 .user_tweet_content{
   margin-left:15px;
-  margin-top:30px;
-  margin-bottom:20px;
+  margin-top:50px;
+  margin-bottom:30px;
 }
 
 .user_tweet_content > span{
@@ -1428,17 +1435,39 @@ nav{
 
 .user_info_hover_container {
   width: 260px;
-  height: auto;
+  height: 160px;
   background-color: rgb(30, 32, 36);
   position: absolute;
   z-index: 1;
-  top:30px;
+  /* top:30px; */
   border-radius: 20px;
   padding:20px;
   cursor:default;
   display:flex;
   flex-direction: column;
 }
+
+.last_tweet_user_info_hover_container .hover_user_img{
+  bottom:0px;
+  top:-200px;
+}
+
+.last_tweet_user_email_hover{
+  bottom:0px;
+  top:-200px;
+}
+
+.last_tweet_user_img_hover{
+  bottom:0px;
+  top:-200px;
+}
+
+.last_tweet_user_email_hover{
+  bottom:0px;
+  right:-200px;
+  top:-210px;
+}
+
 
 .hover_email{
   top: 30px;
